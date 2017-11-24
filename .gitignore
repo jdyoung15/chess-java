@@ -3,6 +3,8 @@
 # Linux
 # backup files
 *~
+*.swp
+*.swo
 
 # Windows
 # thumbnails
