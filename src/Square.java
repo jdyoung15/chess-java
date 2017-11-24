@@ -18,6 +18,14 @@ public class Square {
     return piece;
   }
 
+  public void setPiece(Piece piece) {
+    this.piece = piece;
+  }
+
+  public void clear() {
+    this.piece = null;
+  }
+
   public String toString() {
     return piece != null ? piece.toString(): "__";
   }

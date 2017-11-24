@@ -16,9 +16,27 @@ public class Board {
   private void initializeSquares() {
     squares = new ArrayList<Square>();
     for (int i = 0; i < NUM_SQUARES; i++) {
-      Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
-      squares.add(new Square(piece));
+      squares.add(new Square());
     }
+    Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
+    squares.set(0, new Square(piece));
+  }
+
+  public boolean isValidMove(String fromCoords, String toCoords) {
+    // TODO
+    return true;
+  }
+
+  // assumes this is a valid move
+  public void move(String fromCoords, String toCoords) {
+    Square fromSquare = getSquare(fromCoords);
+    Square toSquare = getSquare(toCoords);
+    toSquare.setPiece(fromSquare.getPiece());
+    fromSquare.clear();
+  }
+
+  public Square getSquare(String coords) {
+    return squares.get(Integer.parseInt(coords));
   }
 
   public String toString() {
