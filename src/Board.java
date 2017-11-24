@@ -8,7 +8,7 @@ public class Board {
   public static final int NUM_SQUARES = NUM_ROWS * NUM_COLS;
   public static final int ASCII_OFFSET = 65;
 
-  private ArrayList<Square> squares;
+  private List<Square> squares;
 
   public Board() {
     initializeSquares();
@@ -25,6 +25,12 @@ public class Board {
 
   public boolean isValidMove(String fromCoords, String toCoords) {
     // TODO
+    // fromCoords
+    //   in bounds
+    //   piece at those coords
+    //   piece belongs to player
+    //   not in check
+    //
     return true;
   }
 
