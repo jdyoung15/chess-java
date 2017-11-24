@@ -9,15 +9,15 @@ public class Piece {
   }
 
   public Color getColor() {
-    return this.color;
+    return color;
   }
 
   public PieceType getPieceType() {
-    return this.pieceType;
+    return pieceType;
   }
 
   public String toString() {
-    return String.format("%s%s", this.color.toString(), this.pieceType.toString());
+    return String.format("%s%s", color.toString(), pieceType.toString());
   }
 
 }
