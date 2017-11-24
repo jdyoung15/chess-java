@@ -16,7 +16,8 @@ public class Board {
   private void initializeSquares() {
     this.squares = new ArrayList<Square>();
     for (int i = 0; i < NUM_SQUARES; i++) {
-      this.squares.add(new Square());
+      Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
+      this.squares.add(new Square(piece));
     }
   }
 
@@ -25,6 +26,7 @@ public class Board {
     for (int row  = 0; row < NUM_ROWS; row++) {
       for (int col = 0; col < NUM_COLS; col++) {
         sb.append(this.squares.get(row * NUM_COLS + col).toString());
+        sb.append(" ");
       }
       sb.append("\n");
     }

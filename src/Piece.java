@@ -16,9 +16,8 @@ public class Piece {
     return this.pieceType;
   }
 
-  public String getDisplayName() {
-    // todo
-    return "P";
+  public String toString() {
+    return String.format("%s%s", this.color.toString(), this.pieceType.toString());
   }
 
 }

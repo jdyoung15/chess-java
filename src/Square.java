@@ -6,6 +6,10 @@ public class Square {
     this.piece = null;
   }
 
+  public Square(Piece piece) {
+    this.piece = piece;
+  }
+
   public boolean isOccupied() {
     return this.piece != null;
   }
@@ -15,7 +19,7 @@ public class Square {
   }
 
   public String toString() {
-    return piece != null ? piece.getDisplayName(): "_";
+    return piece != null ? piece.toString(): "__";
   }
 
 }
