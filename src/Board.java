@@ -6,6 +6,7 @@ public class Board {
   public static final int NUM_ROWS = 8;
   public static final int NUM_COLS = 8;
   public static final int NUM_SQUARES = NUM_ROWS * NUM_COLS;
+  public static final int ASCII_OFFSET = 65;
 
   private ArrayList<Square> squares;
 
@@ -41,13 +42,21 @@ public class Board {
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (int row  = 0; row < NUM_ROWS; row++) {
+    for (int row = 0; row < NUM_ROWS; row++) {
+      // add row number
+      sb.append(String.format("%d  ", NUM_ROWS - row));
       for (int col = 0; col < NUM_COLS; col++) {
         sb.append(squares.get(row * NUM_COLS + col).toString());
         sb.append(" ");
       }
       sb.append("\n");
     }
+    sb.append("\n   ");
+    // add column letters
+    for (int col = 0; col < NUM_COLS; col++) {
+      sb.append(String.format("%c  ", (char) col + ASCII_OFFSET));
+    }
+    sb.append("\n\n");
     return sb.toString();
   }
 
