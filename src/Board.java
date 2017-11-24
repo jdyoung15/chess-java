@@ -30,32 +30,45 @@ public class Board {
 
   // assumes this is a valid move
   public void move(String fromCoords, String toCoords) {
-    Square fromSquare = getSquare(fromCoords);
-    Square toSquare = getSquare(toCoords);
+    Square fromSquare = getSquareByCoords(fromCoords);
+    Square toSquare = getSquareByCoords(toCoords);
     toSquare.setPiece(fromSquare.getPiece());
     fromSquare.clear();
   }
 
-  public Square getSquare(String coords) {
-    return squares.get(Integer.parseInt(coords));
+  // assumes coords are valid
+  public Square getSquareByCoords(String coords) {
+    // convert coords to position
+    return squares.get(convertCoordsToPosition(coords));
+  }
+
+  private int convertCoordsToPosition(String coords) {
+    int col = (int) coords.charAt(0) - ASCII_OFFSET;
+    int row = NUM_ROWS - Character.getNumericValue(coords.charAt(1));
+
+    return row * NUM_COLS + col;
   }
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
+
     for (int row = 0; row < NUM_ROWS; row++) {
       // add row number
       sb.append(String.format("%d  ", NUM_ROWS - row));
+      // add string representations of squares
       for (int col = 0; col < NUM_COLS; col++) {
         sb.append(squares.get(row * NUM_COLS + col).toString());
         sb.append(" ");
       }
       sb.append("\n");
     }
-    sb.append("\n   ");
+
     // add column letters
+    sb.append("\n   ");
     for (int col = 0; col < NUM_COLS; col++) {
       sb.append(String.format("%c  ", (char) col + ASCII_OFFSET));
     }
+
     sb.append("\n\n");
     return sb.toString();
   }
