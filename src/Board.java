@@ -23,6 +23,13 @@ public class Board {
     squares.set(0, new Square(piece));
   }
 
+  public void move(String fromCoords, String toCoords) {
+    Square fromSquare = squares.get(convertCoordsToPosition(fromCoords));
+    Square toSquare = squares.get(convertCoordsToPosition(toCoords));
+    toSquare.setPiece(fromSquare.getPiece());
+    fromSquare.clear();
+  }
+
   public boolean isValidMove(String fromCoords, String toCoords) {
     // TODO
     // fromCoords
@@ -34,18 +41,35 @@ public class Board {
     return true;
   }
 
-  // assumes this is a valid move
-  public void move(String fromCoords, String toCoords) {
-    Square fromSquare = getSquareByCoords(fromCoords);
-    Square toSquare = getSquareByCoords(toCoords);
-    toSquare.setPiece(fromSquare.getPiece());
-    fromSquare.clear();
+  public List<Integer> findMoves(int position) {
+    // find directions for piece at position
+    // for each direction
+    //   find squares in direction
+    return new ArrayList<Integer>();
   }
 
   // assumes coords are valid
   public Square getSquareByCoords(String coords) {
     // convert coords to position
     return squares.get(convertCoordsToPosition(coords));
+  }
+
+  public boolean isWithinBoundaries(int position, int horizontal, int vertical) {
+    // find row, col
+    int currentRow = position / 8;
+    int currentCol = position % 8;
+    if (currentRow + vertical < 0 || currentRow + vertical >= 8) {
+      return false;
+    }
+    if (currentCol + horizontal < 0 || currentCol + horizontal >= 8) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public int calculateNewPosition(int position, int horizontal, int vertical) {
+    return position + vertical * NUM_COLS + horizontal;
   }
 
   private int convertCoordsToPosition(String coords) {
