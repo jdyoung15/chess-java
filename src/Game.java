@@ -25,8 +25,9 @@ public class Game {
       
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
+      SquarePosition from = new SquarePosition(fromCoords);
 
-      System.out.println(String.format("Valid moves: %s", MovesFinder.findMoves(board, 0, PieceType.ROOK, Color.WHITE)));
+      System.out.println(String.format("Valid moves: %s", MovesFinder.findMoves(board, from, PieceType.ROOK, Color.WHITE)));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();

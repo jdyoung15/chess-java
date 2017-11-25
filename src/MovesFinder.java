@@ -7,15 +7,15 @@ public class MovesFinder {
   //private int position;
   //private PieceType pieceType;
 
-  public static List<Integer> findMoves(Board board, int position, PieceType pieceType, Color color) {
+  public static List<SquarePosition> findMoves(Board board, SquarePosition fromPosition, PieceType pieceType, Color color) {
     // get directions for piece type
     List<MoveDirection> moveDirections = MoveDirectionFinder.findMoveDirections(pieceType, color);
-    List<Integer> squarePositions = new ArrayList<Integer>();
+    List<SquarePosition> squarePositions = new ArrayList<SquarePosition>();
     // for each direction
     for (MoveDirection moveDirection : moveDirections) {
       //   find squares in each direction, from start position
-      List<Integer> squarePositionsDirection = 
-        findSquarePositionsInDirection(position, moveDirection.getDirection(), board);
+      List<SquarePosition> squarePositionsDirection = 
+        findSquarePositionsInDirection(fromPosition, moveDirection.getDirection(), board);
       //   filter unblocked squares
       // TODO
       squarePositions.addAll(squarePositionsDirection);
@@ -24,17 +24,21 @@ public class MovesFinder {
     return squarePositions;
   }
 
-  private static List<Integer> findSquarePositionsInDirection(int position, Direction direction, Board board) {
+  private static List<SquarePosition> findSquarePositionsInDirection(SquarePosition fromPosition, Direction direction, Board board) {
+    System.out.println(String.format("direction: %s, fromPosition: %s", direction.name(), fromPosition.toString()));
+    System.out.println(String.format("position: %d", fromPosition.getPosition()));
     // init list of square positions
-    List<Integer> squarePositions = new ArrayList<Integer>();
+    List<SquarePosition> squarePositions = new ArrayList<SquarePosition>();
 
-    int currentPosition = position;
-    int horizontal = direction.getHorizontal();
     int vertical = direction.getVertical();
-    while (board.isWithinBoundaries(currentPosition, horizontal, vertical)) {
-      // find first square in move direction
-      currentPosition = board.calculateNewPosition(currentPosition, horizontal, vertical);
+    int horizontal = direction.getHorizontal();
+    SquarePosition currentPosition = 
+        new SquarePosition(fromPosition.getRow() + vertical, fromPosition.getCol() + horizontal);
+    while (currentPosition.inBounds()) {
       squarePositions.add(currentPosition);
+      currentPosition = 
+        new SquarePosition(currentPosition.getRow() + vertical, currentPosition.getCol() + horizontal);
+      System.out.println(String.format("position: %d", currentPosition.getPosition()));
     }
 
     return squarePositions;

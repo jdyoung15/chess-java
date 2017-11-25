@@ -19,7 +19,7 @@ public class Board {
     for (int i = 0; i < NUM_SQUARES; i++) {
       squares.add(new Square());
     }
-    Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
+    Piece piece = new Piece(Color.WHITE, PieceType.ROOK);
     squares.set(0, new Square(piece));
   }
 
