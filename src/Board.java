@@ -27,39 +27,13 @@ public class Board {
     squares.set(8, new Square(pieceBlack));
   }
 
-  public void move(String fromCoords, String toCoords) {
-    Square fromSquare = squares.get(convertCoordsToPosition(fromCoords));
-    Square toSquare = squares.get(convertCoordsToPosition(toCoords));
-    toSquare.setPiece(fromSquare.getPiece());
-    fromSquare.clear();
-  }
-
-  public boolean isValidMove(String fromCoords, String toCoords) {
-    // TODO
-    // fromCoords
-    //   in bounds
-    //   piece at those coords
-    //   piece belongs to player
-    //   not in check
-    //
-    return true;
-  }
-
-  public List<Integer> findMoves(int position) {
-    // find directions for piece at position
-    // for each direction
-    //   find squares in direction
-    return new ArrayList<Integer>();
+  public void move(Square from, Square to) {
+    to.setPiece(from.getPiece());
+    from.clear();
   }
 
   public Square findSquare(SquarePosition squarePosition) {
     return squares.get(squarePosition.getPosition());
-  }
-
-  // assumes coords are valid
-  public Square getSquareByCoords(String coords) {
-    // convert coords to position
-    return squares.get(convertCoordsToPosition(coords));
   }
 
   public boolean isWithinBoundaries(int position, int horizontal, int vertical) {

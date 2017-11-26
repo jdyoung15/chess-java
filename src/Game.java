@@ -37,7 +37,7 @@ public class Game {
 
        
       if (validMoves.contains(to)){
-        board.move(fromCoords, toCoords);
+        board.move(board.findSquare(from), board.findSquare(to));
         validTurn = true;
       }
       else {
