@@ -65,4 +65,18 @@ public class SquarePosition {
     return row >= 0 && row < Board.NUM_ROWS && col >= 0 && col < Board.NUM_COLS;
   }
 
+  // Code inspired by: https://www.sitepoint.com/implement-javas-equals-method-correctly/
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    SquarePosition other = (SquarePosition) o;
+    return row == other.getRow() && col == other.getCol();
+  }
+
 }

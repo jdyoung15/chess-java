@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -27,12 +28,15 @@ public class Game {
       String fromCoords = scanner.next();
       SquarePosition from = new SquarePosition(fromCoords);
 
-      System.out.println(String.format("Valid moves: %s", MovesFinder.findMoves(board, from, PieceType.ROOK, Color.WHITE)));
+      List<SquarePosition> validMoves = MovesFinder.findMoves(board, from, PieceType.ROOK, Color.WHITE);
+      System.out.println(String.format("Valid moves: %s", validMoves));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
+      SquarePosition to = new SquarePosition(toCoords);
+
        
-      if (board.isValidMove(fromCoords, toCoords)){
+      if (validMoves.contains(to)){
         board.move(fromCoords, toCoords);
         validTurn = true;
       }
