@@ -20,7 +20,11 @@ public class Board {
       squares.add(new Square());
     }
     Piece piece = new Piece(Color.WHITE, PieceType.ROOK);
+    Piece pieceWhite = new Piece(Color.WHITE, PieceType.ROOK);
+    Piece pieceBlack = new Piece(Color.BLACK, PieceType.ROOK);
     squares.set(0, new Square(piece));
+    squares.set(5, new Square(pieceWhite));
+    squares.set(8, new Square(pieceBlack));
   }
 
   public void move(String fromCoords, String toCoords) {
@@ -46,6 +50,10 @@ public class Board {
     // for each direction
     //   find squares in direction
     return new ArrayList<Integer>();
+  }
+
+  public Square findSquare(SquarePosition squarePosition) {
+    return squares.get(squarePosition.getPosition());
   }
 
   // assumes coords are valid
