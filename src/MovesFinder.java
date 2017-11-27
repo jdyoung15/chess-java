@@ -15,7 +15,7 @@ public class MovesFinder {
     for (MoveDirection moveDirection : moveDirections) {
       //   find squares in each direction, from start position
       List<SquarePosition> squarePositionsDirection = 
-        findSquarePositionsInDirection(fromPosition, moveDirection.getDirection(), board);
+        new DirectionSquares(fromPosition, moveDirection.getDirection()).getSquarePositions();
       // keep only square positions that can actually be moved to
       squarePositionsDirection = filterSquarePositionsByLimit(squarePositionsDirection, moveDirection.getLimit());
       squarePositionsDirection = filterSquarePositionsByUnoccupied(squarePositionsDirection, color, board);
@@ -27,25 +27,25 @@ public class MovesFinder {
     return squarePositions;
   }
 
-  private static List<SquarePosition> findSquarePositionsInDirection(SquarePosition fromPosition, Direction direction, Board board) {
-    //System.out.println(String.format("direction: %s, fromPosition: %s", direction.name(), fromPosition.toString()));
-    //System.out.println(String.format("position: %d", fromPosition.getPosition()));
-    // init list of square positions
-    List<SquarePosition> squarePositions = new ArrayList<SquarePosition>();
+  //private static List<SquarePosition> findSquarePositionsInDirection(SquarePosition fromPosition, Direction direction, Board board) {
+  //  //System.out.println(String.format("direction: %s, fromPosition: %s", direction.name(), fromPosition.toString()));
+  //  //System.out.println(String.format("position: %d", fromPosition.getPosition()));
+  //  // init list of square positions
+  //  List<SquarePosition> squarePositions = new ArrayList<SquarePosition>();
 
-    int vertical = direction.getVertical();
-    int horizontal = direction.getHorizontal();
-    SquarePosition currentPosition = 
-        new SquarePosition(fromPosition.getRow() + vertical, fromPosition.getCol() + horizontal);
-    while (currentPosition.inBounds()) {
-      squarePositions.add(currentPosition);
-      currentPosition = 
-        new SquarePosition(currentPosition.getRow() + vertical, currentPosition.getCol() + horizontal);
-      //System.out.println(String.format("position: %d", currentPosition.getPosition()));
-    }
+  //  int vertical = direction.getVertical();
+  //  int horizontal = direction.getHorizontal();
+  //  SquarePosition currentPosition = 
+  //      new SquarePosition(fromPosition.getRow() + vertical, fromPosition.getCol() + horizontal);
+  //  while (currentPosition.inBounds()) {
+  //    squarePositions.add(currentPosition);
+  //    currentPosition = 
+  //      new SquarePosition(currentPosition.getRow() + vertical, currentPosition.getCol() + horizontal);
+  //    //System.out.println(String.format("position: %d", currentPosition.getPosition()));
+  //  }
 
-    return squarePositions;
-  }
+  //  return squarePositions;
+  //}
 
   private static List<SquarePosition> filterSquarePositionsByLimit(List<SquarePosition> squarePositions, int limit) {
     List<SquarePosition> squarePositionsFiltered = new ArrayList<SquarePosition>();
