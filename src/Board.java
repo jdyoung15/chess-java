@@ -32,8 +32,16 @@ public class Board {
     from.clear();
   }
 
-  public Square findSquare(SquarePosition squarePosition) {
-    return squares.get(squarePosition.getPosition());
+  public Square findSquare(int position) {
+    return squares.get(position);
+  }
+
+  public List<Square> findSquares(List<Integer> positions) {
+    List<Square> squares = new ArrayList<Square>();
+    for (int position : positions) {
+      squares.add(findSquare(position));
+    }
+    return squares;
   }
 
   public static boolean inBounds(int position, int horizontal, int vertical) {
