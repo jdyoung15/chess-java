@@ -27,17 +27,32 @@ public class Board {
     Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
     Piece pieceWhite = new Piece(Color.WHITE, PieceType.ROOK);
     Piece pieceBlack = new Piece(Color.BLACK, PieceType.ROOK);
+    Piece pieceBlackKing = new Piece(Color.BLACK, PieceType.KING);
     squares.set(35, new Square(piece));
     squares.set(18, new Square(pieceWhite));
     squares.set(26, new Square(pieceBlack));
+    squares.set(58, new Square(pieceBlackKing));
   }
 
-  public int findKingPosition(Color color) {
+  public List<Integer> findOpponentPositions(Color currentPlayer) {
+    List<Integer> positions = new ArrayList<Integer>();
+    Color opponent = Color.findOpponent(currentPlayer);
+    int position = 0;
+    for (Square square : squares) {
+      if (square.isOccupied() && square.getPiece().getColor() == opponent) {
+        positions.add(position); 
+      }
+      position++;
+    }
+    return positions;
+  }
+
+  public int findKingPosition(Color currentPlayer) {
     int position = 0;
     for (Square square : squares) {
       if (square.isOccupied()) {
         Piece piece = square.getPiece();
-        if (piece.getPieceType() == PieceType.KING && piece.getColor() == color) {
+        if (piece.getPieceType() == PieceType.KING && piece.getColor() == currentPlayer) {
           return position;
         }
       }
@@ -126,8 +141,12 @@ public class Board {
   }
 
   public Board copy() {
-    Board copy = new Board(squares);
-    return copy;
+    List<Square> squaresCopy = new ArrayList<Square>();
+    for (Square square : squares) {
+      squaresCopy.add(square.copy());
+    }
+    Board boardCopy = new Board(squaresCopy);
+    return boardCopy;
   }
 
   public String toString() {

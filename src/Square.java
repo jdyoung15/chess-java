@@ -30,4 +30,11 @@ public class Square {
     return piece != null ? piece.toString(): "__";
   }
 
+  public Square copy() {
+    if (isOccupied()) {
+      return new Square(piece);
+    }
+    return new Square();
+  }
+
 }

@@ -13,4 +13,8 @@ public enum Color {
     return displayName;
   }
 
+  public static Color findOpponent(Color color) {
+    return color == WHITE ? BLACK : WHITE;
+  }
+
 }

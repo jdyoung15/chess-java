@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.ArrayList;
+
 public class Check {
 
   private Color currentPlayer;
@@ -11,10 +14,16 @@ public class Check {
   }
   
   public boolean isCheck() {
-    // for each oppoenent square
-    //   find possible moves for that square/piece
-    //   if moves include king square, return true 
-    // return false
+    List<Integer> opponentPositions = board.findOpponentPositions(currentPlayer);
+    for (int position : opponentPositions) {
+      Piece piece = board.findSquare(position).getPiece();
+      List<Integer> possiblePositions = 
+        new PossibleMoves(board, position, piece.getPieceType(), piece.getColor()).positions();
+
+      if (possiblePositions.contains(kingPosition)) {
+        return true;
+      }
+    }
     return false;
   }
 

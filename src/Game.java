@@ -34,6 +34,10 @@ public class Game {
         new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor()).positions();
       System.out.println(String.format("Possible moves: %s", Board.findCoords(possibleMoves)));
 
+      List<Integer> validMoves = 
+        new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
+      System.out.println(String.format("valid moves: %s", Board.findCoords(validMoves)));
+
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
       int toPosition = 4;
