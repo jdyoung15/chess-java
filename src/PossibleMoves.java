@@ -16,7 +16,7 @@ public class PossibleMoves {
   }
 
   public List<Integer> positions() {
-    List<MoveDirection> moveDirections = MoveDirectionFinder.findMoveDirections(pieceType, color);
+    List<MoveDirection> moveDirections = new MoveDirections(pieceType, color).moveDirections();
     List<Integer> squarePositions = new ArrayList<Integer>();
 
     for (MoveDirection moveDirection : moveDirections) {

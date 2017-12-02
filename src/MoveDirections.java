@@ -2,9 +2,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MoveDirectionFinder {
+public class MoveDirections {
 
-  public static List<MoveDirection> findMoveDirections(PieceType pieceType, Color color) {
+  private PieceType pieceType;
+  private Color color;
+
+  public MoveDirections(PieceType pieceType, Color color) {
+    this.pieceType = pieceType;
+    this.color = color;
+  }
+
+  public List<MoveDirection> moveDirections() {
     switch (pieceType) {
       case PAWN:
         // todo
