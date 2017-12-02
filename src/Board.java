@@ -15,6 +15,10 @@ public class Board {
     initializeSquares();
   }
 
+  public Board(List<Square> squares) {
+    this.squares = squares;
+  }
+
   private void initializeSquares() {
     squares = new ArrayList<Square>();
     for (int i = 0; i < NUM_SQUARES; i++) {
@@ -28,7 +32,24 @@ public class Board {
     squares.set(26, new Square(pieceBlack));
   }
 
-  public void move(Square from, Square to) {
+  public int findKingPosition(Color color) {
+    int position = 0;
+    for (Square square : squares) {
+      if (square.isOccupied()) {
+        Piece piece = square.getPiece();
+        if (piece.getPieceType() == PieceType.KING && piece.getColor() == color) {
+          return position;
+        }
+      }
+      position++;
+    }
+    return -1;
+  }
+
+  public void move(int fromPosition, int toPosition) {
+    Square from = findSquare(fromPosition);
+    Square to = findSquare(toPosition);
+
     to.setPiece(from.getPiece());
     from.clear();
   }
@@ -102,6 +123,11 @@ public class Board {
 
   public static Direction findDirection(Color color) {
     return color == Color.WHITE ? Direction.UP : Direction.DOWN;
+  }
+
+  public Board copy() {
+    Board copy = new Board(squares);
+    return copy;
   }
 
   public String toString() {
