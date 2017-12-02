@@ -4,14 +4,15 @@ import java.util.Scanner;
 public class Game {
   
   private Board board;
+  private Color currentPlayer;
 
   public void play() {
     board = new Board();
-    // while game not over:
+    currentPlayer = Color.WHITE;
+
+    // while current player has valid move:
     //   turn
-    System.out.println(board.toString());
     executeTurn();
-    System.out.println(board.toString());
     // if checkmate
     //   announce victor
     // else announce stalemate
@@ -21,6 +22,7 @@ public class Game {
     Scanner scanner = new Scanner(System.in);     
     boolean validTurn = false;
     while (!validTurn) {
+      System.out.println(board.toString());
       System.out.println("Turn: White");
 
       System.out.println("Select square to move from: ");
@@ -45,6 +47,7 @@ public class Game {
       if (validMoves.contains(toPosition)){
         board.move(fromPosition, toPosition);
         validTurn = true;
+        currentPlayer = Color.findOpponent(currentPlayer);
       }
       else {
         System.out.println("Invalid move, try again");
