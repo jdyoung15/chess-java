@@ -7,12 +7,14 @@ public class FilteredDirectionSquares {
   private List<Square> squares;
   private int limit;
   private Color color;
+  private boolean attackOnly;
   
-  public FilteredDirectionSquares(List<Integer> positions, List<Square> squares, int limit, Color color) {
+  public FilteredDirectionSquares(List<Integer> positions, List<Square> squares, int limit, Color color, boolean attackOnly) {
     this.positions = positions;
     this.squares = squares;
     this.limit = limit;
     this.color = color;
+    this.attackOnly = attackOnly;
   }
 
   public List<Integer> positions() {
@@ -28,7 +30,9 @@ public class FilteredDirectionSquares {
         }
         break;
       }
-      filteredPositions.add(position);
+      else if (!attackOnly) {
+        filteredPositions.add(position);
+      }
       i++;
     }
 

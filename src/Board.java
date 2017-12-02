@@ -20,12 +20,12 @@ public class Board {
     for (int i = 0; i < NUM_SQUARES; i++) {
       squares.add(new Square());
     }
-    Piece piece = new Piece(Color.WHITE, PieceType.KING);
+    Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
     Piece pieceWhite = new Piece(Color.WHITE, PieceType.ROOK);
     Piece pieceBlack = new Piece(Color.BLACK, PieceType.ROOK);
     squares.set(35, new Square(piece));
     squares.set(18, new Square(pieceWhite));
-    squares.set(8, new Square(pieceBlack));
+    squares.set(26, new Square(pieceBlack));
   }
 
   public void move(Square from, Square to) {
@@ -46,21 +46,23 @@ public class Board {
   }
 
   public static boolean inBounds(int position, int horizontal, int vertical) {
-    // find row, col
-    int currentRow = findRow(position);
-    int currentCol = findCol(position);
-    if (currentRow + vertical < 0 || currentRow + vertical >= 8) {
-      return false;
-    }
-    if (currentCol + horizontal < 0 || currentCol + horizontal >= 8) {
-      return false;
-    }
+    int row = findRow(position);
+    int col = findCol(position);
 
-    return true;
+    int newRow = row + -1 * vertical;
+    int newCol = col + horizontal;
+
+    return newRow >= 0 && newRow < NUM_ROWS && newCol >= 0 && newCol < NUM_COLS;
   }
 
   public static int calculateNewPosition(int position, int horizontal, int vertical) {
-    return position + vertical * NUM_COLS + horizontal;
+    int row = findRow(position);
+    int col = findCol(position);
+
+    int newRow = row + -1 * vertical;
+    int newCol = col + horizontal;
+
+    return newRow * NUM_COLS + newCol;
   }
 
   public static int findPosition(String coords) {
@@ -96,6 +98,10 @@ public class Board {
 
   public static String findCoords(int position) {
     return String.format("%c%c", findColCoord(findCol(position)), findRowCoord(findRow(position)));
+  }
+
+  public static Direction findDirection(Color color) {
+    return color == Color.WHITE ? Direction.UP : Direction.DOWN;
   }
 
   public String toString() {

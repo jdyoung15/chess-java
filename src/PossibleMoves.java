@@ -7,6 +7,8 @@ public class PossibleMoves {
   private int fromPosition;
   private PieceType pieceType;
   private Color color;
+  // TODO
+  private boolean hasMoved = false;
 
   public PossibleMoves(Board board, int fromPosition, PieceType pieceType, Color color) {
     this.board = board;
@@ -16,7 +18,8 @@ public class PossibleMoves {
   }
 
   public List<Integer> positions() {
-    List<MoveDirection> moveDirections = new MoveDirections(pieceType, color).moveDirections();
+    List<MoveDirection> moveDirections = 
+      new MoveDirections(pieceType, Board.findDirection(color), hasMoved).moveDirections();
     List<Integer> positions = new ArrayList<Integer>();
 
     for (MoveDirection moveDirection : moveDirections) {
@@ -25,7 +28,12 @@ public class PossibleMoves {
 
       List<Square> squares = board.findSquares(positionsDirection);
       positionsDirection = 
-        new FilteredDirectionSquares(positionsDirection, squares, moveDirection.getLimit(), color).positions();
+        new FilteredDirectionSquares(
+          positionsDirection, 
+          squares, 
+          moveDirection.getLimit(), 
+          color,
+          moveDirection.getAttackOnly()).positions();
 
       positions.addAll(positionsDirection);
     }

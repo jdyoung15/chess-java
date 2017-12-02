@@ -28,9 +28,10 @@ public class Game {
       String fromCoords = scanner.next();
       int fromPosition = Board.findPosition(fromCoords);
       Square fromSquare = board.findSquare(fromPosition);
+      Piece piece = fromSquare.getPiece();
 
       List<Integer> validMoves = 
-        new PossibleMoves(board, fromPosition, fromSquare.getPiece().getPieceType(), Color.WHITE).positions();
+        new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor()).positions();
       System.out.println(String.format("Valid moves: %s", Board.findCoords(validMoves)));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
