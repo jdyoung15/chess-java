@@ -18,12 +18,11 @@ public class Game {
   }
 
   private void executeTurn() {
+    Scanner scanner = new Scanner(System.in);     
     boolean validTurn = false;
     while (!validTurn) {
       System.out.println("Turn: White");
 
-      Scanner scanner = new Scanner(System.in);     
-      
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
       int fromPosition = Board.findPosition(fromCoords);
@@ -40,16 +39,16 @@ public class Game {
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
-      int toPosition = 4;
-
+      int toPosition = Board.findPosition(toCoords);
+      //Square toSquare = board.findSquare(fromPosition);
        
-      //if (validMoves.contains(toPosition)){
-      //  board.move(board.findSquare(fromPosition), board.findSquare(toPosition));
-      //  validTurn = true;
-      //}
-      //else {
-      //  System.out.println("Invalid move, try again");
-      //}
+      if (validMoves.contains(toPosition)){
+        board.move(fromPosition, toPosition);
+        validTurn = true;
+      }
+      else {
+        System.out.println("Invalid move, try again");
+      }
     }
   }
 
