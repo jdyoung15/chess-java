@@ -17,23 +17,20 @@ public class PossibleMoves {
 
   public List<Integer> positions() {
     List<MoveDirection> moveDirections = new MoveDirections(pieceType, color).moveDirections();
-    List<Integer> squarePositions = new ArrayList<Integer>();
+    List<Integer> positions = new ArrayList<Integer>();
 
     for (MoveDirection moveDirection : moveDirections) {
-      List<Integer> squarePositionsDirection = 
+      List<Integer> positionsDirection = 
         new DirectionSquares(fromPosition, moveDirection.getDirection()).positions();
 
-      List<Square> squares = board.findSquares(squarePositionsDirection);
-      squarePositionsDirection = new FilteredDirectionSquares(
-        squarePositionsDirection, 
-        squares, 
-        moveDirection.getLimit(),
-        color).positions();
+      List<Square> squares = board.findSquares(positionsDirection);
+      positionsDirection = 
+        new FilteredDirectionSquares(positionsDirection, squares, moveDirection.getLimit(), color).positions();
 
-      squarePositions.addAll(squarePositionsDirection);
+      positions.addAll(positionsDirection);
     }
 
-    return squarePositions;
+    return positions;
   }
 
 }
