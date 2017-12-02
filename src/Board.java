@@ -36,7 +36,7 @@ public class Board {
     return squares.get(squarePosition.getPosition());
   }
 
-  public boolean isWithinBoundaries(int position, int horizontal, int vertical) {
+  public static boolean inBounds(int position, int horizontal, int vertical) {
     // find row, col
     int currentRow = position / 8;
     int currentCol = position % 8;
@@ -50,7 +50,7 @@ public class Board {
     return true;
   }
 
-  public int calculateNewPosition(int position, int horizontal, int vertical) {
+  public static int calculateNewPosition(int position, int horizontal, int vertical) {
     return position + vertical * NUM_COLS + horizontal;
   }
 

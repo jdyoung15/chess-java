@@ -26,23 +26,23 @@ public class Game {
       
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
-      SquarePosition from = new SquarePosition(fromCoords);
+      int fromPosition = 0;
 
-      List<SquarePosition> validMoves = MovesFinder.findMoves(board, from, PieceType.ROOK, Color.WHITE);
+      List<Integer> validMoves = MovesFinder.findMoves(board, fromPosition, PieceType.ROOK, Color.WHITE);
       System.out.println(String.format("Valid moves: %s", validMoves));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
-      SquarePosition to = new SquarePosition(toCoords);
+      int toPosition = 4;
 
        
-      if (validMoves.contains(to)){
-        board.move(board.findSquare(from), board.findSquare(to));
-        validTurn = true;
-      }
-      else {
-        System.out.println("Invalid move, try again");
-      }
+      //if (validMoves.contains(toPosition)){
+      //  board.move(board.findSquare(fromPosition), board.findSquare(toPosition));
+      //  validTurn = true;
+      //}
+      //else {
+      //  System.out.println("Invalid move, try again");
+      //}
     }
   }
 

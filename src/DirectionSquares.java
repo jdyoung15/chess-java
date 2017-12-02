@@ -3,34 +3,27 @@ import java.util.ArrayList;
 
 public class DirectionSquares {
 
-  private List<SquarePosition> squarePositions;
+  private int fromPosition;
+  private Direction direction;
 
-  public DirectionSquares(SquarePosition fromPosition, Direction direction) {
-    squarePositions = calculateSquarePositions(fromPosition, direction);
+  public DirectionSquares(int fromPosition, Direction direction) {
+    this.fromPosition = fromPosition;
+    this.direction = direction;
   }
 
-  private List<SquarePosition> calculateSquarePositions(SquarePosition fromPosition, Direction direction) {
-    //System.out.println(String.format("direction: %s, fromPosition: %s", direction.name(), fromPosition.toString()));
-    //System.out.println(String.format("position: %d", fromPosition.getPosition()));
-    // init list of square positions
-    List<SquarePosition> positions = new ArrayList<SquarePosition>();
+  public List<Integer> positions() {
+    List<Integer> positions = new ArrayList<Integer>();
 
-    int vertical = direction.getVertical();
+    int position = fromPosition;
     int horizontal = direction.getHorizontal();
-    SquarePosition currentPosition = 
-        new SquarePosition(fromPosition.getRow() + vertical, fromPosition.getCol() + horizontal);
-    while (currentPosition.inBounds()) {
-      positions.add(currentPosition);
-      currentPosition = 
-        new SquarePosition(currentPosition.getRow() + vertical, currentPosition.getCol() + horizontal);
-      //System.out.println(String.format("position: %d", currentPosition.getPosition()));
+    int vertical = direction.getVertical();
+
+    while (Board.inBounds(position, horizontal, vertical)) {
+      position = Board.calculateNewPosition(position, horizontal, vertical);
+      positions.add(position);
     }
 
     return positions;
-  }
-
-  public List<SquarePosition> getSquarePositions() {
-    return squarePositions;
   }
 
 }

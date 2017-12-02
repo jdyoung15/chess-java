@@ -7,18 +7,18 @@ public class MovesFinder {
   //private int position;
   //private PieceType pieceType;
 
-  public static List<SquarePosition> findMoves(Board board, SquarePosition fromPosition, PieceType pieceType, Color color) {
+  public static List<Integer> findMoves(Board board, int fromPosition, PieceType pieceType, Color color) {
     // get directions for piece type
     List<MoveDirection> moveDirections = MoveDirectionFinder.findMoveDirections(pieceType, color);
-    List<SquarePosition> squarePositions = new ArrayList<SquarePosition>();
+    List<Integer> squarePositions = new ArrayList<Integer>();
     // for each direction
     for (MoveDirection moveDirection : moveDirections) {
       //   find squares in each direction, from start position
-      List<SquarePosition> squarePositionsDirection = 
-        new DirectionSquares(fromPosition, moveDirection.getDirection()).getSquarePositions();
+      List<Integer> squarePositionsDirection = 
+        new DirectionSquares(fromPosition, moveDirection.getDirection()).positions();
       // keep only square positions that can actually be moved to
-      squarePositionsDirection = filterSquarePositionsByLimit(squarePositionsDirection, moveDirection.getLimit());
-      squarePositionsDirection = filterSquarePositionsByUnoccupied(squarePositionsDirection, color, board);
+      //squarePositionsDirection = filterSquarePositionsByLimit(squarePositionsDirection, moveDirection.getLimit());
+      //squarePositionsDirection = filterSquarePositionsByUnoccupied(squarePositionsDirection, color, board);
       //   filter unblocked squares
       // TODO
       squarePositions.addAll(squarePositionsDirection);
