@@ -26,10 +26,12 @@ public class Game {
       
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
-      int fromPosition = 0;
+      int fromPosition = Board.findPosition(fromCoords);
+      Square fromSquare = board.findSquare(fromPosition);
 
-      List<Integer> validMoves = new PossibleMoves(board, fromPosition, PieceType.ROOK, Color.WHITE).positions();
-      System.out.println(String.format("Valid moves: %s", validMoves));
+      List<Integer> validMoves = 
+        new PossibleMoves(board, fromPosition, fromSquare.getPiece().getPieceType(), Color.WHITE).positions();
+      System.out.println(String.format("Valid moves: %s", Board.findCoords(validMoves)));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();

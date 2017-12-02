@@ -7,6 +7,7 @@ public class Board {
   public static final int NUM_COLS = 8;
   public static final int NUM_SQUARES = NUM_ROWS * NUM_COLS;
   public static final int ASCII_OFFSET = 65;
+  public static final int RADIX = 10;
 
   private List<Square> squares;
 
@@ -19,11 +20,11 @@ public class Board {
     for (int i = 0; i < NUM_SQUARES; i++) {
       squares.add(new Square());
     }
-    Piece piece = new Piece(Color.WHITE, PieceType.ROOK);
+    Piece piece = new Piece(Color.WHITE, PieceType.KING);
     Piece pieceWhite = new Piece(Color.WHITE, PieceType.ROOK);
     Piece pieceBlack = new Piece(Color.BLACK, PieceType.ROOK);
-    squares.set(0, new Square(piece));
-    squares.set(5, new Square(pieceWhite));
+    squares.set(35, new Square(piece));
+    squares.set(18, new Square(pieceWhite));
     squares.set(8, new Square(pieceBlack));
   }
 
@@ -46,8 +47,8 @@ public class Board {
 
   public static boolean inBounds(int position, int horizontal, int vertical) {
     // find row, col
-    int currentRow = position / 8;
-    int currentCol = position % 8;
+    int currentRow = findRow(position);
+    int currentCol = findCol(position);
     if (currentRow + vertical < 0 || currentRow + vertical >= 8) {
       return false;
     }
@@ -62,11 +63,39 @@ public class Board {
     return position + vertical * NUM_COLS + horizontal;
   }
 
-  private int convertCoordsToPosition(String coords) {
+  public static int findPosition(String coords) {
     int col = (int) coords.charAt(0) - ASCII_OFFSET;
     int row = NUM_ROWS - Character.getNumericValue(coords.charAt(1));
 
     return row * NUM_COLS + col;
+  }
+
+  private static int findRow(int position) {
+    return position / 8;  
+  }
+
+  private static int findCol(int position) {
+    return position % 8;  
+  }
+
+  private static char findRowCoord(int row) {
+    return Character.forDigit(NUM_ROWS - row, RADIX);
+  }
+
+  private static char findColCoord(int col) {
+    return (char) (col + ASCII_OFFSET);
+  }
+
+  public static List<String> findCoords(List<Integer> positions) {
+    List<String> coords = new ArrayList<String>();
+    for (int position : positions) {
+      coords.add(findCoords(position));
+    }
+    return coords;
+  }
+
+  public static String findCoords(int position) {
+    return String.format("%c%c", findColCoord(findCol(position)), findRowCoord(findRow(position)));
   }
 
   public String toString() {
