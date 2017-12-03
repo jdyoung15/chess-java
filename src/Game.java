@@ -41,7 +41,7 @@ public class Game {
       Piece piece = fromSquare.getPiece();
 
       List<Integer> possibleMoves = 
-        new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor()).positions();
+        new PossibleStandardMoves(board, fromPosition, piece.getPieceType(), piece.getColor()).positions();
       System.out.println(String.format("Possible moves: %s", Board.findCoords(possibleMoves)));
 
       List<Integer> validMoves = 

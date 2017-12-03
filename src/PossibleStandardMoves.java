@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class PossibleMoves {
+public class PossibleStandardMoves {
   
   private Board board;
   private int fromPosition;
@@ -10,7 +10,7 @@ public class PossibleMoves {
   // TODO
   private boolean hasMoved = false;
 
-  public PossibleMoves(Board board, int fromPosition, PieceType pieceType, Color color) {
+  public PossibleStandardMoves(Board board, int fromPosition, PieceType pieceType, Color color) {
     this.board = board;
     this.fromPosition = fromPosition;
     this.pieceType = pieceType;

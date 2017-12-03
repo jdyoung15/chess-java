@@ -18,7 +18,7 @@ public class Check {
     for (int position : opponentPositions) {
       Piece piece = board.findSquare(position).getPiece();
       List<Integer> possiblePositions = 
-        new PossibleMoves(board, position, piece.getPieceType(), piece.getColor()).positions();
+        new PossibleStandardMoves(board, position, piece.getPieceType(), piece.getColor()).positions();
 
       if (possiblePositions.contains(kingPosition)) {
         return true;
