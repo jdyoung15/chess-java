@@ -1,14 +1,17 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
   
   private Board board;
   private Color currentPlayer;
+  private List<Move> previousMoves;
 
   public void play() {
     board = new Board();
     currentPlayer = Color.WHITE;
+    previousMoves = new ArrayList<Move>();
 
     // while current player has valid move:
     //   turn
@@ -41,7 +44,7 @@ public class Game {
       Piece piece = fromSquare.getPiece();
 
       List<Integer> possibleMoves = 
-        new PossibleStandardMoves(board, fromPosition, piece.getPieceType(), piece.getColor()).positions();
+        new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
       System.out.println(String.format("Possible moves: %s", Board.findCoords(possibleMoves)));
 
       List<Integer> validMoves = 
@@ -54,8 +57,13 @@ public class Game {
       //Square toSquare = board.findSquare(fromPosition);
        
       if (validMoves.contains(toPosition)){
+        if (new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) {
+          int victimPawnPosition = Board.findPosition(Board.findRow(fromPosition), Board.findCol(toPosition));
+          board.findSquare(victimPawnPosition).clear();
+        }
         board.move(fromPosition, toPosition);
         validTurn = true;
+        previousMoves.add(new Move(fromPosition, toPosition));
       }
       else {
         System.out.println("Invalid move, try again");

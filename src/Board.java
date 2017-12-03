@@ -26,12 +26,12 @@ public class Board {
     }
     Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
     Piece pieceWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    Piece pieceBlack = new Piece(Color.BLACK, PieceType.ROOK);
+    Piece pieceBlack = new Piece(Color.BLACK, PieceType.PAWN);
     Piece pieceBlackKing = new Piece(Color.BLACK, PieceType.KING);
-    squares.set(35, new Square(piece));
+    squares.set(48, new Square(piece));
     squares.set(18, new Square(pieceWhite));
-    squares.set(26, new Square(pieceBlack));
-    squares.set(58, new Square(pieceBlackKing));
+    squares.set(33, new Square(pieceBlack));
+    squares.set(59, new Square(pieceBlackKing));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {
@@ -91,6 +91,10 @@ public class Board {
     return newRow >= 0 && newRow < NUM_ROWS && newCol >= 0 && newCol < NUM_COLS;
   }
 
+  public static int findPosition(int row, int col) {
+    return row * NUM_COLS + col;
+  }
+
   public static int calculateNewPosition(int position, int horizontal, int vertical) {
     int row = findRow(position);
     int col = findCol(position);
@@ -108,11 +112,11 @@ public class Board {
     return row * NUM_COLS + col;
   }
 
-  private static int findRow(int position) {
+  public static int findRow(int position) {
     return position / 8;  
   }
 
-  private static int findCol(int position) {
+  public static int findCol(int position) {
     return position % 8;  
   }
 
