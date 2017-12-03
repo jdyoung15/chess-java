@@ -140,6 +140,11 @@ public class Board {
     return String.format("%c%c", findColCoord(findCol(position)), findRowCoord(findRow(position)));
   }
 
+  public static boolean isAdjacent(int position, int otherPosition) {
+    return findRow(position) == findRow(otherPosition)
+      && Math.abs(findCol(position) - findCol(otherPosition)) == 1;
+  }
+
   public static Direction findDirection(Color color) {
     return color == Color.WHITE ? Direction.UP : Direction.DOWN;
   }

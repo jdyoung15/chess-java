@@ -17,62 +17,40 @@ public class EnPassant {
 
   public List<Integer> positions() {
     List<Integer> positions = new ArrayList<Integer>();
-    if (previousMoves.size() == 0) {
+    if (previousMoves.isEmpty()) {
       return positions;
     }
 
-    List<Integer> adjacentPositions = new ArrayList<Integer>();
-    if (Board.inBounds(fromPosition, -1, 0)) {
-      adjacentPositions.add(Board.calculateNewPosition(fromPosition, -1, 0));
-    }
-    if (Board.inBounds(fromPosition, 1, 0)) {
-      adjacentPositions.add(Board.calculateNewPosition(fromPosition, 1, 0));
-    }
-
-    Direction attackPawnDirection = Board.findDirection(currentPlayer);
-    int directionMultiplier = attackPawnDirection == Direction.UP ? 1 : -1;
-
-
-    for (int adjacentPosition : adjacentPositions) {
-      Square square = board.findSquare(adjacentPosition);
-      if (!square.isOccupied() 
-        || square.getPiece().getColor() == currentPlayer
-        || square.getPiece().getPieceType() != PieceType.PAWN) 
-      {
-        continue;
-      }
-
-      Move previousMove = previousMoves.get(previousMoves.size() - 1);
-      if (previousMove.getToPosition() != adjacentPosition) {
-        continue;
-      }
-
-      if (!Board.inBounds(adjacentPosition, 0, directionMultiplier * 2)) {
-        continue;
-      }
-
-      int victimPawnFromPosition = Board.calculateNewPosition(adjacentPosition, 0, directionMultiplier * 2);
-      if (previousMove.getFromPosition() != victimPawnFromPosition) {
-        continue;
-      }
-      
-      int attackPawnToPosition = Board.calculateNewPosition(adjacentPosition, 0, directionMultiplier * 1);
-      positions.add(attackPawnToPosition);
+    // check if opponent moved to adjacent square in previous move
+    Move opponentPreviousMove = previousMoves.get(previousMoves.size() - 1);
+    int opponentToPosition = opponentPreviousMove.getToPosition();
+    if (!Board.isAdjacent(fromPosition, opponentToPosition)) {
+      return positions;
     }
 
+    // check if adjacent square is occupied by opponent pawn
+    Square opponentToSquare = board.findSquare(opponentToPosition);
+    if (!opponentToSquare.isOccupied()) {
+      return positions;
+    }
+    Piece opponentPiece = opponentToSquare.getPiece();
+    if (opponentPiece.getColor() == currentPlayer || opponentPiece.getPieceType() != PieceType.PAWN) {
+      return positions;
+    }
+
+    // check if opponent pawn moved two rows in previous move
+    int opponentFromPosition = opponentPreviousMove.getFromPosition();
+    int rowsMoved = Math.abs(Board.findRow(opponentFromPosition) - Board.findRow(opponentToPosition));
+    if (rowsMoved < 2) {
+      return positions;
+    }
+
+    int toRow = (Board.findRow(opponentFromPosition) + Board.findRow(opponentToPosition)) / 2;
+    int toCol = Board.findCol(opponentToPosition);
+    int toPosition = Board.findPosition(toRow, toCol);
+
+    positions.add(toPosition);
     return positions;
-
-    // find positions of adjacent squares 
-    // for adjacent square
-    //   if not occupied by opponent pawn
-    //     continue
-    //   find previous move
-    //   if adjacent pawn moved from this position to current position
-    //     find position that is one "before" 
-    //     add this position
-    //   break
-    // 
-    // return positions
   }
 
 }
