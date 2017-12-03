@@ -12,9 +12,12 @@ public class Game {
 
     // while current player has valid move:
     //   turn
-    executeTurn();
-    // if checkmate
-    //   announce victor
+    while (true) {
+      executeTurn();
+      currentPlayer = Color.findOpponent(currentPlayer);
+    }
+    // if king of current player is checked (checkmate) 
+    //   announce victor (opponent of current player)
     // else announce stalemate
   }
 
@@ -23,12 +26,18 @@ public class Game {
     boolean validTurn = false;
     while (!validTurn) {
       System.out.println(board.toString());
-      System.out.println("Turn: White");
+      System.out.println(String.format("Turn: %s", currentPlayer.name().toLowerCase()));
 
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
       int fromPosition = Board.findPosition(fromCoords);
       Square fromSquare = board.findSquare(fromPosition);
+
+      if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
+        System.out.println("Invalid move, try again");
+        continue;
+      }
+
       Piece piece = fromSquare.getPiece();
 
       List<Integer> possibleMoves = 
@@ -47,7 +56,6 @@ public class Game {
       if (validMoves.contains(toPosition)){
         board.move(fromPosition, toPosition);
         validTurn = true;
-        currentPlayer = Color.findOpponent(currentPlayer);
       }
       else {
         System.out.println("Invalid move, try again");
