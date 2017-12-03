@@ -26,33 +26,6 @@ public class PossibleMoves {
       positions.addAll(new EnPassant(fromPosition, board, color, previousMoves).positions());
     }
 
-    // create PossibleStandardMoves and add positions
-    // if pawn
-    //   create EnPassant and add positions
-    // else if king
-    //   create Castling and add positions
-    // return positions
-
-    //List<MoveDirection> moveDirections = 
-    //  new MoveDirections(pieceType, Board.findDirection(color), hasMoved).moveDirections();
-    //List<Integer> positions = new ArrayList<Integer>();
-
-    //for (MoveDirection moveDirection : moveDirections) {
-    //  List<Integer> positionsDirection = 
-    //    new DirectionSquares(fromPosition, moveDirection.getDirection()).positions();
-
-    //  List<Square> squares = board.findSquares(positionsDirection);
-    //  positionsDirection = 
-    //    new FilteredDirectionSquares(
-    //      positionsDirection, 
-    //      squares, 
-    //      moveDirection.getLimit(), 
-    //      color,
-    //      moveDirection.getAttackOnly()).positions();
-
-    //  positions.addAll(positionsDirection);
-    //}
-
     return positions;
   }
 
