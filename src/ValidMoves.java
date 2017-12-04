@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 
+// TODO rename to LegalMoves
 public class ValidMoves {
   
   private int fromPosition;

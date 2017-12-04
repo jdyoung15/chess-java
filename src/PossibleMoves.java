@@ -25,6 +25,9 @@ public class PossibleMoves {
     if (pieceType == PieceType.PAWN) {
       positions.addAll(new EnPassant(fromPosition, board, color, previousMoves).positions());
     }
+    if (pieceType == PieceType.KING) {
+      positions.addAll(new Castling(fromPosition, board, color, previousMoves).positions());
+    }
 
     return positions;
   }

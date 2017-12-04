@@ -24,14 +24,17 @@ public class Board {
     for (int i = 0; i < NUM_SQUARES; i++) {
       squares.add(new Square());
     }
-    Piece piece = new Piece(Color.WHITE, PieceType.PAWN);
-    Piece pieceWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    Piece pieceBlack = new Piece(Color.BLACK, PieceType.PAWN);
-    Piece pieceBlackKing = new Piece(Color.BLACK, PieceType.KING);
-    squares.set(48, new Square(piece));
-    squares.set(18, new Square(pieceWhite));
-    squares.set(33, new Square(pieceBlack));
-    squares.set(59, new Square(pieceBlackKing));
+    Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
+    Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
+    Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
+    Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
+    Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
+    squares.set(60, new Square(kingWhite));
+    squares.set(56, new Square(rookWhite));
+    squares.set(63, new Square(rookWhite));
+    squares.set(48, new Square(bishopWhite));
+    squares.set(4, new Square(kingBlack));
+    squares.set(0, new Square(rookBlack));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {
