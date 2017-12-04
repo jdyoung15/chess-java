@@ -39,7 +39,7 @@ public class Castling {
     for (CastlingSide castlingSide : CastlingSide.values()) {
 
       // check that castling rook has not moved (and by extension is currently at start position)
-      int rookStartPosition = Board.calculateNewPosition(kingStartPosition, castlingSide.getRookPosition(), 0);
+      int rookStartPosition = Board.calculateNewPosition(kingStartPosition, castlingSide.getRookFromPosition(), 0);
       List<Move> rookMoves = 
         previousMoves
           .stream()
@@ -89,25 +89,6 @@ public class Castling {
     }
 
     return positions;
-
-    // find king start position for current player
-    // if king has moved or if king is in check
-    //   return
-    // for direction (left, right)
-    //   find rook start position 
-    //   if rook has moved
-    //     continue
-    //   
-    //   find between squares
-    //   if any are occupied
-    //     continue
-    // 
-    //   find king move squares
-    //   if king is in check for any square
-    //     continue
-    // 
-    //   find king end position
-    //   add to positions
   }
 
 }

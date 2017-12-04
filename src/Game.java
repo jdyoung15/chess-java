@@ -54,7 +54,6 @@ public class Game {
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
       int toPosition = Board.findPosition(toCoords);
-      //Square toSquare = board.findSquare(fromPosition);
        
       if (validMoves.contains(toPosition)){
         if (piece.getPieceType() == PieceType.PAWN
@@ -67,19 +66,12 @@ public class Game {
         if (piece.getPieceType() == PieceType.KING
           && new Castling(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) 
         {
-          int kingsideRookPosition = 
-            Board.calculateNewPosition(fromPosition, CastlingSide.KINGSIDE.getRookPosition() * CastlingSide.KINGSIDE.getDirectionValue(), 0);
-          int queensideRookPosition = 
-            Board.calculateNewPosition(fromPosition, CastlingSide.QUEENSIDE.getRookPosition() * CastlingSide.QUEENSIDE.getDirectionValue(), 0);
+          CastlingSide castlingSide = CastlingSide.fromKingMove(fromPosition, toPosition);
 
-          // if king is now next to rook, it has just castled kingside
           int rookFromPosition = 
-            Board.isAdjacent(toPosition, kingsideRookPosition) ? kingsideRookPosition : queensideRookPosition;
-
-          int rookToPosition = (fromPosition + toPosition) / 2;
-
-          System.out.println("rookfromposition " + rookFromPosition);
-          System.out.println("rooktoposition " + rookToPosition);
+            Board.calculateNewPosition(fromPosition, castlingSide.getRookFromPosition() * castlingSide.getDirectionValue(), 0);
+          int rookToPosition = 
+            Board.calculateNewPosition(fromPosition, castlingSide.getRookToPosition() * castlingSide.getDirectionValue(), 0);
 
           board.move(rookFromPosition, rookToPosition);
         }
