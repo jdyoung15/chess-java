@@ -9,6 +9,17 @@ public class Board {
   public static final int ASCII_OFFSET = 65;
   public static final int RADIX = 10;
 
+  private static final PieceType[] NON_PAWN_PIECE_ORDER = {
+    PieceType.ROOK,
+    PieceType.KNIGHT,
+    PieceType.BISHOP,
+    PieceType.QUEEN,
+    PieceType.KING,
+    PieceType.BISHOP,
+    PieceType.KNIGHT,
+    PieceType.ROOK
+  };
+
   private List<Square> squares;
 
   public Board() {
@@ -21,20 +32,44 @@ public class Board {
 
   private void initializeSquares() {
     squares = new ArrayList<Square>();
-    for (int i = 0; i < NUM_SQUARES; i++) {
-      squares.add(new Square());
+
+    int row = 0;
+    for (int col = 0; col < NUM_COLS; col++) {
+      squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, NON_PAWN_PIECE_ORDER[col])));
     }
-    Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
-    Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
-    Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
-    Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
-    squares.set(60, new Square(kingWhite));
-    squares.set(56, new Square(rookWhite));
-    squares.set(63, new Square(rookWhite));
-    squares.set(48, new Square(bishopWhite));
-    squares.set(4, new Square(kingBlack));
-    squares.set(0, new Square(rookBlack));
+
+    row = 1;
+    for (int col = 0; col < NUM_COLS; col++) {
+      squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, PieceType.PAWN)));
+    }
+
+    for (row = 2; row < 6; row++) {
+      for (int col = 0; col < NUM_COLS; col++) {
+        squares.add(findPosition(row, col), new Square());
+      }
+    }
+
+    row = 6;
+    for (int col = 0; col < NUM_COLS; col++) {
+      squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, PieceType.PAWN)));
+    }
+
+    row = 7;
+    for (int col = 0; col < NUM_COLS; col++) {
+      squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col])));
+    }
+
+    //Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
+    //Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
+    //Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
+    //Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
+    //Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
+    //squares.set(60, new Square(kingWhite));
+    //squares.set(56, new Square(rookWhite));
+    //squares.set(63, new Square(rookWhite));
+    //squares.set(48, new Square(bishopWhite));
+    //squares.set(4, new Square(kingBlack));
+    //squares.set(0, new Square(rookBlack));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {
