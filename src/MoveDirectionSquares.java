@@ -3,22 +3,23 @@ import java.util.ArrayList;
 
 public class MoveDirectionSquares {
 
-  private BoardDirection horizontal;
-  private BoardDirection vertical;
+  private MoveDirection moveDirection;
   private int fromPosition;
 
   public MoveDirectionSquares(MoveDirection moveDirection, int fromPosition) {
-    this.horizontal = moveDirection.getHorizontal();
-    this.vertical = moveDirection.getVertical();
+    this.moveDirection= moveDirection;
     this.fromPosition = fromPosition;
   }
 
   public List<Integer> positions() {
+    BoardDirection horizontal = moveDirection.getHorizontal();
+    BoardDirection vertical = moveDirection.getVertical();
+
     List<Integer> positions = new ArrayList<Integer>();
     int position = fromPosition;
 
-    while (Board.inBounds(position, horizontal, vertical)) {
-      position = Board.calculateNewPosition(position, horizontal, vertical);
+    while (Board.inBounds(position, horizontal, 1, vertical, 1)) {
+      position = Board.calculateNewPosition(position, horizontal, 1, vertical, 1);
       positions.add(position);
     }
 

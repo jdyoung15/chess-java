@@ -64,15 +64,15 @@ public class Board {
     }
     //Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
     Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    //Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
+    Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
     //Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
-    //Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
+    Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
     //squares.set(60, new Square(kingWhite));
     squares.set(56, new Square(rookWhite));
     //squares.set(63, new Square(rookWhite));
-    //squares.set(48, new Square(bishopWhite));
+    squares.set(58, new Square(bishopWhite));
     //squares.set(4, new Square(kingBlack));
-    //squares.set(0, new Square(rookBlack));
+    squares.set(40, new Square(rookBlack));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {
@@ -122,8 +122,18 @@ public class Board {
     return squares;
   }
 
-  public static boolean inBounds(int position, BoardDirection horizontal, BoardDirection vertical) {
-    return inBounds(position, horizontal.getValue(), vertical.getValue());
+  public static boolean inBounds(int position, MoveCoordinates moveCoordinates) {
+    return inBounds(
+      position,
+      moveCoordinates.getHorizontal(),
+      moveCoordinates.getHorizontalAmount(),
+      moveCoordinates.getVertical(),
+      moveCoordinates.getVerticalAmount()
+    );
+  }
+
+  public static boolean inBounds(int position, BoardDirection horizontal, int horizontalAmount, BoardDirection vertical, int verticalAmount) {
+    return inBounds(position, horizontal.getValue() * horizontalAmount, vertical.getValue() * verticalAmount);
   }
 
   public static boolean inBounds(int position, int horizontal, int vertical) {
@@ -140,8 +150,18 @@ public class Board {
     return row * NUM_COLS + col;
   }
 
-  public static int calculateNewPosition(int position, BoardDirection horizontal, BoardDirection vertical) {
-    return calculateNewPosition(position, horizontal.getValue(), vertical.getValue());
+  public static int calculateNewPosition(int position, MoveCoordinates moveCoordinates) {
+    return calculateNewPosition(
+      position,
+      moveCoordinates.getHorizontal(),
+      moveCoordinates.getHorizontalAmount(),
+      moveCoordinates.getVertical(),
+      moveCoordinates.getVerticalAmount()
+    );
+  }
+
+  public static int calculateNewPosition(int position, BoardDirection horizontal, int horizontalAmount, BoardDirection vertical, int verticalAmount) {
+    return calculateNewPosition(position, horizontal.getValue() * horizontalAmount, vertical.getValue() * verticalAmount);
   }
 
   public static int calculateNewPosition(int position, int horizontal, int vertical) {

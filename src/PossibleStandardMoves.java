@@ -22,6 +22,9 @@ public class PossibleStandardMoves {
       case ROOK:
         positions.addAll(new RookMoves(board, fromPosition, color).positions());
         break;
+      case KNIGHT:
+        positions.addAll(new KnightPossibleMoves(board, fromPosition, color).positions());
+        break;
     }
 
     // AttackOnly, AttackOrMove, MoveOnly, UnblockedAttackOrMoveSquares
