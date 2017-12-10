@@ -62,15 +62,15 @@ public class Board {
     for (int i = 0; i < NUM_SQUARES; i++) {
       squares.add(new Square());
     }
-    //Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
+    Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
     Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
+    Piece bishopWhite = new Piece(Color.WHITE, PieceType.QUEEN);
     //Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
     Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
-    //squares.set(60, new Square(kingWhite));
+    squares.set(45, new Square(kingWhite));
     squares.set(56, new Square(rookWhite));
     //squares.set(63, new Square(rookWhite));
-    squares.set(58, new Square(bishopWhite));
+    squares.set(35, new Square(bishopWhite));
     //squares.set(4, new Square(kingBlack));
     squares.set(40, new Square(rookBlack));
   }

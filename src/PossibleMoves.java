@@ -21,6 +21,7 @@ public class PossibleMoves {
     List<Integer> positions = new ArrayList<Integer>();
 
     positions.addAll(new PossibleStandardMoves(board, fromPosition, pieceType, color).positions());
+    System.out.println(positions.size());
 
     if (pieceType == PieceType.PAWN) {
       positions.addAll(new EnPassant(fromPosition, board, color, previousMoves).positions());

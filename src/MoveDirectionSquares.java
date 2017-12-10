@@ -7,7 +7,7 @@ public class MoveDirectionSquares {
   private int fromPosition;
 
   public MoveDirectionSquares(MoveDirection moveDirection, int fromPosition) {
-    this.moveDirection= moveDirection;
+    this.moveDirection = moveDirection;
     this.fromPosition = fromPosition;
   }
 
