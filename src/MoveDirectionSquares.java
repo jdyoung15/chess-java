@@ -1,22 +1,21 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class DirectionSquares {
+public class MoveDirectionSquares {
 
+  private BoardDirection horizontal;
+  private BoardDirection vertical;
   private int fromPosition;
-  private Direction direction;
 
-  public DirectionSquares(int fromPosition, Direction direction) {
+  public MoveDirectionSquares(MoveDirection moveDirection, int fromPosition) {
+    this.horizontal = moveDirection.getHorizontal();
+    this.vertical = moveDirection.getVertical();
     this.fromPosition = fromPosition;
-    this.direction = direction;
   }
 
   public List<Integer> positions() {
     List<Integer> positions = new ArrayList<Integer>();
-
     int position = fromPosition;
-    int horizontal = direction.getHorizontal();
-    int vertical = direction.getVertical();
 
     while (Board.inBounds(position, horizontal, vertical)) {
       position = Board.calculateNewPosition(position, horizontal, vertical);

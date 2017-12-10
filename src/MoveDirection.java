@@ -1,24 +1,28 @@
-public class MoveDirection {
+public enum MoveDirection {
+  
+  UP(BoardDirection.UP, BoardDirection.NONE),
+  UP_RIGHT(BoardDirection.UP, BoardDirection.RIGHT),
+  RIGHT(BoardDirection.NONE, BoardDirection.RIGHT),
+  DOWN_RIGHT(BoardDirection.DOWN, BoardDirection.RIGHT),
+  DOWN(BoardDirection.DOWN, BoardDirection.NONE),
+  DOWN_LEFT(BoardDirection.DOWN, BoardDirection.LEFT),
+  LEFT(BoardDirection.NONE, BoardDirection.LEFT),
+  UP_LEFT(BoardDirection.UP, BoardDirection.LEFT);
 
-  private Direction direction;
-  private int limit;
-  private boolean attackOnly;
+  private BoardDirection vertical;
+  private BoardDirection horizontal;
 
-  public MoveDirection(Direction direction, int limit, boolean attackOnly) {
-    this.direction = direction;
-    this.limit = limit;
-    this.attackOnly = attackOnly;
+  private MoveDirection(BoardDirection vertical, BoardDirection horizontal) {
+    this.vertical = vertical;
+    this.horizontal = horizontal;
   }
 
-  public Direction getDirection() {
-    return direction;
+  public BoardDirection getVertical() {
+    return vertical;
   }
 
-  public int getLimit() {
-    return limit;
+  public BoardDirection getHorizontal() {
+    return horizontal;
   }
 
-  public boolean getAttackOnly() {
-    return attackOnly;
-  }
 }

@@ -33,39 +33,42 @@ public class Board {
   private void initializeSquares() {
     squares = new ArrayList<Square>();
 
-    int row = 0;
-    for (int col = 0; col < NUM_COLS; col++) {
-      squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, NON_PAWN_PIECE_ORDER[col])));
-    }
+    //int row = 0;
+    //for (int col = 0; col < NUM_COLS; col++) {
+    //  squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, NON_PAWN_PIECE_ORDER[col])));
+    //}
 
-    row = 1;
-    for (int col = 0; col < NUM_COLS; col++) {
-      squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, PieceType.PAWN)));
-    }
+    //row = 1;
+    //for (int col = 0; col < NUM_COLS; col++) {
+    //  squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, PieceType.PAWN)));
+    //}
 
-    for (row = 2; row < 6; row++) {
-      for (int col = 0; col < NUM_COLS; col++) {
-        squares.add(findPosition(row, col), new Square());
-      }
-    }
+    //for (row = 2; row < 6; row++) {
+    //  for (int col = 0; col < NUM_COLS; col++) {
+    //    squares.add(findPosition(row, col), new Square());
+    //  }
+    //}
 
-    row = 6;
-    for (int col = 0; col < NUM_COLS; col++) {
-      squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, PieceType.PAWN)));
-    }
+    //row = 6;
+    //for (int col = 0; col < NUM_COLS; col++) {
+    //  squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, PieceType.PAWN)));
+    //}
 
-    row = 7;
-    for (int col = 0; col < NUM_COLS; col++) {
-      squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col])));
-    }
+    //row = 7;
+    //for (int col = 0; col < NUM_COLS; col++) {
+    //  squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col])));
+    //}
 
+    for (int i = 0; i < NUM_SQUARES; i++) {
+      squares.add(new Square());
+    }
     //Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
-    //Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
+    Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
     //Piece bishopWhite = new Piece(Color.WHITE, PieceType.BISHOP);
     //Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
     //Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
     //squares.set(60, new Square(kingWhite));
-    //squares.set(56, new Square(rookWhite));
+    squares.set(56, new Square(rookWhite));
     //squares.set(63, new Square(rookWhite));
     //squares.set(48, new Square(bishopWhite));
     //squares.set(4, new Square(kingBlack));
@@ -119,6 +122,10 @@ public class Board {
     return squares;
   }
 
+  public static boolean inBounds(int position, BoardDirection horizontal, BoardDirection vertical) {
+    return inBounds(position, horizontal.getValue(), vertical.getValue());
+  }
+
   public static boolean inBounds(int position, int horizontal, int vertical) {
     int row = findRow(position);
     int col = findCol(position);
@@ -131,6 +138,10 @@ public class Board {
 
   public static int findPosition(int row, int col) {
     return row * NUM_COLS + col;
+  }
+
+  public static int calculateNewPosition(int position, BoardDirection horizontal, BoardDirection vertical) {
+    return calculateNewPosition(position, horizontal.getValue(), vertical.getValue());
   }
 
   public static int calculateNewPosition(int position, int horizontal, int vertical) {
