@@ -4,31 +4,28 @@ import java.util.ArrayList;
 public class UnblockedSquares {
   
   private List<Integer> positions;
-  private List<Square> squares;
+  private Board board;
   private Color color;
+  private CheckSquare canMove;
   
-  public UnblockedSquares(List<Integer> positions, List<Square> squares, Color color) {
+  public UnblockedSquares(List<Integer> positions, Board board, Color color, CheckSquare canMove) {
     this.positions = positions;
-    this.squares = squares;
+    this.board = board;
     this.color = color;
+    this.canMove = canMove;
   }
 
   public List<Integer> positions() {
     List<Integer> unblockedPositions = new ArrayList<Integer>();
 
-    for (int i = 0; i < squares.size(); i++) {
-      Square square = squares.get(i);
-      int position = positions.get(i);
-      if (square.isOccupied()) {
-        if (square.getPiece().getColor() != color) {
-          unblockedPositions.add(position);
-        }
-        break;
-      }
-      else {
+    for (int position : positions) {
+      Square square = board.findSquare(position);
+      if (canMove.test(square, color)) {
         unblockedPositions.add(position);
       }
-
+      if (new CheckSquareIsBlocking().test(square, color)) {
+        break;
+      }
     }
 
     return unblockedPositions;

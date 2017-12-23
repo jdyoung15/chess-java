@@ -65,14 +65,16 @@ public class Board {
     Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
     Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
     Piece bishopWhite = new Piece(Color.WHITE, PieceType.QUEEN);
+    Piece pawnWhite = new Piece(Color.WHITE, PieceType.PAWN);
     //Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
     Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
     squares.set(45, new Square(kingWhite));
     squares.set(56, new Square(rookWhite));
     //squares.set(63, new Square(rookWhite));
     squares.set(35, new Square(bishopWhite));
+    squares.set(55, new Square(pawnWhite));
     //squares.set(4, new Square(kingBlack));
-    squares.set(40, new Square(rookBlack));
+    squares.set(46, new Square(rookBlack));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {
@@ -214,8 +216,8 @@ public class Board {
       && Math.abs(findCol(position) - findCol(otherPosition)) == 1;
   }
 
-  public static Direction findDirection(Color color) {
-    return color == Color.WHITE ? Direction.UP : Direction.DOWN;
+  public static BoardDirection findDirection(Color color) {
+    return color == Color.WHITE ? BoardDirection.UP : BoardDirection.DOWN;
   }
 
   public Board copy() {

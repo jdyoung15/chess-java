@@ -1,26 +1,31 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class CoordinatesPiecePossibleMoves implements PiecePossibleMoves {
+public class CoordinatesPiecePossibleMoves extends PiecePossibleMoves {
 
   private Iterable<MoveCoordinates> moveCoordinatesList;
-  private Board board;
-  private int fromPosition;
-  private Color color;
 
   public CoordinatesPiecePossibleMoves(
     Iterable<MoveCoordinates> moveCoordinatesList, 
     Board board, 
     int fromPosition, 
-    Color color) 
+    Color color)
   {
+    super(board, fromPosition, color);
     this.moveCoordinatesList = moveCoordinatesList;
-    this.board = board;
-    this.fromPosition = fromPosition;
-    this.color = color;
+    this.canMoveHere = new CheckSquareIsOccupiableOrAttackable();
   }
 
   public List<Integer> positions() {
+    // find square positions at coordinates
+    // for each square position
+    //   find square at position
+    //   if can move to square
+    //     add position to list
+    //   if blocking condition satisfied
+    //     break
+    // return square positions
+
     List<Integer> positions = new ArrayList<Integer>();
     for (MoveCoordinates moveCoordinates : moveCoordinatesList) {
       if (!board.inBounds(fromPosition, moveCoordinates)) {
@@ -28,7 +33,7 @@ public class CoordinatesPiecePossibleMoves implements PiecePossibleMoves {
       }
       int position = Board.calculateNewPosition(fromPosition, moveCoordinates);
       Square square = board.findSquare(position);
-      if (!square.isOccupied() || square.getPiece().getColor() != color) {
+      if (canMoveHere.test(square, color)) {
         positions.add(position);
       }
     }
