@@ -13,7 +13,17 @@ public class CoordinatesPiecePossibleMoves extends PiecePossibleMoves {
   {
     super(board, fromPosition, color);
     this.moveCoordinatesList = moveCoordinatesList;
-    this.canMoveHere = new CheckSquareIsOccupiableOrAttackable();
+  }
+
+  public CoordinatesPiecePossibleMoves(
+    Iterable<MoveCoordinates> moveCoordinatesList, 
+    Board board, 
+    int fromPosition, 
+    Color color,
+    CheckSquare canMoveHere)
+  {
+    super(board, fromPosition, color, canMoveHere);
+    this.moveCoordinatesList = moveCoordinatesList;
   }
 
   public List<Integer> positions() {

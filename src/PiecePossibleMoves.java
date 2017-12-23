@@ -14,10 +14,13 @@ public abstract class PiecePossibleMoves {
     this.color = color;
   }
 
-  public abstract List<Integer> positions();
-
-  public void setCanMoveHere(CheckSquare canMoveHere) {
+  public PiecePossibleMoves(Board board, int fromPosition, Color color, CheckSquare canMoveHere) {
+    this.board = board;
+    this.fromPosition = fromPosition;
+    this.color = color;
     this.canMoveHere = canMoveHere;
   }
+
+  public abstract List<Integer> positions();
 
 }

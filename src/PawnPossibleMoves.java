@@ -20,18 +20,24 @@ public class PawnPossibleMoves extends PiecePossibleMoves {
       new MoveCoordinates(BoardDirection.LEFT, 1, pawnDirection, 1),
       new MoveCoordinates(BoardDirection.RIGHT, 1, pawnDirection, 1));
 
-    CoordinatesPiecePossibleMoves attackPossibleMoves = 
-      new CoordinatesPiecePossibleMoves(attackCoordinates, board, fromPosition, color);
-    attackPossibleMoves.setCanMoveHere(new CheckSquareIsAttackable());
-    positions.addAll(attackPossibleMoves.positions());
-
-    MoveDirection pawnMoveDirection = new MoveDirection(BoardDirection.UP, BoardDirection.NONE);
-    DirectionBasedPiecePossibleMoves pawnForwardMoves = 
-      new DirectionBasedPiecePossibleMoves(Arrays.asList(pawnMoveDirection), board, fromPosition, color);
-    pawnForwardMoves.setLimitPerDirection(2);
-
     positions.addAll(
-      new UnblockedSquares(pawnForwardMoves.positions(), board, color, new CheckSquareIsOccupiable()).positions());
+      new CoordinatesPiecePossibleMoves(
+        attackCoordinates, 
+        board, 
+        fromPosition, 
+        color, 
+        new CheckSquareIsAttackable()).positions());
+
+    MoveDirection pawnMoveDirection = new MoveDirection(pawnDirection, BoardDirection.NONE);
+    positions.addAll(
+      new DirectionBasedPiecePossibleMoves(
+        Arrays.asList(pawnMoveDirection), 
+        board, 
+        fromPosition, 
+        color, 
+        2,
+        new CheckSquareIsOccupiable()).positions());
+
     return positions;
 
   }

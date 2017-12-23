@@ -17,6 +17,19 @@ public class DirectionBasedPiecePossibleMoves extends PiecePossibleMoves {
     this.moveDirections = moveDirections;
   }
 
+  public DirectionBasedPiecePossibleMoves(
+    Iterable<MoveDirection> moveDirections, 
+    Board board, 
+    int fromPosition, 
+    Color color,
+    int limitPerDirection,
+    CheckSquare canMoveHere)
+  {
+    super(board, fromPosition, color, canMoveHere);
+    this.moveDirections = moveDirections;
+    this.limitPerDirection = limitPerDirection;
+  }
+
   public List<Integer> positions() {
     List<Integer> positions = new ArrayList<Integer>();
     for (MoveDirection moveDirection : moveDirections) {
@@ -29,10 +42,6 @@ public class DirectionBasedPiecePossibleMoves extends PiecePossibleMoves {
       positions.addAll(new UnblockedSquares(directionPositions, board, color, canMoveHere).positions());
     }
     return positions;
-  }
-
-  public void setLimitPerDirection(int limitPerDirection) {
-    this.limitPerDirection = limitPerDirection;
   }
 
 }
