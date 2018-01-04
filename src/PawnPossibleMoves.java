@@ -15,7 +15,7 @@ public class PawnPossibleMoves extends PiecePossibleMoves {
   public List<Integer> positions() {
     List<Integer> positions = new ArrayList<Integer>();
 
-    BoardDirection pawnDirection = Board.findDirection(color);
+    BoardDirection pawnDirection = BoardPositioning.findDirection(color);
     Iterable<MoveCoordinates> attackCoordinates = Arrays.asList(
       new MoveCoordinates(BoardDirection.LEFT, 1, pawnDirection, 1),
       new MoveCoordinates(BoardDirection.RIGHT, 1, pawnDirection, 1));

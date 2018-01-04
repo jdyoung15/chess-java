@@ -41,7 +41,7 @@ public enum CastlingSide {
   public static CastlingSide fromKingMove(int fromPosition, int toPosition) {
     for (CastlingSide c : CastlingSide.values()) {
       int expectedPosition = 
-        Board.calculateNewPosition(fromPosition, c.getKingToPosition() * c.getDirectionValue(), 0);
+        BoardPositioning.findPosition(fromPosition, c.getKingToPosition() * c.getDirectionValue(), 0);
       if (toPosition == expectedPosition) {
         return c;
       }

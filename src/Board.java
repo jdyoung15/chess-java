@@ -3,11 +3,6 @@ import java.util.ArrayList;
 
 public class Board {
 
-  public static final int NUM_ROWS = 8;
-  public static final int NUM_COLS = 8;
-  public static final int NUM_SQUARES = NUM_ROWS * NUM_COLS;
-  public static final int ASCII_OFFSET = 65;
-  public static final int RADIX = 10;
 
   private static final PieceType[] NON_PAWN_PIECE_ORDER = {
     PieceType.ROOK,
@@ -59,7 +54,7 @@ public class Board {
     //  squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col])));
     //}
 
-    for (int i = 0; i < NUM_SQUARES; i++) {
+    for (int i = 0; i < BoardPositioning.NUM_SQUARES; i++) {
       squares.add(new Square());
     }
     Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
@@ -71,10 +66,10 @@ public class Board {
     squares.set(45, new Square(kingWhite));
     squares.set(56, new Square(rookWhite));
     //squares.set(63, new Square(rookWhite));
-    squares.set(35, new Square(bishopWhite));
+    squares.set(39, new Square(bishopWhite));
     squares.set(55, new Square(pawnWhite));
     //squares.set(4, new Square(kingBlack));
-    squares.set(46, new Square(rookBlack));
+    squares.set(16, new Square(rookBlack));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {
@@ -124,102 +119,6 @@ public class Board {
     return squares;
   }
 
-  public static boolean inBounds(int position, MoveCoordinates moveCoordinates) {
-    return inBounds(
-      position,
-      moveCoordinates.getHorizontal(),
-      moveCoordinates.getHorizontalAmount(),
-      moveCoordinates.getVertical(),
-      moveCoordinates.getVerticalAmount()
-    );
-  }
-
-  public static boolean inBounds(int position, BoardDirection horizontal, int horizontalAmount, BoardDirection vertical, int verticalAmount) {
-    return inBounds(position, horizontal.getValue() * horizontalAmount, vertical.getValue() * verticalAmount);
-  }
-
-  public static boolean inBounds(int position, int horizontal, int vertical) {
-    int row = findRow(position);
-    int col = findCol(position);
-
-    int newRow = row + -1 * vertical;
-    int newCol = col + horizontal;
-
-    return newRow >= 0 && newRow < NUM_ROWS && newCol >= 0 && newCol < NUM_COLS;
-  }
-
-  public static int findPosition(int row, int col) {
-    return row * NUM_COLS + col;
-  }
-
-  public static int calculateNewPosition(int position, MoveCoordinates moveCoordinates) {
-    return calculateNewPosition(
-      position,
-      moveCoordinates.getHorizontal(),
-      moveCoordinates.getHorizontalAmount(),
-      moveCoordinates.getVertical(),
-      moveCoordinates.getVerticalAmount()
-    );
-  }
-
-  public static int calculateNewPosition(int position, BoardDirection horizontal, int horizontalAmount, BoardDirection vertical, int verticalAmount) {
-    return calculateNewPosition(position, horizontal.getValue() * horizontalAmount, vertical.getValue() * verticalAmount);
-  }
-
-  public static int calculateNewPosition(int position, int horizontal, int vertical) {
-    int row = findRow(position);
-    int col = findCol(position);
-
-    int newRow = row + -1 * vertical;
-    int newCol = col + horizontal;
-
-    return newRow * NUM_COLS + newCol;
-  }
-
-  public static int findPosition(String coords) {
-    int col = (int) coords.charAt(0) - ASCII_OFFSET;
-    int row = NUM_ROWS - Character.getNumericValue(coords.charAt(1));
-
-    return row * NUM_COLS + col;
-  }
-
-  public static int findRow(int position) {
-    return position / 8;  
-  }
-
-  public static int findCol(int position) {
-    return position % 8;  
-  }
-
-  private static char findRowCoord(int row) {
-    return Character.forDigit(NUM_ROWS - row, RADIX);
-  }
-
-  private static char findColCoord(int col) {
-    return (char) (col + ASCII_OFFSET);
-  }
-
-  public static List<String> findCoords(List<Integer> positions) {
-    List<String> coords = new ArrayList<String>();
-    for (int position : positions) {
-      coords.add(findCoords(position));
-    }
-    return coords;
-  }
-
-  public static String findCoords(int position) {
-    return String.format("%c%c", findColCoord(findCol(position)), findRowCoord(findRow(position)));
-  }
-
-  public static boolean isAdjacent(int position, int otherPosition) {
-    return findRow(position) == findRow(otherPosition)
-      && Math.abs(findCol(position) - findCol(otherPosition)) == 1;
-  }
-
-  public static BoardDirection findDirection(Color color) {
-    return color == Color.WHITE ? BoardDirection.UP : BoardDirection.DOWN;
-  }
-
   public Board copy() {
     List<Square> squaresCopy = new ArrayList<Square>();
     for (Square square : squares) {
@@ -232,12 +131,12 @@ public class Board {
   public String toString() {
     StringBuilder sb = new StringBuilder();
 
-    for (int row = 0; row < NUM_ROWS; row++) {
+    for (int row = 0; row < BoardPositioning.NUM_ROWS; row++) {
       // add row number
-      sb.append(String.format("%d  ", NUM_ROWS - row));
+      sb.append(String.format("%d  ", BoardPositioning.NUM_ROWS - row));
       // add string representations of squares
-      for (int col = 0; col < NUM_COLS; col++) {
-        sb.append(squares.get(row * NUM_COLS + col).toString());
+      for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
+        sb.append(squares.get(row * BoardPositioning.NUM_COLS + col).toString());
         sb.append(" ");
       }
       sb.append("\n");
@@ -245,8 +144,8 @@ public class Board {
 
     // add column letters
     sb.append("\n   ");
-    for (int col = 0; col < NUM_COLS; col++) {
-      sb.append(String.format("%c  ", (char) col + ASCII_OFFSET));
+    for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
+      sb.append(String.format("%c  ", (char) col + BoardPositioning.ASCII_OFFSET));
     }
 
     sb.append("\n\n");

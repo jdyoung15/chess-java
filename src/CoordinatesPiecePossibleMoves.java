@@ -38,10 +38,11 @@ public class CoordinatesPiecePossibleMoves extends PiecePossibleMoves {
 
     List<Integer> positions = new ArrayList<Integer>();
     for (MoveCoordinates moveCoordinates : moveCoordinatesList) {
-      if (!board.inBounds(fromPosition, moveCoordinates)) {
+      int position = BoardPositioning.findPosition(fromPosition, moveCoordinates);
+      if (position == BoardPositioning.INVALID_POSITION) {
         continue;
       }
-      int position = Board.calculateNewPosition(fromPosition, moveCoordinates);
+
       Square square = board.findSquare(position);
       if (canMoveHere.test(square, color)) {
         positions.add(position);

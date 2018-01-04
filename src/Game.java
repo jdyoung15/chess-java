@@ -33,7 +33,7 @@ public class Game {
 
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
-      int fromPosition = Board.findPosition(fromCoords);
+      int fromPosition = BoardPositioning.findPosition(fromCoords);
       Square fromSquare = board.findSquare(fromPosition);
 
       if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
@@ -45,21 +45,21 @@ public class Game {
 
       List<Integer> possibleMoves = 
         new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
-      System.out.println(String.format("Possible moves: %s", Board.findCoords(possibleMoves)));
+      System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
 
       List<Integer> validMoves = 
         new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
-      System.out.println(String.format("valid moves: %s", Board.findCoords(validMoves)));
+      System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
-      int toPosition = Board.findPosition(toCoords);
+      int toPosition = BoardPositioning.findPosition(toCoords);
        
       if (validMoves.contains(toPosition)){
         if (piece.getPieceType() == PieceType.PAWN
           && new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) 
         {
-          int victimPawnPosition = Board.findPosition(Board.findRow(fromPosition), Board.findCol(toPosition));
+          int victimPawnPosition = BoardPositioning.findPosition(BoardPositioning.findRow(fromPosition), BoardPositioning.findCol(toPosition));
           board.findSquare(victimPawnPosition).clear();
         }
 
@@ -69,9 +69,9 @@ public class Game {
           CastlingSide castlingSide = CastlingSide.fromKingMove(fromPosition, toPosition);
 
           int rookFromPosition = 
-            Board.calculateNewPosition(fromPosition, castlingSide.getRookFromPosition() * castlingSide.getDirectionValue(), 0);
+            BoardPositioning.findPosition(fromPosition, castlingSide.getRookFromPosition() * castlingSide.getDirectionValue(), 0);
           int rookToPosition = 
-            Board.calculateNewPosition(fromPosition, castlingSide.getRookToPosition() * castlingSide.getDirectionValue(), 0);
+            BoardPositioning.findPosition(fromPosition, castlingSide.getRookToPosition() * castlingSide.getDirectionValue(), 0);
 
           board.move(rookFromPosition, rookToPosition);
         }

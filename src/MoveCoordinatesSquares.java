@@ -12,17 +12,14 @@ public class MoveCoordinatesSquares {
   }
 
   public List<Integer> positions() {
-    BoardDirection horizontal = moveCoordinates.getHorizontal();
-    int horizontalAmount = moveCoordinates.getHorizontalAmount();
-    BoardDirection vertical = moveCoordinates.getVertical();
-    int verticalAmount = moveCoordinates.getVerticalAmount();
-
     List<Integer> positions = new ArrayList<Integer>();
 
     // find position at coordinates
-    if (Board.inBounds(fromPosition, horizontal, horizontalAmount, vertical, verticalAmount)) {
-      positions.add(Board.calculateNewPosition(fromPosition, horizontal, horizontalAmount, vertical, verticalAmount));
+    int position = BoardPositioning.findPosition(fromPosition, moveCoordinates);
+    if (position == BoardPositioning.INVALID_POSITION) {
+      return positions;
     }
+    positions.add(position);
 
     return positions;
   }

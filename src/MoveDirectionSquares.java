@@ -12,15 +12,14 @@ public class MoveDirectionSquares {
   }
 
   public List<Integer> positions() {
-    BoardDirection horizontal = moveDirection.getHorizontal();
-    BoardDirection vertical = moveDirection.getVertical();
-
     List<Integer> positions = new ArrayList<Integer>();
-    int position = fromPosition;
 
-    while (Board.inBounds(position, horizontal, 1, vertical, 1)) {
-      position = Board.calculateNewPosition(position, horizontal, 1, vertical, 1);
+    int amount = 1;
+    int position = BoardPositioning.findPosition(fromPosition, moveDirection, amount);
+    while (position != BoardPositioning.INVALID_POSITION) {
       positions.add(position);
+      amount++;
+      position = BoardPositioning.findPosition(fromPosition, moveDirection, amount);
     }
 
     return positions;

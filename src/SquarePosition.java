@@ -36,9 +36,9 @@ public class SquarePosition {
   }
 
   private static int rowColToPosition(int row, int col) {
-    int actualRow = Board.NUM_ROWS - row - 1;
+    int actualRow = BoardPositioning.NUM_ROWS - row - 1;
     int actualCol = col;
-    return actualRow * Board.NUM_COLS + actualCol;
+    return actualRow * BoardPositioning.NUM_COLS + actualCol;
   }
 
   public String getCoords() {
@@ -62,7 +62,7 @@ public class SquarePosition {
   }
 
   public boolean inBounds() {
-    return row >= 0 && row < Board.NUM_ROWS && col >= 0 && col < Board.NUM_COLS;
+    return row >= 0 && row < BoardPositioning.NUM_ROWS && col >= 0 && col < BoardPositioning.NUM_COLS;
   }
 
   // Code inspired by: https://www.sitepoint.com/implement-javas-equals-method-correctly/

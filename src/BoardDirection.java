@@ -1,8 +1,8 @@
 public enum BoardDirection {
 
-  UP(1),
+  UP(-1),
   RIGHT(1),
-  DOWN(-1),
+  DOWN(1),
   LEFT(-1),
   NONE(0);
 

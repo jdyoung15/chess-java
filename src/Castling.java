@@ -20,6 +20,10 @@ public class Castling {
     List<Integer> positions = new ArrayList<Integer>();
     int kingStartPosition = 60; // TODO
 
+    if (fromPosition != kingStartPosition) {
+      return positions;
+    }
+
     // check that the king has not moved (and by extension is currently at its start position)
     List<Move> kingMoves = 
       previousMoves
@@ -39,7 +43,7 @@ public class Castling {
     for (CastlingSide castlingSide : CastlingSide.values()) {
 
       // check that castling rook has not moved (and by extension is currently at start position)
-      int rookStartPosition = Board.calculateNewPosition(kingStartPosition, castlingSide.getRookFromPosition(), 0);
+      int rookStartPosition = BoardPositioning.findPosition(kingStartPosition, castlingSide.getRookFromPosition(), 0);
       List<Move> rookMoves = 
         previousMoves
           .stream()
@@ -55,7 +59,7 @@ public class Castling {
 
       // check that squares between king and rook are unoccupied
       for (int i = 1; i < castlingSide.getNumSquaresBetween() + 1; i++) {
-        int currentPosition = Board.calculateNewPosition(kingStartPosition, directionValue * i, 0);
+        int currentPosition = BoardPositioning.findPosition(kingStartPosition, 0, directionValue * i);
         Square currentSquare = board.findSquare(currentPosition);
         if (currentSquare.isOccupied()) {
           skip = true;
@@ -69,7 +73,11 @@ public class Castling {
 
       // check that king will not be in check at any square it travels through (including end square)
       for (int i = 1; i < castlingSide.getKingToPosition() + 1; i++) {
-        int currentPosition = Board.calculateNewPosition(kingStartPosition, directionValue * i, 0);
+        int currentPosition = BoardPositioning.findPosition(kingStartPosition, 0, directionValue * i);
+        if (currentPosition == BoardPositioning.INVALID_POSITION) {
+          skip = true;
+          break;
+        }
         Board copy = board.copy();
         copy.move(kingStartPosition, currentPosition);
         if (new Check(currentPlayer, currentPosition, copy).isCheck()) {
@@ -83,7 +91,7 @@ public class Castling {
       }
 
       int kingEndPosition = 
-        Board.calculateNewPosition(kingStartPosition, directionValue * castlingSide.getKingToPosition(), 0);
+        BoardPositioning.findPosition(kingStartPosition, directionValue * castlingSide.getKingToPosition(), 0);
       positions.add(kingEndPosition);
 
     }

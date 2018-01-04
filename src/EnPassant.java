@@ -24,7 +24,7 @@ public class EnPassant {
     // check if opponent moved to adjacent square in previous move
     Move opponentPreviousMove = previousMoves.get(previousMoves.size() - 1);
     int opponentToPosition = opponentPreviousMove.getToPosition();
-    if (!Board.isAdjacent(fromPosition, opponentToPosition)) {
+    if (!BoardPositioning.isAdjacent(fromPosition, opponentToPosition)) {
       return positions;
     }
 
@@ -40,14 +40,17 @@ public class EnPassant {
 
     // check if opponent pawn moved two rows in previous move
     int opponentFromPosition = opponentPreviousMove.getFromPosition();
-    int rowsMoved = Math.abs(Board.findRow(opponentFromPosition) - Board.findRow(opponentToPosition));
+    int rowsMoved = Math.abs(BoardPositioning.findRow(opponentFromPosition) - BoardPositioning.findRow(opponentToPosition));
     if (rowsMoved < 2) {
       return positions;
     }
 
-    int toRow = (Board.findRow(opponentFromPosition) + Board.findRow(opponentToPosition)) / 2;
-    int toCol = Board.findCol(opponentToPosition);
-    int toPosition = Board.findPosition(toRow, toCol);
+    int toRow = (BoardPositioning.findRow(opponentFromPosition) + BoardPositioning.findRow(opponentToPosition)) / 2;
+    int toCol = BoardPositioning.findCol(opponentToPosition);
+    int toPosition = BoardPositioning.findPosition(toRow, toCol);
+    if (toPosition == BoardPositioning.INVALID_POSITION) {
+      return positions;
+    }
 
     positions.add(toPosition);
     return positions;
