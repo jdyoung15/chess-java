@@ -96,7 +96,21 @@ public class BoardPositioning {
   }
 
   private static int findPositionalOffset(BoardDirection boardDirection, int amount) {
-    return boardDirection.getValue() * amount; 
+    return findBoardDirectionMultiplier(boardDirection) * amount;
+  }
+
+  public static int findBoardDirectionMultiplier(BoardDirection boardDirection) {
+    switch (boardDirection) {
+      case UP:
+      case RIGHT:
+        return 1;
+      case DOWN:
+      case LEFT:
+        return -1;
+      case NONE:
+      default:
+        return 0;
+    }
   }
 
   public static int findCol(int position) {
