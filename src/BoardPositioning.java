@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class BoardPositioning {
 
@@ -9,6 +10,17 @@ public class BoardPositioning {
   public static final int ASCII_OFFSET = 65;
   public static final int RADIX = 10;
   public static final int INVALID_POSITION = -1;
+
+  public static Iterator<Integer> positionsIterator() {
+    List<Integer> positions = new ArrayList();
+    for (int row = 0; row < BoardPositioning.NUM_ROWS; row++) {
+      for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
+        int position = findPosition(row, col);
+        positions.add(position);
+      }
+    }
+    return positions.iterator();
+  }
 
   public static int findPosition(int fromPosition, MoveDirection moveDirection, int amount) {
     if (fromPosition == 47 && moveDirection.getVertical() == BoardDirection.UP && moveDirection.getHorizontal() == BoardDirection.NONE) {
@@ -88,11 +100,11 @@ public class BoardPositioning {
   }
 
   public static int findCol(int position) {
-    return position % 8;  
+    return position % NUM_COLS;  
   }
 
   public static int findRow(int position) {
-    return position / 8;  
+    return position / NUM_COLS;  
   }
 
   private static int findCol(char colCoord) {

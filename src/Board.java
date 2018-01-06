@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Board {
 
@@ -75,26 +76,30 @@ public class Board {
   public List<Integer> findOpponentPositions(Color currentPlayer) {
     List<Integer> positions = new ArrayList<Integer>();
     Color opponent = Color.findOpponent(currentPlayer);
-    int position = 0;
-    for (Square square : squares) {
+
+    Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
+    while (positionsIterator.hasNext()) {
+      int position = positionsIterator.next();
+      Square square = findSquare(position);
       if (square.isOccupied() && square.getPiece().getColor() == opponent) {
         positions.add(position); 
       }
-      position++;
     }
+
     return positions;
   }
 
   public int findKingPosition(Color currentPlayer) {
-    int position = 0;
-    for (Square square : squares) {
+    Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
+    while (positionsIterator.hasNext()) {
+      int position = positionsIterator.next();
+      Square square = findSquare(position);
       if (square.isOccupied()) {
         Piece piece = square.getPiece();
         if (piece.getPieceType() == PieceType.KING && piece.getColor() == currentPlayer) {
           return position;
         }
       }
-      position++;
     }
     return -1;
   }
@@ -136,7 +141,8 @@ public class Board {
       sb.append(String.format("%d  ", BoardPositioning.NUM_ROWS - row));
       // add string representations of squares
       for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
-        sb.append(squares.get(row * BoardPositioning.NUM_COLS + col).toString());
+        int position = BoardPositioning.findPosition(row, col);
+        sb.append(squares.get(position).toString());
         sb.append(" ");
       }
       sb.append("\n");
