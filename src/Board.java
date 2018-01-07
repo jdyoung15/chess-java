@@ -5,21 +5,11 @@ import java.util.Iterator;
 public class Board {
 
 
-  private static final PieceType[] NON_PAWN_PIECE_ORDER = {
-    PieceType.ROOK,
-    PieceType.KNIGHT,
-    PieceType.BISHOP,
-    PieceType.QUEEN,
-    PieceType.KING,
-    PieceType.BISHOP,
-    PieceType.KNIGHT,
-    PieceType.ROOK
-  };
-
   private List<Square> squares;
 
   public Board() {
     initializeSquares();
+    BoardPositioning.populateSquares(squares);
   }
 
   public Board(List<Square> squares) {
@@ -28,6 +18,10 @@ public class Board {
 
   private void initializeSquares() {
     squares = new ArrayList<Square>();
+
+    for (int i = 0; i < BoardPositioning.NUM_SQUARES; i++) {
+      squares.add(new Square());
+    }
 
     //int row = 0;
     //for (int col = 0; col < NUM_COLS; col++) {
@@ -55,22 +49,26 @@ public class Board {
     //  squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col])));
     //}
 
-    for (int i = 0; i < BoardPositioning.NUM_SQUARES; i++) {
-      squares.add(new Square());
-    }
-    Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
-    Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    Piece bishopWhite = new Piece(Color.WHITE, PieceType.QUEEN);
-    Piece pawnWhite = new Piece(Color.WHITE, PieceType.PAWN);
-    //Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
-    Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
-    squares.set(45, new Square(kingWhite));
-    squares.set(56, new Square(rookWhite));
-    //squares.set(63, new Square(rookWhite));
-    squares.set(39, new Square(bishopWhite));
-    squares.set(55, new Square(pawnWhite));
-    //squares.set(4, new Square(kingBlack));
-    squares.set(16, new Square(rookBlack));
+
+    // get iterator for white pawns
+    // get iterator for white non pawns
+    // get iterator for black pawns
+    // get iterator for black non pawns
+
+
+    //Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
+    //Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
+    //Piece bishopWhite = new Piece(Color.WHITE, PieceType.QUEEN);
+    //Piece pawnWhite = new Piece(Color.WHITE, PieceType.PAWN);
+    ////Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
+    //Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
+    //squares.set(45, new Square(kingWhite));
+    //squares.set(56, new Square(rookWhite));
+    ////squares.set(63, new Square(rookWhite));
+    //squares.set(39, new Square(bishopWhite));
+    //squares.set(55, new Square(pawnWhite));
+    ////squares.set(4, new Square(kingBlack));
+    //squares.set(16, new Square(rookBlack));
   }
 
   public List<Integer> findOpponentPositions(Color currentPlayer) {

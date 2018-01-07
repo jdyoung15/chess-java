@@ -11,10 +11,45 @@ public class BoardPositioning {
   public static final int RADIX = 10;
   public static final int INVALID_POSITION = -1;
 
+  private static final int NON_PAWN_BLACK_START_ROW = 0;
+  private static final int PAWN_BLACK_START_ROW = 1;
+  private static final int NON_PAWN_WHITE_START_ROW = 7;
+  private static final int PAWN_WHITE_START_ROW = 6;
+  private static final PieceType[] NON_PAWN_PIECE_ORDER = {
+    PieceType.ROOK,
+    PieceType.KNIGHT,
+    PieceType.BISHOP,
+    PieceType.QUEEN,
+    PieceType.KING,
+    PieceType.BISHOP,
+    PieceType.KNIGHT,
+    PieceType.ROOK
+  };
+
+  public static void populateSquares(List<Square> squares) {
+    for (int col = 0; col < NUM_COLS; col++) {
+      int position = findPosition(NON_PAWN_BLACK_START_ROW, col);
+      Piece piece = new Piece(Color.BLACK, NON_PAWN_PIECE_ORDER[col]);
+      squares.get(position).setPiece(piece);
+
+      position = findPosition(PAWN_BLACK_START_ROW, col);
+      piece = new Piece(Color.BLACK, PieceType.PAWN);
+      squares.get(position).setPiece(piece);
+
+      position = findPosition(NON_PAWN_WHITE_START_ROW, col);
+      piece = new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col]);
+      squares.get(position).setPiece(piece);
+
+      position = findPosition(PAWN_WHITE_START_ROW, col);
+      piece = new Piece(Color.WHITE, PieceType.PAWN);
+      squares.get(position).setPiece(piece);
+    }
+  }
+
   public static Iterator<Integer> positionsIterator() {
     List<Integer> positions = new ArrayList();
-    for (int row = 0; row < BoardPositioning.NUM_ROWS; row++) {
-      for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
+    for (int row = 0; row < NUM_ROWS; row++) {
+      for (int col = 0; col < NUM_COLS; col++) {
         int position = findPosition(row, col);
         positions.add(position);
       }
