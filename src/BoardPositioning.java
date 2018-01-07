@@ -12,9 +12,9 @@ public class BoardPositioning {
   public static final int INVALID_POSITION = -1;
 
   private static final int NON_PAWN_BLACK_START_ROW = 0;
-  private static final int PAWN_BLACK_START_ROW = 1;
+  public static final int PAWN_BLACK_START_ROW = 1;
   private static final int NON_PAWN_WHITE_START_ROW = 7;
-  private static final int PAWN_WHITE_START_ROW = 6;
+  public static final int PAWN_WHITE_START_ROW = 6;
   private static final PieceType[] NON_PAWN_PIECE_ORDER = {
     PieceType.ROOK,
     PieceType.KNIGHT,
@@ -58,12 +58,12 @@ public class BoardPositioning {
   }
 
   public static int findPosition(int fromPosition, MoveDirection moveDirection, int amount) {
-    if (fromPosition == 47 && moveDirection.getVertical() == BoardDirection.UP && moveDirection.getHorizontal() == BoardDirection.NONE) {
-      System.out.println(String.format("vertical offset %d horizontal offset %d amount %d", 
-        findPositionalOffset(moveDirection.getVertical(), amount),
-        findPositionalOffset(moveDirection.getHorizontal(), amount),
-        amount));
-    }
+    //if (fromPosition == 47 && moveDirection.getVertical() == BoardDirection.UP && moveDirection.getHorizontal() == BoardDirection.NONE) {
+    //  System.out.println(String.format("vertical offset %d horizontal offset %d amount %d", 
+    //    findPositionalOffset(moveDirection.getVertical(), amount),
+    //    findPositionalOffset(moveDirection.getHorizontal(), amount),
+    //    amount));
+    //}
     return findPosition(
       fromPosition, 
       findPositionalOffset(moveDirection.getVertical(), amount),
@@ -136,10 +136,10 @@ public class BoardPositioning {
 
   public static int findBoardDirectionMultiplier(BoardDirection boardDirection) {
     switch (boardDirection) {
-      case UP:
+      case DOWN:
       case RIGHT:
         return 1;
-      case DOWN:
+      case UP:
       case LEFT:
         return -1;
       case NONE:

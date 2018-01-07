@@ -29,13 +29,17 @@ public class PawnPossibleMoves extends PiecePossibleMoves {
         new CheckSquareIsAttackable()).positions());
 
     MoveDirection pawnMoveDirection = new MoveDirection(pawnDirection, BoardDirection.NONE);
+    int pawnStartRow = 
+      color == Color.WHITE ? BoardPositioning.PAWN_WHITE_START_ROW : BoardPositioning.PAWN_BLACK_START_ROW;
+    int numSquaresCanAdvance = 
+      BoardPositioning.findRow(fromPosition) == pawnStartRow ? 2 : 1;
     positions.addAll(
       new DirectionBasedPiecePossibleMoves(
         Arrays.asList(pawnMoveDirection), 
         board, 
         fromPosition, 
         color, 
-        2,
+        numSquaresCanAdvance,
         new CheckSquareIsOccupiable()).positions());
 
     return positions;

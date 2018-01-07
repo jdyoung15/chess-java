@@ -25,10 +25,10 @@ public class Game {
   }
 
   private void executeTurn() {
+    System.out.println(board.toString());
     Scanner scanner = new Scanner(System.in);     
     boolean validTurn = false;
     while (!validTurn) {
-      System.out.println(board.toString());
       System.out.println(String.format("Turn: %s", currentPlayer.name().toLowerCase()));
 
       System.out.println("Select square to move from: ");
@@ -37,7 +37,7 @@ public class Game {
       Square fromSquare = board.findSquare(fromPosition);
 
       if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
-        System.out.println("Invalid move, try again");
+        System.out.println("\nINVALID MOVE, TRY AGAIN\n");
         continue;
       }
 
@@ -80,7 +80,7 @@ public class Game {
         previousMoves.add(new Move(fromPosition, toPosition));
       }
       else {
-        System.out.println("Invalid move, try again");
+        System.out.println("\nINVALID MOVE, TRY AGAIN\n");
       }
     }
   }
