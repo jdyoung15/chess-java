@@ -10,6 +10,16 @@ public class Board {
   public Board() {
     initializeSquares();
     BoardPositioning.populateSquares(squares);
+    squares.get(61).clear();
+    squares.get(62).clear();
+    squares.get(57).clear();
+    squares.get(58).clear();
+    squares.get(59).clear();
+    squares.get(1).clear();
+    squares.get(2).clear();
+    squares.get(3).clear();
+    squares.get(5).clear();
+    squares.get(6).clear();
   }
 
   public Board(List<Square> squares) {

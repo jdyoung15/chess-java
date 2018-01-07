@@ -67,11 +67,16 @@ public class Game {
           && new Castling(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) 
         {
           CastlingSide castlingSide = CastlingSide.fromKingMove(fromPosition, toPosition);
+          System.out.println(castlingSide);
 
-          int rookFromPosition = 
-            BoardPositioning.findPosition(fromPosition, castlingSide.getRookFromPosition() * castlingSide.getDirectionValue(), 0);
-          int rookToPosition = 
-            BoardPositioning.findPosition(fromPosition, castlingSide.getRookToPosition() * castlingSide.getDirectionValue(), 0);
+          int rookFromPosition = BoardPositioning.findPosition(
+            fromPosition, 
+            castlingSide.getMoveDirection(), 
+            castlingSide.getRookFromPosition());
+          int rookToPosition = BoardPositioning.findPosition(
+            fromPosition, 
+            castlingSide.getMoveDirection(), 
+            castlingSide.getRookToPosition());
 
           board.move(rookFromPosition, rookToPosition);
         }

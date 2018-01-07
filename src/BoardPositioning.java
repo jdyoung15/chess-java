@@ -26,6 +26,8 @@ public class BoardPositioning {
     PieceType.ROOK
   };
 
+  private static final int KING_START_COL = 4;
+
   public static void populateSquares(List<Square> squares) {
     for (int col = 0; col < NUM_COLS; col++) {
       int position = findPosition(NON_PAWN_BLACK_START_ROW, col);
@@ -45,6 +47,12 @@ public class BoardPositioning {
       squares.get(position).setPiece(piece);
     }
   }
+
+  public static int findKingStartPosition(Color currentPlayer) {
+    int row = currentPlayer == Color.WHITE ? NON_PAWN_WHITE_START_ROW : NON_PAWN_BLACK_START_ROW;
+    return findPosition(row, KING_START_COL);
+  }
+
 
   public static Iterator<Integer> positionsIterator() {
     List<Integer> positions = new ArrayList();
@@ -68,6 +76,25 @@ public class BoardPositioning {
       fromPosition, 
       findPositionalOffset(moveDirection.getVertical(), amount),
       findPositionalOffset(moveDirection.getHorizontal(), amount));
+  }
+
+  public static int findPosition(int fromPosition, BoardDirection boardDirection, int amount) {
+    switch (boardDirection) {
+      case UP:
+      case DOWN:
+        return findPosition(
+          fromPosition, 
+          findPositionalOffset(boardDirection, amount),
+          0);
+      case LEFT:
+      case RIGHT:
+        return findPosition(
+          fromPosition, 
+          0,
+          findPositionalOffset(boardDirection, amount));
+      default:
+        return fromPosition;
+    }
   }
 
   public static int findPosition(int fromPosition, MoveCoordinates moveCoordinates) {

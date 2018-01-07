@@ -1,25 +1,25 @@
 public enum CastlingSide {
 
-  KINGSIDE(1, 2, 2, 3, 1),
-  QUEENSIDE(-1, 2, 3, 4, 1);
+  KINGSIDE(new MoveDirection(BoardDirection.NONE, BoardDirection.RIGHT), 2, 2, 3, 1),
+  QUEENSIDE(new MoveDirection(BoardDirection.NONE, BoardDirection.LEFT), 2, 3, 4, 1);
 
-  private int directionValue;
+  private MoveDirection moveDirection;
   private int kingToPosition;
   private int numSquaresBetween;
   private int rookFromPosition;
   private int rookToPosition;
 
-  private CastlingSide(int directionValue, int kingToPosition, int numSquaresBetween, int rookFromPosition, int rookToPosition) 
+  private CastlingSide(MoveDirection moveDirection, int kingToPosition, int numSquaresBetween, int rookFromPosition, int rookToPosition) 
   {
-    this.directionValue = directionValue;
+    this.moveDirection = moveDirection;
     this.kingToPosition = kingToPosition;
     this.numSquaresBetween = numSquaresBetween;
     this.rookFromPosition = rookFromPosition;
     this.rookToPosition = rookToPosition;
   }
 
-  public int getDirectionValue() {
-    return directionValue;    
+  public MoveDirection getMoveDirection() {
+    return moveDirection;    
   }
 
   public int getKingToPosition() {
@@ -41,7 +41,7 @@ public enum CastlingSide {
   public static CastlingSide fromKingMove(int fromPosition, int toPosition) {
     for (CastlingSide c : CastlingSide.values()) {
       int expectedPosition = 
-        BoardPositioning.findPosition(fromPosition, c.getKingToPosition() * c.getDirectionValue(), 0);
+        BoardPositioning.findPosition(fromPosition, c.getMoveDirection(), c.getKingToPosition());
       if (toPosition == expectedPosition) {
         return c;
       }
