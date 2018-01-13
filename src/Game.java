@@ -32,9 +32,14 @@ public class Game {
       populateValidMovesByPosition();
     }
     // reached here because no valid moves for current player
-    // if king of current player is checked (checkmate) 
-    //   announce victor (opponent of current player)
-    // else announce stalemate
+    int kingPosition = board.findKingPosition(currentPlayer);
+    if (new Check(currentPlayer, kingPosition, board).isCheck()) {
+      Color victor = Color.findOpponent(currentPlayer);
+      System.out.println(String.format("Checkmate! %s wins.", victor.name().toLowerCase()));
+    }
+    else {
+      System.out.println("Stalemate.");
+    }
   }
 
   private void executeTurn() {
