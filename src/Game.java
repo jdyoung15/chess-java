@@ -8,11 +8,13 @@ public class Game {
   private Color currentPlayer;
   private List<Move> previousMoves;
 
-  public void play() {
+  public Game() {
     board = new Board();
     currentPlayer = Color.WHITE;
     previousMoves = new ArrayList<Move>();
+  }
 
+  public void play() {
     // while current player has valid move:
     //   turn
     while (true) {
