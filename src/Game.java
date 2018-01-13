@@ -20,17 +20,14 @@ public class Game {
   }
 
   public void play() {
-    // populate validMoves for currentPlayer
     populateValidMovesByPosition();
-    // while current player has valid move:
-    //   turn
-    while (!validMovesByPosition.isEmpty()) { // validmoves is not empty
+    while (!validMovesByPosition.isEmpty()) {
       executeTurn();
       currentPlayer = Color.findOpponent(currentPlayer);
-      // validMoves = new valid moves for new current player
       validMovesByPosition.clear();
       populateValidMovesByPosition();
     }
+
     // reached here because no valid moves for current player
     int kingPosition = board.findKingPosition(currentPlayer);
     if (new Check(currentPlayer, kingPosition, board).isCheck()) {
@@ -52,22 +49,6 @@ public class Game {
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
       int fromPosition = BoardPositioning.findPosition(fromCoords);
-      //Square fromSquare = board.findSquare(fromPosition);
-
-      //if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
-      //  System.out.println("\nINVALID MOVE, TRY AGAIN\n");
-      //  continue;
-      //}
-
-      //Piece piece = fromSquare.getPiece();
-
-      //List<Integer> possibleMoves = 
-      //  new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
-      //System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
-
-      //List<Integer> validMoves = 
-      //  new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
-      //System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
 
       if (!validMovesByPosition.containsKey(fromPosition)) {
         System.out.println("\nNO VALID MOVES FROM THIS POSITION, TRY AGAIN\n");
