@@ -1,26 +1,37 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Game {
   
   private Board board;
   private Color currentPlayer;
   private List<Move> previousMoves;
+  private Map<Integer, List<Integer>> validMovesByPosition;
 
   public Game() {
     board = new Board();
     currentPlayer = Color.WHITE;
     previousMoves = new ArrayList<Move>();
+    validMovesByPosition = new HashMap<Integer, List<Integer>>();
   }
 
   public void play() {
+    // populate validMoves for currentPlayer
+    populateValidMovesByPosition();
     // while current player has valid move:
     //   turn
-    while (true) {
+    while (!validMovesByPosition.isEmpty()) { // validmoves is not empty
       executeTurn();
       currentPlayer = Color.findOpponent(currentPlayer);
+      // validMoves = new valid moves for new current player
+      validMovesByPosition.clear();
+      populateValidMovesByPosition();
     }
+    // reached here because no valid moves for current player
     // if king of current player is checked (checkmate) 
     //   announce victor (opponent of current player)
     // else announce stalemate
@@ -36,28 +47,34 @@ public class Game {
       System.out.println("Select square to move from: ");
       String fromCoords = scanner.next();
       int fromPosition = BoardPositioning.findPosition(fromCoords);
-      Square fromSquare = board.findSquare(fromPosition);
+      //Square fromSquare = board.findSquare(fromPosition);
 
-      if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
-        System.out.println("\nINVALID MOVE, TRY AGAIN\n");
+      //if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
+      //  System.out.println("\nINVALID MOVE, TRY AGAIN\n");
+      //  continue;
+      //}
+
+      //Piece piece = fromSquare.getPiece();
+
+      //List<Integer> possibleMoves = 
+      //  new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
+      //System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
+
+      //List<Integer> validMoves = 
+      //  new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
+      //System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
+
+      if (!validMovesByPosition.containsKey(fromPosition)) {
+        System.out.println("\nNO VALID MOVES FROM THIS POSITION, TRY AGAIN\n");
         continue;
       }
-
-      Piece piece = fromSquare.getPiece();
-
-      List<Integer> possibleMoves = 
-        new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
-      System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
-
-      List<Integer> validMoves = 
-        new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
-      System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
       String toCoords = scanner.next();
       int toPosition = BoardPositioning.findPosition(toCoords);
        
-      if (validMoves.contains(toPosition)){
+      if (validMovesByPosition.get(fromPosition).contains(toPosition)) {
+        Piece piece = board.findSquare(fromPosition).getPiece();
         if (piece.getPieceType() == PieceType.PAWN
           && new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) 
         {
@@ -90,6 +107,34 @@ public class Game {
         System.out.println("\nINVALID MOVE, TRY AGAIN\n");
       }
     }
+  }
+
+  private void populateValidMovesByPosition() {
+    Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
+    while (positionsIterator.hasNext()) {
+      int fromPosition = positionsIterator.next();
+      Square fromSquare = board.findSquare(fromPosition);
+      if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
+        continue;
+      }
+
+      Piece piece = fromSquare.getPiece();
+
+      List<Integer> possibleMoves = 
+        new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
+      //System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
+
+      List<Integer> validMoves = new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
+      //System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
+
+      if (validMoves.isEmpty()) {
+        continue;
+      }
+
+      validMovesByPosition.put(fromPosition, validMoves);
+    }
+
+    System.out.println(validMovesByPosition);
   }
 
 }
