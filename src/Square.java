@@ -14,6 +14,10 @@ public class Square {
     return piece != null;
   }
 
+  public boolean containsOpponent(Color currentPlayer) {
+    return isOccupied() && piece.getColor() != currentPlayer;  
+  }
+
   public Piece getPiece() {
     return piece;
   }

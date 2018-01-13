@@ -89,7 +89,7 @@ public class Board {
     while (positionsIterator.hasNext()) {
       int position = positionsIterator.next();
       Square square = findSquare(position);
-      if (square.isOccupied() && square.getPiece().getColor() == opponent) {
+      if (square.containsOpponent(currentPlayer)) {
         positions.add(position); 
       }
     }

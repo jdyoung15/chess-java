@@ -36,7 +36,7 @@ public class Castling {
     }
 
     // check that king is not currently in check
-    if (new Check(currentPlayer, kingStartPosition, board).isCheck()) {
+    if (new Check(currentPlayer, board).isCheck()) {
       return positions;
     }
 
@@ -80,7 +80,7 @@ public class Castling {
         }
         Board copy = board.copy();
         copy.move(kingStartPosition, currentPosition);
-        if (new Check(currentPlayer, currentPosition, copy).isCheck()) {
+        if (new Check(currentPlayer, copy).isCheck()) {
           skip = true;
           break;
         }

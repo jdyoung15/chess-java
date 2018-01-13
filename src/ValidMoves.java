@@ -21,7 +21,7 @@ public class ValidMoves {
     for (int toPosition : toPositions) {
       Board copy = board.copy();  
       copy.move(fromPosition, toPosition);
-      Check check = new Check(currentPlayer, copy.findKingPosition(currentPlayer), copy);
+      Check check = new Check(currentPlayer, copy);
       if (!check.isCheck()) {
         validPositions.add(toPosition);
       }
