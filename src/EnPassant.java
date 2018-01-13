@@ -21,6 +21,14 @@ public class EnPassant {
       return positions;
     }
 
+    Square fromSquare = board.findSquare(fromPosition);
+    if (!fromSquare.isOccupied() 
+      || fromSquare.getPiece().getColor() != currentPlayer
+      || fromSquare.getPiece().getPieceType() != PieceType.PAWN) 
+    {
+      return positions;
+    }
+
     // check if opponent moved to adjacent square in previous move
     Move opponentPreviousMove = previousMoves.get(previousMoves.size() - 1);
     int opponentToPosition = opponentPreviousMove.getToPosition();

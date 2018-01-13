@@ -42,8 +42,8 @@ public class Game {
   private void executeTurn() {
     System.out.println(board.toString());
     Scanner scanner = new Scanner(System.in);     
-    boolean validTurn = false;
-    while (!validTurn) {
+
+    while (true) {
       System.out.println(String.format("Turn: %s", currentPlayer.name().toLowerCase()));
 
       System.out.println("Select square to move from: ");
@@ -59,40 +59,44 @@ public class Game {
       String toCoords = scanner.next();
       int toPosition = BoardPositioning.findPosition(toCoords);
        
-      if (validMovesByPosition.get(fromPosition).contains(toPosition)) {
-        Piece piece = board.findSquare(fromPosition).getPiece();
-        if (piece.getPieceType() == PieceType.PAWN
-          && new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) 
-        {
-          int victimPawnPosition = BoardPositioning.findPosition(BoardPositioning.findRow(fromPosition), BoardPositioning.findCol(toPosition));
-          board.findSquare(victimPawnPosition).clear();
-        }
-
-        if (piece.getPieceType() == PieceType.KING
-          && new Castling(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) 
-        {
-          CastlingSide castlingSide = CastlingSide.fromKingMove(fromPosition, toPosition);
-          System.out.println(castlingSide);
-
-          int rookFromPosition = BoardPositioning.findPosition(
-            fromPosition, 
-            castlingSide.getMoveDirection(), 
-            castlingSide.getRookFromPosition());
-          int rookToPosition = BoardPositioning.findPosition(
-            fromPosition, 
-            castlingSide.getMoveDirection(), 
-            castlingSide.getRookToPosition());
-
-          board.move(rookFromPosition, rookToPosition);
-        }
-        board.move(fromPosition, toPosition);
-        validTurn = true;
-        previousMoves.add(new Move(fromPosition, toPosition));
-      }
-      else {
+      if (!validMovesByPosition.get(fromPosition).contains(toPosition)) {
         System.out.println("\nINVALID MOVE, TRY AGAIN\n");
+        continue;
       }
+
+      handleNonStandardMoves(fromPosition, toPosition);
+
+      board.move(fromPosition, toPosition);
+      previousMoves.add(new Move(fromPosition, toPosition));
+
+      break;
     }
+  }
+
+  private void handleNonStandardMoves(int fromPosition, int toPosition) {
+    Piece piece = board.findSquare(fromPosition).getPiece();
+
+    if (new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) {
+      int victimPawnPosition = 
+        BoardPositioning.findPosition(BoardPositioning.findRow(fromPosition), BoardPositioning.findCol(toPosition));
+      board.findSquare(victimPawnPosition).clear();
+    }
+
+    if (new Castling(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) {
+      CastlingSide castlingSide = CastlingSide.fromKingMove(fromPosition, toPosition);
+
+      int rookFromPosition = BoardPositioning.findPosition(
+        fromPosition, 
+        castlingSide.getMoveDirection(), 
+        castlingSide.getRookFromPosition());
+      int rookToPosition = BoardPositioning.findPosition(
+        fromPosition, 
+        castlingSide.getMoveDirection(), 
+        castlingSide.getRookToPosition());
+
+      board.move(rookFromPosition, rookToPosition);
+    }
+
   }
 
   private void populateValidMovesByPosition() {
