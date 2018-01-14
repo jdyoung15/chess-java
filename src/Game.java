@@ -109,21 +109,21 @@ public class Game {
 
       Piece piece = fromSquare.getPiece();
 
-      List<Integer> possibleMoves = 
-        new PossibleMoves(board, fromPosition, piece.getPieceType(), piece.getColor(), previousMoves).positions();
+      BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
+      //List<Integer> possibleMoves = boardPiece.findMoves(board);
       //System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
 
-      List<Integer> validMoves = new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
+      //List<Integer> validMoves = new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
       //System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
 
+      List<Integer> validMoves = boardPiece.findMoves(board);
+      System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
       if (validMoves.isEmpty()) {
         continue;
       }
 
       validMovesByPosition.put(fromPosition, validMoves);
     }
-
-    System.out.println(validMovesByPosition);
   }
 
 }
