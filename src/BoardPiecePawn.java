@@ -23,7 +23,7 @@ public class BoardPiecePawn extends BoardPiece {
 
     BoardPiece boardPieceCoordinatesBased = 
       new BoardPieceCoordinatesBased(piece, position, attackCoordinates, new CheckSquareIsAttackable());
-    positions.addAll(boardPieceCoordinatesBased.findMoves(board));
+    positions.addAll(boardPieceCoordinatesBased.findPossibleMoves(board));
 
     MoveDirection pawnMoveDirection = new MoveDirection(pawnDirection, BoardDirection.NONE);
     List<MoveDirection> moveDirections = Arrays.asList(pawnMoveDirection);
@@ -34,7 +34,7 @@ public class BoardPiecePawn extends BoardPiece {
 
     BoardPiece boardPieceDirectionBased = 
       new BoardPieceDirectionBased(piece, position, moveDirections, numSquaresCanAdvance, new CheckSquareIsOccupiable());
-    positions.addAll(boardPieceDirectionBased.findMoves(board));
+    positions.addAll(boardPieceDirectionBased.findPossibleMoves(board));
 
     return positions;
 

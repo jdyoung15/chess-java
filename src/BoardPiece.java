@@ -19,6 +19,17 @@ public abstract class BoardPiece {
 
   public abstract List<Integer> findMoves(Board board);
 
+  public abstract List<Integer> findPossibleMoves(Board board);
+
+  public boolean isChecking(Board board) {
+    List<Integer> possibleMoves = findPossibleMoves(board);
+
+    Color opponent = Color.findOpponent(piece.getColor());
+    int opponentKingPosition = board.findKingPosition(opponent);
+
+    return possibleMoves.contains(opponentKingPosition);
+  }
+
   protected List<Integer> findLegalMoves(int fromPosition, List<Integer> possibleMoves, Board board) {
     List<Integer> validPositions = new ArrayList<Integer>();
     for (int toPosition : possibleMoves) {
@@ -32,8 +43,7 @@ public abstract class BoardPiece {
   private boolean isMoveLegal(int fromPosition, int toPosition, Board board) {
     Board copy = board.copy();  
     copy.move(fromPosition, toPosition);
-    Check check = new Check(piece.getColor(), copy);
-    return !check.isCheck();
+    return !copy.isChecked(piece.getColor());
   }
 
 }

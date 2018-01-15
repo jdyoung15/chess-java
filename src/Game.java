@@ -29,7 +29,7 @@ public class Game {
     }
 
     // reached here because no valid moves for current player
-    if (new Check(currentPlayer, board).isCheck()) {
+    if (board.isChecked(currentPlayer)) {
       Color victor = Color.findOpponent(currentPlayer);
       System.out.println(String.format("Checkmate! %s wins.", victor.name().toLowerCase()));
     }

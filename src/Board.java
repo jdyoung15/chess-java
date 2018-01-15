@@ -81,6 +81,19 @@ public class Board {
     //squares.set(16, new Square(rookBlack));
   }
 
+  public boolean isChecked(Color currentPlayer) {
+    List<Integer> opponentPositions = findOpponentPositions(currentPlayer);
+    for (int opponentPosition : opponentPositions) {
+      Square square = findSquare(opponentPosition);
+      Piece opponentPiece = square.getPiece();
+      BoardPiece opponentBoardPiece = BoardPieceFactory.getBoardPiece(opponentPiece, opponentPosition);
+      if (opponentBoardPiece.isChecking(this)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public List<Integer> findOpponentPositions(Color currentPlayer) {
     List<Integer> positions = new ArrayList<Integer>();
     Color opponent = Color.findOpponent(currentPlayer);

@@ -56,4 +56,10 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
     return positions;
   }
 
+  //public boolean isChecking(Board board) {
+  //  // find possible moves
+  //  // find opponent king position
+  //  // check if opp king position in possible moves
+  //}
+
 }
