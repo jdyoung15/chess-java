@@ -19,6 +19,10 @@ public abstract class BoardPiece {
 
   public abstract List<Integer> findMoves(Board board);
 
+  public List<Integer> findMoves(Board board, List<Move> previousMoves) {
+    return findMoves(board);
+  }
+
   public abstract List<Integer> findPossibleMoves(Board board);
 
   public boolean isChecking(Board board) {

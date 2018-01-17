@@ -64,6 +64,7 @@ public class Game {
       }
 
       handleNonStandardMoves(fromPosition, toPosition);
+      handleIfCastlingMove(fromPosition, toPosition);
 
       board.move(fromPosition, toPosition);
       previousMoves.add(new Move(fromPosition, toPosition));
@@ -73,29 +74,21 @@ public class Game {
   }
 
   private void handleNonStandardMoves(int fromPosition, int toPosition) {
-    Piece piece = board.findSquare(fromPosition).getPiece();
-
     if (new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) {
       int victimPawnPosition = 
         BoardPositioning.findPosition(BoardPositioning.findRow(fromPosition), BoardPositioning.findCol(toPosition));
       board.findSquare(victimPawnPosition).clear();
     }
+  }
 
-    if (new Castling(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) {
-      CastlingSide castlingSide = CastlingSide.fromKingMove(fromPosition, toPosition);
-
-      int rookFromPosition = BoardPositioning.findPosition(
-        fromPosition, 
-        castlingSide.getMoveDirection(), 
-        castlingSide.getRookFromPosition());
-      int rookToPosition = BoardPositioning.findPosition(
-        fromPosition, 
-        castlingSide.getMoveDirection(), 
-        castlingSide.getRookToPosition());
-
-      board.move(rookFromPosition, rookToPosition);
+  private void handleIfCastlingMove(int fromPosition, int toPosition) {
+    for (CastlingSide cs : CastlingSide.values()) {
+      if (cs.canCastle(fromPosition, currentPlayer, board, previousMoves)
+        && cs.findKingToPosition(fromPosition) == toPosition) 
+      {
+        board.move(cs.findRookFromPosition(fromPosition), cs.findRookToPosition(fromPosition));
+      }
     }
-
   }
 
   private void populateValidMovesByPosition() {
@@ -110,13 +103,8 @@ public class Game {
       Piece piece = fromSquare.getPiece();
 
       BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
-      //List<Integer> possibleMoves = boardPiece.findMoves(board);
-      //System.out.println(String.format("Possible moves: %s", BoardPositioning.findCoords(possibleMoves)));
 
-      //List<Integer> validMoves = new ValidMoves(fromPosition, possibleMoves, board, piece.getColor()).positions();
-      //System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
-
-      List<Integer> validMoves = boardPiece.findMoves(board);
+      List<Integer> validMoves = boardPiece.findMoves(board, previousMoves);
       System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
       if (validMoves.isEmpty()) {
         continue;
