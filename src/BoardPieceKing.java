@@ -28,13 +28,11 @@ public class BoardPieceKing extends BoardPieceCoordinatesBased {
 
   private List<Integer> findCastlingMoves(Board board, List<Move> previousMoves) {
     List<Integer> positions = new ArrayList<Integer>();
-
     for (CastlingSide cs : CastlingSide.values()) {
       if (cs.canCastle(position, piece.getColor(), board, previousMoves)) {
         positions.add(cs.findKingToPosition(position));
       }
     }
-
     return positions;
   }
 

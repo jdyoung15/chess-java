@@ -7,30 +7,35 @@ public enum CastlingSide {
   QUEENSIDE(new MoveDirection(BoardDirection.NONE, BoardDirection.LEFT), 2, 3, 4, 1);
 
   private MoveDirection moveDirection;
-  private int kingToPosition;
+  private int kingToPositionOffset;
   private int numSquaresBetween;
-  private int rookFromPosition;
-  private int rookToPosition;
+  private int rookFromPositionOffset;
+  private int rookToPositionOffset;
 
-  private CastlingSide(MoveDirection moveDirection, int kingToPosition, int numSquaresBetween, int rookFromPosition, int rookToPosition) 
+  private CastlingSide(
+    MoveDirection moveDirection, 
+    int kingToPositionOffset, 
+    int numSquaresBetween, 
+    int rookFromPositionOffset, 
+    int rookToPositionOffset) 
   {
     this.moveDirection = moveDirection;
-    this.kingToPosition = kingToPosition;
+    this.kingToPositionOffset = kingToPositionOffset;
     this.numSquaresBetween = numSquaresBetween;
-    this.rookFromPosition = rookFromPosition;
-    this.rookToPosition = rookToPosition;
+    this.rookFromPositionOffset = rookFromPositionOffset;
+    this.rookToPositionOffset = rookToPositionOffset;
   }
 
   public int findKingToPosition(int kingStartPosition) {
-    return BoardPositioning.findPosition(kingStartPosition, moveDirection, kingToPosition);
+    return BoardPositioning.findPosition(kingStartPosition, moveDirection, kingToPositionOffset);
   }
 
   public int findRookFromPosition(int kingStartPosition) {
-    return BoardPositioning.findPosition(kingStartPosition, moveDirection, rookFromPosition);
+    return BoardPositioning.findPosition(kingStartPosition, moveDirection, rookFromPositionOffset);
   }
 
   public int findRookToPosition(int kingStartPosition) {
-    return BoardPositioning.findPosition(kingStartPosition, moveDirection, rookToPosition);
+    return BoardPositioning.findPosition(kingStartPosition, moveDirection, rookToPositionOffset);
   }
 
   public boolean canCastle(int kingFromPosition, Color currentPlayer, Board board, List<Move> previousMoves) {
@@ -78,7 +83,7 @@ public enum CastlingSide {
     }
 
     // check that king will not be in check at any square it travels through (including end square)
-    for (int i = 1; i < kingToPosition + 1; i++) {
+    for (int i = 1; i < kingToPositionOffset + 1; i++) {
       int currentPosition = BoardPositioning.findPosition(kingStartPosition, moveDirection, i);
       if (currentPosition == BoardPositioning.INVALID_POSITION) {
         return false;
