@@ -28,11 +28,6 @@ public class BoardPieceDirectionBased extends BoardPiece {
     this.limitPerDirection = limitPerDirection;
   }
 
-  public List<Integer> findMoves(Board board) {
-    List<Integer> possibleMoves = findPossibleMoves(board);
-    return findLegalMoves(position, possibleMoves, board);
-  }
-
   public List<Integer> findPossibleMoves(Board board) {
     int fromPosition = position;
     List<Integer> positions = new ArrayList<Integer>();

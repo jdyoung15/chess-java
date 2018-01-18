@@ -24,11 +24,6 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
     this.moveCoordinatesList = moveCoordinatesList;
   }
 
-  public List<Integer> findMoves(Board board) {
-    List<Integer> possibleMoves = findPossibleMoves(board);
-    return findLegalMoves(position, possibleMoves, board);
-  }
-
   public List<Integer> findPossibleMoves(Board board) {
     // find square positions at coordinates
     // for each square position
@@ -55,11 +50,5 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
     }
     return positions;
   }
-
-  //public boolean isChecking(Board board) {
-  //  // find possible moves
-  //  // find opponent king position
-  //  // check if opp king position in possible moves
-  //}
 
 }

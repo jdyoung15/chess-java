@@ -8,13 +8,9 @@ public class BoardPiecePawn extends BoardPiece {
     super(new Piece(color, PieceType.PAWN), position);
   }
 
-  public List<Integer> findMoves(Board board) {
-    // stub method -- use findMoves(Board board, List<Move> previousMoves)
-    return null;
-  }
-
   public List<Integer> findMoves(Board board, List<Move> previousMoves) {
-    List<Integer> possibleMoves = findPossibleMoves(board);
+    List<Integer> possibleMoves = new ArrayList<Integer>();
+    possibleMoves.addAll(findPossibleMoves(board));
     possibleMoves.addAll(findEnPassantMoves(board, previousMoves));
     return findLegalMoves(position, possibleMoves, board);
   }

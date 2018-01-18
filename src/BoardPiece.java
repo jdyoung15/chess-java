@@ -17,7 +17,10 @@ public abstract class BoardPiece {
     this.canMoveHere = canMoveHere;
   }
 
-  public abstract List<Integer> findMoves(Board board);
+  public List<Integer> findMoves(Board board) {
+    List<Integer> possibleMoves = findPossibleMoves(board);
+    return findLegalMoves(position, possibleMoves, board);
+  }
 
   public List<Integer> findMoves(Board board, List<Move> previousMoves) {
     return findMoves(board);
