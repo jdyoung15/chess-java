@@ -9,7 +9,13 @@ public class BoardPiecePawn extends BoardPiece {
   }
 
   public List<Integer> findMoves(Board board) {
+    // stub method -- use findMoves(Board board, List<Move> previousMoves)
+    return null;
+  }
+
+  public List<Integer> findMoves(Board board, List<Move> previousMoves) {
     List<Integer> possibleMoves = findPossibleMoves(board);
+    possibleMoves.addAll(findEnPassantMoves(board, previousMoves));
     return findLegalMoves(position, possibleMoves, board);
   }
 
@@ -37,7 +43,16 @@ public class BoardPiecePawn extends BoardPiece {
     positions.addAll(boardPieceDirectionBased.findPossibleMoves(board));
 
     return positions;
+  }
 
+  public List<Integer> findEnPassantMoves(Board board, List<Move> previousMoves) {
+    List<Integer> positions = new ArrayList<Integer>();
+    for (EnPassantDirection epd : EnPassantDirection.values()) {
+      if (epd.canEnPassant(position, piece.getColor(), board, previousMoves)) {
+        positions.add(epd.findAttackingPawnToPosition(position, piece.getColor()));
+      }
+    }
+    return positions;
   }
 
 }

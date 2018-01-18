@@ -63,7 +63,7 @@ public class Game {
         continue;
       }
 
-      handleNonStandardMoves(fromPosition, toPosition);
+      handleIfEnPassantMove(fromPosition, toPosition);
       handleIfCastlingMove(fromPosition, toPosition);
 
       board.move(fromPosition, toPosition);
@@ -73,11 +73,13 @@ public class Game {
     }
   }
 
-  private void handleNonStandardMoves(int fromPosition, int toPosition) {
-    if (new EnPassant(fromPosition, board, currentPlayer, previousMoves).positions().contains(toPosition)) {
-      int victimPawnPosition = 
-        BoardPositioning.findPosition(BoardPositioning.findRow(fromPosition), BoardPositioning.findCol(toPosition));
-      board.findSquare(victimPawnPosition).clear();
+  private void handleIfEnPassantMove(int fromPosition, int toPosition) {
+    for (EnPassantDirection epd : EnPassantDirection.values()) {
+      if (epd.canEnPassant(fromPosition, currentPlayer, board, previousMoves)
+        && epd.findAttackingPawnToPosition(fromPosition, currentPlayer) == toPosition) 
+      {
+        board.findSquare(epd.findVictimPawnToPosition(fromPosition, currentPlayer)).clear();
+      }
     }
   }
 
