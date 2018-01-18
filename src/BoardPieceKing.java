@@ -23,7 +23,7 @@ public class BoardPieceKing extends BoardPieceCoordinatesBased {
     List<Integer> possibleMoves = new ArrayList<Integer>();
     possibleMoves.addAll(super.findPossibleMoves(board));
     possibleMoves.addAll(findCastlingMoves(board, previousMoves));
-    return findLegalMoves(position, possibleMoves, board);
+    return filterLegalMoves(possibleMoves, board);
   }
 
   private List<Integer> findCastlingMoves(Board board, List<Move> previousMoves) {

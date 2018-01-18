@@ -12,7 +12,7 @@ public class BoardPiecePawn extends BoardPiece {
     List<Integer> possibleMoves = new ArrayList<Integer>();
     possibleMoves.addAll(findPossibleMoves(board));
     possibleMoves.addAll(findEnPassantMoves(board, previousMoves));
-    return findLegalMoves(position, possibleMoves, board);
+    return filterLegalMoves(possibleMoves, board);
   }
 
   public List<Integer> findPossibleMoves(Board board) {

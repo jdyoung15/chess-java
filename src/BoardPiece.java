@@ -19,7 +19,7 @@ public abstract class BoardPiece {
 
   public List<Integer> findMoves(Board board) {
     List<Integer> possibleMoves = findPossibleMoves(board);
-    return findLegalMoves(position, possibleMoves, board);
+    return filterLegalMoves(possibleMoves, board);
   }
 
   public List<Integer> findMoves(Board board, List<Move> previousMoves) {
@@ -37,10 +37,10 @@ public abstract class BoardPiece {
     return possibleMoves.contains(opponentKingPosition);
   }
 
-  protected List<Integer> findLegalMoves(int fromPosition, List<Integer> possibleMoves, Board board) {
+  protected List<Integer> filterLegalMoves(List<Integer> possibleMoves, Board board) {
     List<Integer> validPositions = new ArrayList<Integer>();
     for (int toPosition : possibleMoves) {
-      if (isMoveLegal(fromPosition, toPosition, board)) {
+      if (isMoveLegal(position, toPosition, board)) {
         validPositions.add(toPosition);
       }
     }
