@@ -78,6 +78,14 @@ public class BoardPositioning {
       findPositionalOffset(moveDirection.getHorizontal(), amount));
   }
 
+  public static int findPosition(int fromPosition, BoardDirection vertical, int verticalAmount, BoardDirection horizontal, int horizontalAmount) 
+  {
+    return findPosition(
+      fromPosition, 
+      findPositionalOffset(vertical, verticalAmount),
+      findPositionalOffset(horizontal, horizontalAmount));
+  }
+
   public static int findPosition(int fromPosition, BoardDirection boardDirection, int amount) {
     switch (boardDirection) {
       case UP:

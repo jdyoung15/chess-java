@@ -29,17 +29,10 @@ public class BoardPieceDirectionBased extends BoardPiece {
   }
 
   public List<Integer> findPossibleMoves(Board board) {
-    int fromPosition = position;
     List<Integer> positions = new ArrayList<Integer>();
     for (MoveDirection moveDirection : moveDirections) {
-      List<Integer> directionPositions = new MoveDirectionSquares(moveDirection, fromPosition).positions();
-      directionPositions = directionPositions
-        .stream()
-        .limit(limitPerDirection)
-        .collect(Collectors.toList());
-
       positions.addAll(
-        new UnblockedSquares(directionPositions, board, piece.getColor(), canMoveHere).positions());
+        moveDirection.findUnblockedSquares(position, board, piece.getColor(), canMoveHere, limitPerDirection));
     }
     return positions;
   }
