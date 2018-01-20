@@ -8,15 +8,15 @@ public class BoardPiecePawn extends BoardPiece {
     super(new Piece(color, PieceType.PAWN), position);
   }
 
-  public List<Integer> findMoves(Board board, List<Move> previousMoves) {
-    List<Integer> possibleMoves = new ArrayList<Integer>();
+  public List<Move> findMoves(Board board, List<Move> previousMoves) {
+    List<Move> possibleMoves = new ArrayList<Move>();
     possibleMoves.addAll(findPossibleMoves(board));
     possibleMoves.addAll(findEnPassantMoves(board, previousMoves));
     return filterLegalMoves(possibleMoves, board);
   }
 
-  public List<Integer> findPossibleMoves(Board board) {
-    List<Integer> positions = new ArrayList<Integer>();
+  public List<Move> findPossibleMoves(Board board) {
+    List<Move> possibleMoves = new ArrayList<Move>();
 
     BoardDirection pawnDirection = BoardPositioning.findDirection(piece.getColor());
     Iterable<MoveCoordinates> attackCoordinates = Arrays.asList(
@@ -25,7 +25,7 @@ public class BoardPiecePawn extends BoardPiece {
 
     BoardPiece boardPieceCoordinatesBased = 
       new BoardPieceCoordinatesBased(piece, position, attackCoordinates, new CheckSquareIsAttackable());
-    positions.addAll(boardPieceCoordinatesBased.findPossibleMoves(board));
+    possibleMoves.addAll(boardPieceCoordinatesBased.findPossibleMoves(board));
 
     MoveDirection pawnMoveDirection = new MoveDirection(pawnDirection, BoardDirection.NONE);
     List<MoveDirection> moveDirections = Arrays.asList(pawnMoveDirection);
@@ -36,19 +36,19 @@ public class BoardPiecePawn extends BoardPiece {
 
     BoardPiece boardPieceDirectionBased = 
       new BoardPieceDirectionBased(piece, position, moveDirections, numSquaresCanAdvance, new CheckSquareIsOccupiable());
-    positions.addAll(boardPieceDirectionBased.findPossibleMoves(board));
+    possibleMoves.addAll(boardPieceDirectionBased.findPossibleMoves(board));
 
-    return positions;
+    return possibleMoves;
   }
 
-  public List<Integer> findEnPassantMoves(Board board, List<Move> previousMoves) {
-    List<Integer> positions = new ArrayList<Integer>();
+  public List<Move> findEnPassantMoves(Board board, List<Move> previousMoves) {
+    List<Move> enPassantMoves = new ArrayList<Move>();
     for (EnPassantDirection epd : EnPassantDirection.values()) {
       if (epd.canEnPassant(position, piece.getColor(), board, previousMoves)) {
-        positions.add(epd.findAttackingPawnToPosition(position, piece.getColor()));
+        enPassantMoves.add(epd.findAttackingPawnMove(position, piece.getColor()));
       }
     }
-    return positions;
+    return enPassantMoves;
   }
 
 }

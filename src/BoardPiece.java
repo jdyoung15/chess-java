@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public abstract class BoardPiece {
 
@@ -17,35 +18,31 @@ public abstract class BoardPiece {
     this.canMoveHere = canMoveHere;
   }
 
-  public List<Integer> findMoves(Board board) {
-    List<Integer> possibleMoves = findPossibleMoves(board);
+  public List<Move> findMoves(Board board) {
+    List<Move> possibleMoves = findPossibleMoves(board);
     return filterLegalMoves(possibleMoves, board);
   }
 
-  public List<Integer> findMoves(Board board, List<Move> previousMoves) {
+  public List<Move> findMoves(Board board, List<Move> previousMoves) {
     return findMoves(board);
   }
 
-  public abstract List<Integer> findPossibleMoves(Board board);
+  public abstract List<Move> findPossibleMoves(Board board);
 
   public boolean isChecking(Board board) {
-    List<Integer> possibleMoves = findPossibleMoves(board);
+    Moves possibleMoves = new Moves(findPossibleMoves(board));
 
     Color opponent = Color.findOpponent(piece.getColor());
     int opponentKingPosition = board.findKingPosition(opponent);
 
-    return possibleMoves.contains(opponentKingPosition);
+    return possibleMoves.containsToPosition(opponentKingPosition);
   }
 
-  protected List<Integer> filterLegalMoves(List<Integer> possibleMoves, Board board) {
-    List<Integer> validPositions = new ArrayList<Integer>();
-    for (int toPosition : possibleMoves) {
-      Move move = new Move(position, toPosition);
-      if (move.isLegal(board, piece.getColor())) {
-        validPositions.add(toPosition);
-      }
-    }
-    return validPositions;
+  public List<Move> filterLegalMoves(List<Move> possibleMoves, Board board) {
+    return possibleMoves
+      .stream()
+      .filter(m -> m.isLegal(board, piece.getColor()))
+      .collect(Collectors.toList());
   }
 
 }

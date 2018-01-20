@@ -28,13 +28,13 @@ public class BoardPieceDirectionBased extends BoardPiece {
     this.limitPerDirection = limitPerDirection;
   }
 
-  public List<Integer> findPossibleMoves(Board board) {
-    List<Integer> positions = new ArrayList<Integer>();
+  public List<Move> findPossibleMoves(Board board) {
+    List<Move> possibleMoves = new ArrayList<Move>();
     for (MoveDirection moveDirection : moveDirections) {
-      positions.addAll(
-        moveDirection.findUnblockedSquares(position, board, piece.getColor(), canMoveHere, limitPerDirection));
+      possibleMoves.addAll(
+        moveDirection.findUnblockedMoves(position, board, piece.getColor(), canMoveHere, limitPerDirection));
     }
-    return positions;
+    return possibleMoves;
   }
 
 }

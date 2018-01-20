@@ -143,13 +143,14 @@ public class BoardPositioning {
     return String.format("%c%c", colCoord, rowCoord);
   }
 
-  public static List<String> findCoords(List<Integer> positions) {
-    List<String> coords = new ArrayList<String>();
-    for (int position : positions) {
-      coords.add(findCoords(position));
-    }
-    return coords;
-  }
+  //public static List<String> findCoords(List<Move> positions) {
+  //  //List<String> coords = new ArrayList<String>();
+  //  //for (int position : positions) {
+  //  //  coords.add(findCoords(position));
+  //  //}
+  //  //return coords;
+  //  return new ArrayList<String>();
+  //}
 
   public static boolean isAdjacent(int position, int otherPosition) {
     return findRow(position) == findRow(otherPosition)

@@ -24,7 +24,7 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
     this.moveCoordinatesList = moveCoordinatesList;
   }
 
-  public List<Integer> findPossibleMoves(Board board) {
+  public List<Move> findPossibleMoves(Board board) {
     // find square positions at coordinates
     // for each square position
     //   find square at position
@@ -36,19 +36,19 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
 
     int fromPosition = position;
 
-    List<Integer> positions = new ArrayList<Integer>();
+    List<Move> possibleMoves = new ArrayList<Move>();
     for (MoveCoordinates moveCoordinates : moveCoordinatesList) {
-      int position = BoardPositioning.findPosition(fromPosition, moveCoordinates);
-      if (position == BoardPositioning.INVALID_POSITION) {
+      int toPosition = BoardPositioning.findPosition(fromPosition, moveCoordinates);
+      if (toPosition == BoardPositioning.INVALID_POSITION) {
         continue;
       }
 
-      Square square = board.findSquare(position);
+      Square square = board.findSquare(toPosition);
       if (canMoveHere.test(square, piece.getColor())) {
-        positions.add(position);
+        possibleMoves.add(new Move(fromPosition, toPosition));
       }
     }
-    return positions;
+    return possibleMoves;
   }
 
 }

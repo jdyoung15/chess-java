@@ -18,8 +18,30 @@ public class Move {
 
   public boolean isLegal(Board board, Color currentPlayer) {
     Board copy = board.copy();  
-    copy.move(fromPosition, toPosition);
+    copy.move(this);
     return !copy.isChecked(currentPlayer);
+  }
+
+  public String toString() {
+    return String.format(
+      "%s -> %s", 
+      BoardPositioning.findCoords(fromPosition), 
+      BoardPositioning.findCoords(toPosition));
+  }
+
+  // Inspiration: https://www.geeksforgeeks.org/overriding-equals-method-in-java/
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+ 
+    if (!(o instanceof Move)) {
+      return false;
+    }
+     
+    Move m = (Move) o;
+     
+    return fromPosition == m.getFromPosition() && toPosition == m.getToPosition();
   }
 
 }

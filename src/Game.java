@@ -4,27 +4,27 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 public class Game {
   
   private Board board;
   private Color currentPlayer;
   private List<Move> previousMoves;
-  private Map<Integer, List<Integer>> validMovesByPosition;
+  private Moves validMovesForCurrentPlayer;
 
   public Game() {
     board = new Board();
     currentPlayer = Color.WHITE;
     previousMoves = new ArrayList<Move>();
-    validMovesByPosition = new HashMap<Integer, List<Integer>>();
+    validMovesForCurrentPlayer = new Moves();
   }
 
   public void play() {
     populateValidMovesByPosition();
-    while (!validMovesByPosition.isEmpty()) {
+    while (!validMovesForCurrentPlayer.isEmpty()) {
       executeTurn();
       currentPlayer = Color.findOpponent(currentPlayer);
-      validMovesByPosition.clear();
       populateValidMovesByPosition();
     }
 
@@ -49,7 +49,7 @@ public class Game {
       String fromCoords = scanner.next();
       int fromPosition = BoardPositioning.findPosition(fromCoords);
 
-      if (!validMovesByPosition.containsKey(fromPosition)) {
+      if (!validMovesForCurrentPlayer.containsFromPosition(fromPosition)) {
         System.out.println("\nNO VALID MOVES FROM THIS POSITION, TRY AGAIN\n");
         continue;
       }
@@ -58,42 +58,46 @@ public class Game {
       String toCoords = scanner.next();
       int toPosition = BoardPositioning.findPosition(toCoords);
        
-      if (!validMovesByPosition.get(fromPosition).contains(toPosition)) {
+      Move move = new Move(fromPosition, toPosition);
+      if (!validMovesForCurrentPlayer.contains(move)) {
         System.out.println("\nINVALID MOVE, TRY AGAIN\n");
         continue;
       }
 
-      handleIfEnPassantMove(fromPosition, toPosition);
-      handleIfCastlingMove(fromPosition, toPosition);
+      handleIfEnPassantMove(move);
+      handleIfCastlingMove(move);
 
-      board.move(fromPosition, toPosition);
-      previousMoves.add(new Move(fromPosition, toPosition));
+      board.move(move);
+      previousMoves.add(move);
 
       break;
     }
   }
 
-  private void handleIfEnPassantMove(int fromPosition, int toPosition) {
+  private void handleIfEnPassantMove(Move move) {
+    int fromPosition = move.getFromPosition();
     for (EnPassantDirection epd : EnPassantDirection.values()) {
       if (epd.canEnPassant(fromPosition, currentPlayer, board, previousMoves)
-        && epd.findAttackingPawnToPosition(fromPosition, currentPlayer) == toPosition) 
+        && epd.findAttackingPawnMove(fromPosition, currentPlayer) == move) 
       {
         board.findSquare(epd.findVictimPawnToPosition(fromPosition, currentPlayer)).clear();
       }
     }
   }
 
-  private void handleIfCastlingMove(int fromPosition, int toPosition) {
+  private void handleIfCastlingMove(Move move) {
+    int fromPosition = move.getFromPosition();
     for (CastlingSide cs : CastlingSide.values()) {
       if (cs.canCastle(fromPosition, currentPlayer, board, previousMoves)
-        && cs.findKingToPosition(fromPosition) == toPosition) 
+        && cs.findKingMove(fromPosition) == move) 
       {
-        board.move(cs.findRookFromPosition(fromPosition), cs.findRookToPosition(fromPosition));
+        board.move(move);
       }
     }
   }
 
   private void populateValidMovesByPosition() {
+    validMovesForCurrentPlayer.clear();
     Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
     while (positionsIterator.hasNext()) {
       int fromPosition = positionsIterator.next();
@@ -103,17 +107,12 @@ public class Game {
       }
 
       Piece piece = fromSquare.getPiece();
-
       BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
-
-      List<Integer> validMoves = boardPiece.findMoves(board, previousMoves);
-      System.out.println(String.format("valid moves: %s", BoardPositioning.findCoords(validMoves)));
-      if (validMoves.isEmpty()) {
-        continue;
-      }
-
-      validMovesByPosition.put(fromPosition, validMoves);
+      List<Move> validMoves = boardPiece.findMoves(board, previousMoves);
+      validMovesForCurrentPlayer.addAll(validMoves);
     }
+
+    System.out.println(String.format("valid moves: %s", validMovesForCurrentPlayer));
   }
 
 }

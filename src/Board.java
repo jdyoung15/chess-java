@@ -125,9 +125,9 @@ public class Board {
     return -1;
   }
 
-  public void move(int fromPosition, int toPosition) {
-    Square from = findSquare(fromPosition);
-    Square to = findSquare(toPosition);
+  public void move(Move move) {
+    Square from = findSquare(move.getFromPosition());
+    Square to = findSquare(move.getToPosition());
 
     to.setPiece(from.getPiece());
     from.clear();

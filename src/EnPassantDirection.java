@@ -12,7 +12,11 @@ public enum EnPassantDirection {
     this.boardDirectionHorizontal = boardDirectionHorizontal;
   }
 
-  public int findAttackingPawnToPosition(int fromPosition, Color currentPlayer) {
+  public Move findAttackingPawnMove(int fromPosition, Color currentPlayer) {
+    return new Move(fromPosition, findAttackingPawnToPosition(fromPosition, currentPlayer));
+  }
+
+  private int findAttackingPawnToPosition(int fromPosition, Color currentPlayer) {
     BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 1);
     return BoardPositioning.findPosition(fromPosition, coordinates);

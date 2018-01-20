@@ -19,7 +19,7 @@ public class MoveDirection {
     return horizontal;
   }
 
-  private List<Integer> findSquares(int fromPosition, int limit) {
+  private List<Integer> findAllSquarePositions(int fromPosition, int limit) {
     List<Integer> positions = new ArrayList<Integer>();
 
     int amount = 1;
@@ -33,21 +33,21 @@ public class MoveDirection {
     return positions;
   }
 
-  public List<Integer> findUnblockedSquares(int fromPosition, Board board, Color color, CheckSquare canMove, int limit) {
-    List<Integer> unblockedPositions = new ArrayList<Integer>();
+  public List<Move> findUnblockedMoves(int fromPosition, Board board, Color color, CheckSquare canMove, int limit) {
+    List<Move> unblockedMoves = new ArrayList<Move>();
 
-    List<Integer> positionsInDirection = findSquares(fromPosition, limit);
-    for (int position : positionsInDirection) {
-      Square square = board.findSquare(position);
+    List<Integer> positionsInDirection = findAllSquarePositions(fromPosition, limit);
+    for (int toPosition : positionsInDirection) {
+      Square square = board.findSquare(toPosition);
       if (canMove.test(square, color)) {
-        unblockedPositions.add(position);
+        unblockedMoves.add(new Move(fromPosition, toPosition));
       }
       if (new CheckSquareIsBlocking().test(square, color)) {
         break;
       }
     }
 
-    return unblockedPositions;
+    return unblockedMoves;
   }
 
 }

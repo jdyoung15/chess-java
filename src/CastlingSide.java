@@ -20,10 +20,18 @@ public enum CastlingSide {
     this.numSquaresBetween = numSquaresBetween;
   }
 
-  public int findKingToPosition(int kingStartPosition) {
+  public Move findKingMove(int kingStartPosition) {
+    return new Move(kingStartPosition, findKingToPosition(kingStartPosition));
+  }
+
+  private int findKingToPosition(int kingStartPosition) {
     return BoardPositioning.findPosition(
       kingStartPosition,
       new MoveCoordinates(horizontal, KING_TO_POSITION_OFFSET, BoardDirection.NONE, 0));
+  }
+
+  public Move findRookMove(int kingStartPosition) {
+    return new Move(findRookFromPosition(kingStartPosition), findRookToPosition(kingStartPosition));
   }
 
   public int findRookFromPosition(int kingStartPosition) {
@@ -93,7 +101,7 @@ public enum CastlingSide {
         return false;
       }
       Board copy = board.copy();
-      copy.move(kingStartPosition, currentPosition);
+      copy.move(new Move(kingStartPosition, currentPosition));
       if (copy.isChecked(currentPlayer)) {
         return false;
       }
