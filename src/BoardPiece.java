@@ -40,17 +40,12 @@ public abstract class BoardPiece {
   protected List<Integer> filterLegalMoves(List<Integer> possibleMoves, Board board) {
     List<Integer> validPositions = new ArrayList<Integer>();
     for (int toPosition : possibleMoves) {
-      if (isMoveLegal(position, toPosition, board)) {
+      Move move = new Move(position, toPosition);
+      if (move.isLegal(board, piece.getColor())) {
         validPositions.add(toPosition);
       }
     }
     return validPositions;
-  }
-
-  private boolean isMoveLegal(int fromPosition, int toPosition, Board board) {
-    Board copy = board.copy();  
-    copy.move(fromPosition, toPosition);
-    return !copy.isChecked(piece.getColor());
   }
 
 }

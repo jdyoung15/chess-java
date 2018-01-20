@@ -16,4 +16,10 @@ public class Move {
     return toPosition;
   }
 
+  public boolean isLegal(Board board, Color currentPlayer) {
+    Board copy = board.copy();  
+    copy.move(fromPosition, toPosition);
+    return !copy.isChecked(currentPlayer);
+  }
+
 }
