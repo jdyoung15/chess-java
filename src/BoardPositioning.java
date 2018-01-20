@@ -66,24 +66,17 @@ public class BoardPositioning {
   }
 
   public static int findPosition(int fromPosition, MoveDirection moveDirection, int amount) {
-    //if (fromPosition == 47 && moveDirection.getVertical() == BoardDirection.UP && moveDirection.getHorizontal() == BoardDirection.NONE) {
-    //  System.out.println(String.format("vertical offset %d horizontal offset %d amount %d", 
-    //    findPositionalOffset(moveDirection.getVertical(), amount),
-    //    findPositionalOffset(moveDirection.getHorizontal(), amount),
-    //    amount));
-    //}
-    return findPosition(
-      fromPosition, 
-      findPositionalOffset(moveDirection.getVertical(), amount),
-      findPositionalOffset(moveDirection.getHorizontal(), amount));
+    return findPosition(fromPosition, moveDirection.getVertical(), amount, moveDirection.getHorizontal(), amount);
   }
 
-  public static int findPosition(int fromPosition, BoardDirection vertical, int verticalAmount, BoardDirection horizontal, int horizontalAmount) 
+  public static int findPosition(
+    int fromPosition, 
+    BoardDirection vertical, 
+    int verticalAmount, 
+    BoardDirection horizontal, 
+    int horizontalAmount) 
   {
-    return findPosition(
-      fromPosition, 
-      findPositionalOffset(vertical, verticalAmount),
-      findPositionalOffset(horizontal, horizontalAmount));
+    return findPosition(fromPosition, vertical.findOffset(verticalAmount), horizontal.findOffset(horizontalAmount));
   }
 
   public static int findPosition(int fromPosition, BoardDirection boardDirection, int amount) {
@@ -92,14 +85,14 @@ public class BoardPositioning {
       case DOWN:
         return findPosition(
           fromPosition, 
-          findPositionalOffset(boardDirection, amount),
+          boardDirection.findOffset(amount),
           0);
       case LEFT:
       case RIGHT:
         return findPosition(
           fromPosition, 
           0,
-          findPositionalOffset(boardDirection, amount));
+          boardDirection.findOffset(amount));
       default:
         return fromPosition;
     }
@@ -108,15 +101,17 @@ public class BoardPositioning {
   public static int findPosition(int fromPosition, MoveCoordinates moveCoordinates) {
     return findPosition(
       fromPosition, 
-      findPositionalOffset(moveCoordinates.getVertical(), moveCoordinates.getVerticalAmount()),
-      findPositionalOffset(moveCoordinates.getHorizontal(), moveCoordinates.getHorizontalAmount()));
+      moveCoordinates.getVertical(), 
+      moveCoordinates.getVerticalAmount(),
+      moveCoordinates.getHorizontal(), 
+      moveCoordinates.getHorizontalAmount());
   }
 
   public static int findPosition(int fromPosition, int up, int right, int down, int left) {
     return findPosition(
       fromPosition,
-      findPositionalOffset(BoardDirection.UP, up) + findPositionalOffset(BoardDirection.DOWN, down),
-      findPositionalOffset(BoardDirection.LEFT, left) + findPositionalOffset(BoardDirection.RIGHT, right));
+      BoardDirection.UP.findOffset(up) + BoardDirection.DOWN.findOffset(down),
+      BoardDirection.LEFT.findOffset(left) + BoardDirection.RIGHT.findOffset(right));
   }
 
   public static int findPosition(int fromPosition, int verticalOffset, int horizontalOffset) {
@@ -163,24 +158,6 @@ public class BoardPositioning {
 
   public static BoardDirection findDirection(Color color) {
     return color == Color.WHITE ? BoardDirection.UP : BoardDirection.DOWN;
-  }
-
-  private static int findPositionalOffset(BoardDirection boardDirection, int amount) {
-    return findBoardDirectionMultiplier(boardDirection) * amount;
-  }
-
-  public static int findBoardDirectionMultiplier(BoardDirection boardDirection) {
-    switch (boardDirection) {
-      case DOWN:
-      case RIGHT:
-        return 1;
-      case UP:
-      case LEFT:
-        return -1;
-      case NONE:
-      default:
-        return 0;
-    }
   }
 
   public static int findCol(int position) {
