@@ -1,6 +1,6 @@
 import java.util.Comparator;
 
-public class SortByCoords implements Comparator<Move> {
+public class MoveComparator implements Comparator<Move> {
 
   public int compare(Move a, Move b) {
     int aFrom = a.getFromPosition();

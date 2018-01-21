@@ -44,7 +44,7 @@ public class Moves {
   }
 
   public String toString() {
-    Collections.sort(moves, new SortByCoords());
+    Collections.sort(moves, new MoveComparator());
     return moves.toString();
   }
 
