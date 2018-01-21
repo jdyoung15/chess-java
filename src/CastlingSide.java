@@ -25,8 +25,7 @@ public enum CastlingSide {
   }
 
   private int findKingToPosition(int kingStartPosition) {
-    MoveCoordinates coordinates = 
-      new MoveCoordinates(horizontal, KING_TO_POSITION_OFFSET, BoardDirection.NONE, 0);
+    MoveCoordinates coordinates = new MoveCoordinates(horizontal, KING_TO_POSITION_OFFSET);
     return coordinates.findPosition(kingStartPosition);
   }
 
@@ -35,12 +34,12 @@ public enum CastlingSide {
   }
 
   public int findRookFromPosition(int kingStartPosition) {
-    MoveCoordinates coordinates = new MoveCoordinates(horizontal, numSquaresBetween + 1, BoardDirection.NONE, 0);
+    MoveCoordinates coordinates = new MoveCoordinates(horizontal, numSquaresBetween + 1);
     return coordinates.findPosition(kingStartPosition);
   }
 
   public int findRookToPosition(int kingStartPosition) {
-    MoveCoordinates coordinates = new MoveCoordinates(horizontal, ROOK_TO_POSITION_OFFSET, BoardDirection.NONE, 0);
+    MoveCoordinates coordinates = new MoveCoordinates(horizontal, ROOK_TO_POSITION_OFFSET);
     return coordinates.findPosition(kingStartPosition);
   }
 
@@ -69,7 +68,7 @@ public enum CastlingSide {
 
     // check that squares between king and rook are unoccupied
     for (int i = 1; i <= numSquaresBetween; i++) {
-      MoveCoordinates coordinates = new MoveCoordinates(horizontal, i, BoardDirection.NONE, 0);
+      MoveCoordinates coordinates = new MoveCoordinates(horizontal, i);
       int currentPosition = coordinates.findPosition(kingStartPosition);
       Square currentSquare = board.findSquare(currentPosition);
       if (currentSquare.isOccupied()) {
@@ -79,7 +78,7 @@ public enum CastlingSide {
 
     // check that king will not be in check at any square it travels through (including end square)
     for (int i = 1; i <= KING_TO_POSITION_OFFSET; i++) {
-      MoveCoordinates coordinates = new MoveCoordinates(horizontal, i, BoardDirection.NONE, 0);
+      MoveCoordinates coordinates = new MoveCoordinates(horizontal, i);
       int currentPosition = coordinates.findPosition(kingStartPosition);
       Board copy = board.copy();
       copy.executeMove(new Move(kingStartPosition, currentPosition));

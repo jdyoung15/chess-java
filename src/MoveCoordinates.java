@@ -5,11 +5,33 @@ public class MoveCoordinates {
   private BoardDirection vertical;
   private int verticalAmount;
 
+  private static final BoardDirection[] HORIZONTAL_DIRECTIONS = {BoardDirection.LEFT, BoardDirection.RIGHT};
+  private static final BoardDirection[] VERTICAL_DIRECTIONS = {BoardDirection.UP, BoardDirection.DOWN};
+
   public MoveCoordinates(BoardDirection horizontal, int horizontalAmount, BoardDirection vertical, int verticalAmount) {
     this.horizontal = horizontal;
     this.horizontalAmount = horizontalAmount;
     this.vertical = vertical;
     this.verticalAmount = verticalAmount;
+  }
+
+  public MoveCoordinates(BoardDirection direction, int amount) {
+    switch (direction) {
+      case LEFT:
+      case RIGHT:
+        this.horizontal = direction;
+        this.horizontalAmount = amount;
+        this.vertical = BoardDirection.NONE;
+        this.verticalAmount = 0;
+        break;
+      case UP:
+      case DOWN:
+        this.horizontal = BoardDirection.NONE;
+        this.horizontalAmount = 0;
+        this.vertical = direction;
+        this.verticalAmount = amount;
+        break;
+    }
   }
 
   public BoardDirection getHorizontal() {

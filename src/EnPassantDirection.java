@@ -30,7 +30,7 @@ public enum EnPassantDirection {
 
   public int findVictimPawnToPosition(int fromPosition, Color currentPlayer) {
     BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
-    MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 0);
+    MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1);
     return coordinates.findPosition(fromPosition);
   }
 
