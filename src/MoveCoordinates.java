@@ -28,4 +28,8 @@ public class MoveCoordinates {
     return horizontalAmount;
   }
 
+  public int findPosition(int fromPosition) {
+    return BoardPositioning.findPosition(fromPosition, vertical, verticalAmount, horizontal, horizontalAmount);
+  }
+
 }

@@ -65,10 +65,6 @@ public class BoardPositioning {
     return positions.iterator();
   }
 
-  public static int findPosition(int fromPosition, MoveDirection moveDirection, int amount) {
-    return findPosition(fromPosition, moveDirection.getVertical(), amount, moveDirection.getHorizontal(), amount);
-  }
-
   public static int findPosition(
     int fromPosition, 
     BoardDirection vertical, 
@@ -96,15 +92,6 @@ public class BoardPositioning {
       default:
         return fromPosition;
     }
-  }
-
-  public static int findPosition(int fromPosition, MoveCoordinates moveCoordinates) {
-    return findPosition(
-      fromPosition, 
-      moveCoordinates.getVertical(), 
-      moveCoordinates.getVerticalAmount(),
-      moveCoordinates.getHorizontal(), 
-      moveCoordinates.getHorizontalAmount());
   }
 
   public static int findPosition(int fromPosition, int up, int right, int down, int left) {

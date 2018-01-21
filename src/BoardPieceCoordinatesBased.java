@@ -38,7 +38,7 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
 
     Moves possibleMoves = new Moves();
     for (MoveCoordinates moveCoordinates : moveCoordinatesList) {
-      int toPosition = BoardPositioning.findPosition(fromPosition, moveCoordinates);
+      int toPosition = moveCoordinates.findPosition(fromPosition);
       if (toPosition == BoardPositioning.INVALID_POSITION) {
         continue;
       }

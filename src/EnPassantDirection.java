@@ -19,19 +19,19 @@ public enum EnPassantDirection {
   private int findAttackingPawnToPosition(int fromPosition, Color currentPlayer) {
     BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 1);
-    return BoardPositioning.findPosition(fromPosition, coordinates);
+    return coordinates.findPosition(fromPosition);
   }
 
   public int findVictimPawnFromPosition(int fromPosition, Color currentPlayer) {
     BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 2);
-    return BoardPositioning.findPosition(fromPosition, coordinates);
+    return coordinates.findPosition(fromPosition);
   }
 
   public int findVictimPawnToPosition(int fromPosition, Color currentPlayer) {
     BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 0);
-    return BoardPositioning.findPosition(fromPosition, coordinates);
+    return coordinates.findPosition(fromPosition);
   }
 
   public boolean canEnPassant(int fromPosition, Color currentPlayer, Board board, Moves previousMoves) {
