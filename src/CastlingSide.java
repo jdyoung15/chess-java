@@ -46,7 +46,7 @@ public enum CastlingSide {
       new MoveCoordinates(horizontal, ROOK_TO_POSITION_OFFSET, BoardDirection.NONE, 0));
   }
 
-  public boolean canCastle(int kingFromPosition, Color currentPlayer, Board board, List<Move> previousMoves) {
+  public boolean canCastle(int kingFromPosition, Color currentPlayer, Board board, Moves previousMoves) {
     int kingStartPosition = BoardPositioning.findKingStartPosition(currentPlayer);
 
     // check that the king is at start position
@@ -55,13 +55,7 @@ public enum CastlingSide {
     }
 
     // check that the king has not moved
-    List<Move> kingMoves = 
-      previousMoves
-        .stream()
-        .filter(m -> m.getFromPosition() == kingStartPosition)
-        .collect(Collectors.toList());
-
-    if (!kingMoves.isEmpty()) {
+    if (previousMoves.containsFromPosition(kingStartPosition)) {
       return false;
     }
 
@@ -71,13 +65,7 @@ public enum CastlingSide {
     }
 
     // check that castling rook has not moved (and by extension is currently at start position)
-    List<Move> rookMoves = 
-      previousMoves
-        .stream()
-        .filter(m -> m.getFromPosition() == findRookFromPosition(kingStartPosition))
-        .collect(Collectors.toList());
-
-    if (!rookMoves.isEmpty()) {
+    if (previousMoves.containsFromPosition(findRookFromPosition(kingStartPosition))) {
       return false;
     }
 

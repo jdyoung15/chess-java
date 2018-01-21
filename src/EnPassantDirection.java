@@ -34,7 +34,7 @@ public enum EnPassantDirection {
     return BoardPositioning.findPosition(fromPosition, coordinates);
   }
 
-  public boolean canEnPassant(int fromPosition, Color currentPlayer, Board board, List<Move> previousMoves) {
+  public boolean canEnPassant(int fromPosition, Color currentPlayer, Board board, Moves previousMoves) {
     if (previousMoves.isEmpty()) {
       return false;
     }

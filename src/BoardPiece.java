@@ -18,31 +18,24 @@ public abstract class BoardPiece {
     this.canMoveHere = canMoveHere;
   }
 
-  public List<Move> findMoves(Board board) {
-    List<Move> possibleMoves = findPossibleMoves(board);
-    return filterLegalMoves(possibleMoves, board);
+  public Moves findMoves(Board board) {
+    Moves possibleMoves = findPossibleMoves(board);
+    return possibleMoves.filterLegalMoves(board, piece.getColor());
   }
 
-  public List<Move> findMoves(Board board, List<Move> previousMoves) {
+  public Moves findMoves(Board board, Moves previousMoves) {
     return findMoves(board);
   }
 
-  public abstract List<Move> findPossibleMoves(Board board);
+  public abstract Moves findPossibleMoves(Board board);
 
   public boolean isChecking(Board board) {
-    Moves possibleMoves = new Moves(findPossibleMoves(board));
+    Moves possibleMoves = findPossibleMoves(board);
 
     Color opponent = Color.findOpponent(piece.getColor());
     int opponentKingPosition = board.findKingPosition(opponent);
 
     return possibleMoves.containsToPosition(opponentKingPosition);
-  }
-
-  public List<Move> filterLegalMoves(List<Move> possibleMoves, Board board) {
-    return possibleMoves
-      .stream()
-      .filter(m -> m.isLegal(board, piece.getColor()))
-      .collect(Collectors.toList());
   }
 
 }

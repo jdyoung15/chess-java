@@ -8,15 +8,15 @@ public class BoardPiecePawn extends BoardPiece {
     super(new Piece(color, PieceType.PAWN), position);
   }
 
-  public List<Move> findMoves(Board board, List<Move> previousMoves) {
-    List<Move> possibleMoves = new ArrayList<Move>();
+  public Moves findMoves(Board board, Moves previousMoves) {
+    Moves possibleMoves = new Moves();
     possibleMoves.addAll(findPossibleMoves(board));
     possibleMoves.addAll(findEnPassantMoves(board, previousMoves));
-    return filterLegalMoves(possibleMoves, board);
+    return possibleMoves.filterLegalMoves(board, piece.getColor());
   }
 
-  public List<Move> findPossibleMoves(Board board) {
-    List<Move> possibleMoves = new ArrayList<Move>();
+  public Moves findPossibleMoves(Board board) {
+    Moves possibleMoves = new Moves();
 
     BoardDirection pawnDirection = BoardPositioning.findDirection(piece.getColor());
     Iterable<MoveCoordinates> attackCoordinates = Arrays.asList(
@@ -41,8 +41,8 @@ public class BoardPiecePawn extends BoardPiece {
     return possibleMoves;
   }
 
-  public List<Move> findEnPassantMoves(Board board, List<Move> previousMoves) {
-    List<Move> enPassantMoves = new ArrayList<Move>();
+  public Moves findEnPassantMoves(Board board, Moves previousMoves) {
+    Moves enPassantMoves = new Moves();
     for (EnPassantDirection epd : EnPassantDirection.values()) {
       if (epd.canEnPassant(position, piece.getColor(), board, previousMoves)) {
         enPassantMoves.add(epd.findAttackingPawnMove(position, piece.getColor()));

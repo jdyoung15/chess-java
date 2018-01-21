@@ -33,8 +33,8 @@ public class MoveDirection {
     return positions;
   }
 
-  public List<Move> findUnblockedMoves(int fromPosition, Board board, Color color, CheckSquare canMove, int limit) {
-    List<Move> unblockedMoves = new ArrayList<Move>();
+  public Moves findUnblockedMoves(int fromPosition, Board board, Color color, CheckSquare canMove, int limit) {
+    Moves unblockedMoves = new Moves();
 
     List<Integer> positionsInDirection = findAllSquarePositions(fromPosition, limit);
     for (int toPosition : positionsInDirection) {

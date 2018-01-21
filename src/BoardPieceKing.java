@@ -19,15 +19,15 @@ public class BoardPieceKing extends BoardPieceCoordinatesBased {
     super(new Piece(color, PieceType.KING), position, moveCoordinatesList);  
   }
 
-  public List<Move> findMoves(Board board, List<Move> previousMoves) {
-    List<Move> possibleMoves = new ArrayList<Move>();
+  public Moves findMoves(Board board, Moves previousMoves) {
+    Moves possibleMoves = new Moves();
     possibleMoves.addAll(super.findPossibleMoves(board));
     possibleMoves.addAll(findCastlingMoves(board, previousMoves));
-    return filterLegalMoves(possibleMoves, board);
+    return possibleMoves.filterLegalMoves(board, piece.getColor());
   }
 
-  private List<Move> findCastlingMoves(Board board, List<Move> previousMoves) {
-    List<Move> castlingMoves = new ArrayList<Move>();
+  private Moves findCastlingMoves(Board board, Moves previousMoves) {
+    Moves castlingMoves = new Moves();
     for (CastlingSide cs : CastlingSide.values()) {
       if (cs.canCastle(position, piece.getColor(), board, previousMoves)) {
         castlingMoves.add(cs.findKingMove(position));

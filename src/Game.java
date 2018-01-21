@@ -10,13 +10,13 @@ public class Game {
   
   private Board board;
   private Color currentPlayer;
-  private List<Move> previousMoves;
+  private Moves previousMoves;
   private Moves validMovesForCurrentPlayer;
 
   public Game() {
     board = new Board();
     currentPlayer = Color.WHITE;
-    previousMoves = new ArrayList<Move>();
+    previousMoves = new Moves();
     validMovesForCurrentPlayer = new Moves();
   }
 
@@ -108,7 +108,7 @@ public class Game {
 
       Piece piece = fromSquare.getPiece();
       BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
-      List<Move> validMoves = boardPiece.findMoves(board, previousMoves);
+      Moves validMoves = boardPiece.findMoves(board, previousMoves);
       validMovesForCurrentPlayer.addAll(validMoves);
     }
 

@@ -28,8 +28,8 @@ public class BoardPieceDirectionBased extends BoardPiece {
     this.limitPerDirection = limitPerDirection;
   }
 
-  public List<Move> findPossibleMoves(Board board) {
-    List<Move> possibleMoves = new ArrayList<Move>();
+  public Moves findPossibleMoves(Board board) {
+    Moves possibleMoves = new Moves();
     for (MoveDirection moveDirection : moveDirections) {
       possibleMoves.addAll(
         moveDirection.findUnblockedMoves(position, board, piece.getColor(), canMoveHere, limitPerDirection));
