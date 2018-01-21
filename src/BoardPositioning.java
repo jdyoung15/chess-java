@@ -67,10 +67,10 @@ public class BoardPositioning {
 
   public static int findPosition(
     int fromPosition, 
-    BoardDirection vertical, 
-    int verticalAmount, 
     BoardDirection horizontal, 
-    int horizontalAmount) 
+    int horizontalAmount,
+    BoardDirection vertical, 
+    int verticalAmount)
   {
     int fromRow = findRow(fromPosition);
     int fromCol = findCol(fromPosition);
@@ -82,8 +82,8 @@ public class BoardPositioning {
   }
 
   public static int findPosition(String coords) {
-    int col = findCol(findColCoord(coords));
     int row = findRow(findRowCoord(coords));
+    int col = findCol(findColCoord(coords));
     return findPosition(row, col);
   }
 
@@ -95,8 +95,8 @@ public class BoardPositioning {
   }
 
   public static String findCoords(int position) {
-    char colCoord = findColCoord(findCol(position));
     char rowCoord = findRowCoord(findRow(position));
+    char colCoord = findColCoord(findCol(position));
     return String.format("%c%c", colCoord, rowCoord);
   }
 
@@ -109,37 +109,36 @@ public class BoardPositioning {
     return color == Color.WHITE ? BoardDirection.UP : BoardDirection.DOWN;
   }
 
-  public static int findCol(int position) {
-    return position % NUM_COLS;  
-  }
-
   public static int findRow(int position) {
     return position / NUM_COLS;  
   }
 
-  private static int findCol(char colCoord) {
-    return (int) colCoord - ASCII_OFFSET;
+  public static int findCol(int position) {
+    return position % NUM_COLS;  
   }
 
   private static int findRow(char rowCoord) {
     return NUM_ROWS - Character.getNumericValue(rowCoord);
   }
 
-  private static char findColCoord(String coords) {
-    return coords.charAt(0);
+  private static int findCol(char colCoord) {
+    return (int) colCoord - ASCII_OFFSET;
   }
 
   private static char findRowCoord(String coords) {
     return coords.charAt(1);
   }
 
-  private static char findColCoord(int col) {
-    return (char) (col + ASCII_OFFSET);
+  private static char findColCoord(String coords) {
+    return coords.charAt(0);
   }
 
   private static char findRowCoord(int row) {
     return Character.forDigit(NUM_ROWS - row, RADIX);
   }
 
+  private static char findColCoord(int col) {
+    return (char) (col + ASCII_OFFSET);
+  }
 
 }

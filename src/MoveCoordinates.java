@@ -12,14 +12,6 @@ public class MoveCoordinates {
     this.verticalAmount = verticalAmount;
   }
 
-  public BoardDirection getVertical() {
-    return vertical;
-  }
-
-  public int getVerticalAmount() {
-    return verticalAmount;
-  }
-
   public BoardDirection getHorizontal() {
     return horizontal;
   }
@@ -28,8 +20,16 @@ public class MoveCoordinates {
     return horizontalAmount;
   }
 
+  public BoardDirection getVertical() {
+    return vertical;
+  }
+
+  public int getVerticalAmount() {
+    return verticalAmount;
+  }
+
   public int findPosition(int fromPosition) {
-    return BoardPositioning.findPosition(fromPosition, vertical, verticalAmount, horizontal, horizontalAmount);
+    return BoardPositioning.findPosition(fromPosition, horizontal, horizontalAmount, vertical, verticalAmount);
   }
 
 }

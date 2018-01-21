@@ -23,11 +23,11 @@ public class MoveDirection {
     List<Integer> positions = new ArrayList<Integer>();
 
     int amount = 1;
-    int position = BoardPositioning.findPosition(fromPosition, vertical, amount, horizontal, amount);
+    int position = BoardPositioning.findPosition(fromPosition, horizontal, amount, vertical, amount);
     while (position != BoardPositioning.INVALID_POSITION && amount <= limit) {
       positions.add(position);
       amount++;
-      position = BoardPositioning.findPosition(fromPosition, vertical, amount, horizontal, amount);
+      position = BoardPositioning.findPosition(fromPosition, horizontal, amount, vertical, amount);
     }
 
     return positions;
