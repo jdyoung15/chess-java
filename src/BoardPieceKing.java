@@ -20,10 +20,10 @@ public class BoardPieceKing extends BoardPieceCoordinatesBased {
   }
 
   public Moves findMoves(Board board, Moves previousMoves) {
-    Moves possibleMoves = new Moves();
-    possibleMoves.addAll(super.findPossibleMoves(board));
-    possibleMoves.addAll(findCastlingMoves(board, previousMoves));
-    return possibleMoves.filterLegalMoves(board, piece.getColor());
+    Moves moves = new Moves();
+    moves.addAll(super.findPossibleMoves(board));
+    moves.addAll(findCastlingMoves(board, previousMoves));
+    return moves.filterLegalMoves(board, piece.getColor());
   }
 
   private Moves findCastlingMoves(Board board, Moves previousMoves) {

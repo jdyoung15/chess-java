@@ -9,35 +9,16 @@ public class BoardPiecePawn extends BoardPiece {
   }
 
   public Moves findMoves(Board board, Moves previousMoves) {
-    Moves possibleMoves = new Moves();
-    possibleMoves.addAll(findPossibleMoves(board));
-    possibleMoves.addAll(findEnPassantMoves(board, previousMoves));
-    return possibleMoves.filterLegalMoves(board, piece.getColor());
+    Moves moves = new Moves();
+    moves.addAll(findPossibleMoves(board));
+    moves.addAll(findEnPassantMoves(board, previousMoves));
+    return moves.filterLegalMoves(board, piece.getColor());
   }
 
   public Moves findPossibleMoves(Board board) {
     Moves possibleMoves = new Moves();
-
-    BoardDirection pawnDirection = BoardPositioning.findDirection(piece.getColor());
-    Iterable<MoveCoordinates> attackCoordinates = Arrays.asList(
-      new MoveCoordinates(BoardDirection.LEFT, 1, pawnDirection, 1),
-      new MoveCoordinates(BoardDirection.RIGHT, 1, pawnDirection, 1));
-
-    BoardPiece boardPieceCoordinatesBased = 
-      new BoardPieceCoordinatesBased(piece, position, attackCoordinates, new CheckSquareIsAttackable());
-    possibleMoves.addAll(boardPieceCoordinatesBased.findPossibleMoves(board));
-
-    MoveDirection pawnMoveDirection = new MoveDirection(pawnDirection, BoardDirection.NONE);
-    List<MoveDirection> moveDirections = Arrays.asList(pawnMoveDirection);
-    int pawnStartRow = 
-      piece.getColor() == Color.WHITE ? BoardPositioning.PAWN_WHITE_START_ROW : BoardPositioning.PAWN_BLACK_START_ROW;
-    int numSquaresCanAdvance = 
-      BoardPositioning.findRow(position) == pawnStartRow ? 2 : 1;
-
-    BoardPiece boardPieceDirectionBased = 
-      new BoardPieceDirectionBased(piece, position, moveDirections, numSquaresCanAdvance, new CheckSquareIsOccupiable());
-    possibleMoves.addAll(boardPieceDirectionBased.findPossibleMoves(board));
-
+    possibleMoves.addAll(findCoordinateMoves(board));
+    possibleMoves.addAll(findDirectionMoves(board));
     return possibleMoves;
   }
 
@@ -49,6 +30,44 @@ public class BoardPiecePawn extends BoardPiece {
       }
     }
     return enPassantMoves;
+  }
+
+  private Moves findCoordinateMoves(Board board) {
+    Iterable<MoveCoordinates> coordinates = findAttackCoordinates(piece.getColor());
+    BoardPiece boardPiece = 
+      new BoardPieceCoordinatesBased(piece, position, coordinates, new CheckSquareIsAttackable());
+
+    return boardPiece.findPossibleMoves(board);
+  }
+
+  private Iterable<MoveCoordinates> findAttackCoordinates(Color attackerColor) {
+    BoardDirection direction = BoardPositioning.findDirection(piece.getColor());
+
+    return Arrays.asList(
+      new MoveCoordinates(BoardDirection.LEFT, 1, direction, 1),
+      new MoveCoordinates(BoardDirection.RIGHT, 1, direction, 1));
+  }
+
+  private Moves findDirectionMoves(Board board) {
+    Iterable<MoveDirection> directions = findAttackMoveDirections();
+    int numAdvance = findNumSquaresCanAdvance();
+
+    BoardPiece boardPiece = 
+      new BoardPieceDirectionBased(piece, position, directions, numAdvance, new CheckSquareIsOccupiable());
+
+    return boardPiece.findPossibleMoves(board);
+  }
+
+  private Iterable<MoveDirection> findAttackMoveDirections() {
+    BoardDirection direction = BoardPositioning.findDirection(piece.getColor());
+    MoveDirection moveDirection = new MoveDirection(direction, BoardDirection.NONE);
+    return Arrays.asList(moveDirection);
+  }
+
+  private int findNumSquaresCanAdvance() {
+    int pawnStartRow = 
+      piece.getColor() == Color.WHITE ? BoardPositioning.PAWN_WHITE_START_ROW : BoardPositioning.PAWN_BLACK_START_ROW;
+    return BoardPositioning.findRow(position) == pawnStartRow ? 2 : 1;
   }
 
 }
