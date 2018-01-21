@@ -11,24 +11,24 @@ public class Game {
   private Board board;
   private Color currentPlayer;
   private Moves previousMoves;
-  private Moves validMovesForCurrentPlayer;
+  private Moves legalMovesForCurrentPlayer;
 
   public Game() {
     board = new Board();
     currentPlayer = Color.WHITE;
     previousMoves = new Moves();
-    validMovesForCurrentPlayer = new Moves();
+    legalMovesForCurrentPlayer = new Moves();
   }
 
   public void play() {
-    populateValidMovesByPosition();
-    while (!validMovesForCurrentPlayer.isEmpty()) {
+    populateLegalMovesByPosition();
+    while (!legalMovesForCurrentPlayer.isEmpty()) {
       executeTurn();
       currentPlayer = Color.findOpponent(currentPlayer);
-      populateValidMovesByPosition();
+      populateLegalMovesByPosition();
     }
 
-    // reached here because no valid moves for current player
+    // reached here because no legal moves for current player
     if (board.isChecked(currentPlayer)) {
       Color victor = Color.findOpponent(currentPlayer);
       System.out.println(String.format("Checkmate! %s wins.", victor.name().toLowerCase()));
@@ -49,8 +49,8 @@ public class Game {
       String fromCoords = scanner.next();
       int fromPosition = BoardPositioning.findPosition(fromCoords);
 
-      if (!validMovesForCurrentPlayer.containsFromPosition(fromPosition)) {
-        System.out.println("\nNO VALID MOVES FROM THIS POSITION, TRY AGAIN\n");
+      if (!legalMovesForCurrentPlayer.containsFromPosition(fromPosition)) {
+        System.out.println("\nNO LEGAL MOVES FROM THIS POSITION, TRY AGAIN\n");
         continue;
       }
 
@@ -59,8 +59,8 @@ public class Game {
       int toPosition = BoardPositioning.findPosition(toCoords);
        
       Move move = new Move(fromPosition, toPosition);
-      if (!validMovesForCurrentPlayer.contains(move)) {
-        System.out.println("\nINVALID MOVE, TRY AGAIN\n");
+      if (!legalMovesForCurrentPlayer.contains(move)) {
+        System.out.println("\nILLEGAL MOVE, TRY AGAIN\n");
         continue;
       }
 
@@ -96,8 +96,8 @@ public class Game {
     }
   }
 
-  private void populateValidMovesByPosition() {
-    validMovesForCurrentPlayer.clear();
+  private void populateLegalMovesByPosition() {
+    legalMovesForCurrentPlayer.clear();
     Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
     while (positionsIterator.hasNext()) {
       int fromPosition = positionsIterator.next();
@@ -108,11 +108,11 @@ public class Game {
 
       Piece piece = fromSquare.getPiece();
       BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
-      Moves validMoves = boardPiece.findMoves(board, previousMoves);
-      validMovesForCurrentPlayer.addAll(validMoves);
+      Moves legalMoves = boardPiece.findMoves(board, previousMoves);
+      legalMovesForCurrentPlayer.addAll(legalMoves);
     }
 
-    System.out.println(String.format("valid moves: %s", validMovesForCurrentPlayer));
+    System.out.println(String.format("legal moves: %s", legalMovesForCurrentPlayer));
   }
 
 }
