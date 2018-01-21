@@ -72,45 +72,15 @@ public class BoardPositioning {
     BoardDirection horizontal, 
     int horizontalAmount) 
   {
-    return findPosition(fromPosition, vertical.findOffset(verticalAmount), horizontal.findOffset(horizontalAmount));
-  }
-
-  public static int findPosition(int fromPosition, BoardDirection boardDirection, int amount) {
-    switch (boardDirection) {
-      case UP:
-      case DOWN:
-        return findPosition(
-          fromPosition, 
-          boardDirection.findOffset(amount),
-          0);
-      case LEFT:
-      case RIGHT:
-        return findPosition(
-          fromPosition, 
-          0,
-          boardDirection.findOffset(amount));
-      default:
-        return fromPosition;
-    }
-  }
-
-  public static int findPosition(int fromPosition, int up, int right, int down, int left) {
-    return findPosition(
-      fromPosition,
-      BoardDirection.UP.findOffset(up) + BoardDirection.DOWN.findOffset(down),
-      BoardDirection.LEFT.findOffset(left) + BoardDirection.RIGHT.findOffset(right));
-  }
-
-  public static int findPosition(int fromPosition, int verticalOffset, int horizontalOffset) {
     int fromRow = findRow(fromPosition);
     int fromCol = findCol(fromPosition);
 
-    int toRow = fromRow + verticalOffset;
-    int toCol = fromCol + horizontalOffset;
+    int toRow = fromRow + vertical.findOffset(verticalAmount);
+    int toCol = fromCol + horizontal.findOffset(horizontalAmount);
 
     return findPosition(toRow, toCol);
   }
-  
+
   public static int findPosition(String coords) {
     int col = findCol(findColCoord(coords));
     int row = findRow(findRowCoord(coords));
@@ -129,15 +99,6 @@ public class BoardPositioning {
     char rowCoord = findRowCoord(findRow(position));
     return String.format("%c%c", colCoord, rowCoord);
   }
-
-  //public static List<String> findCoords(List<Move> positions) {
-  //  //List<String> coords = new ArrayList<String>();
-  //  //for (int position : positions) {
-  //  //  coords.add(findCoords(position));
-  //  //}
-  //  //return coords;
-  //  return new ArrayList<String>();
-  //}
 
   public static boolean isAdjacent(int position, int otherPosition) {
     return findRow(position) == findRow(otherPosition)
