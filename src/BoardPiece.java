@@ -35,7 +35,7 @@ public abstract class BoardPiece {
     Color opponent = Color.findOpponent(piece.getColor());
     int opponentKingPosition = board.findKingPosition(opponent);
 
-    return possibleMoves.containsToPosition(opponentKingPosition);
+    return possibleMoves.containsMovesToPosition(opponentKingPosition);
   }
 
 }

@@ -67,7 +67,6 @@ public enum EnPassantDirection {
 
     // check if opponent pawn moved two rows in previous move
     int opponentFromPosition = opponentPreviousMove.getFromPosition();
-    //int opponentFromRow = BoardPositioning.findRow(opponentFromPosition);
     if (opponentFromPosition != findVictimPawnFromPosition(fromPosition, currentPlayer)) {
       return false;
     }

@@ -19,7 +19,7 @@ public class Moves {
     return moves;
   }
 
-  public boolean containsFromPosition(int fromPosition) {
+  public boolean containsMovesFromPosition(int fromPosition) {
     return !moves 
       .stream()
       .filter(m -> m.getFromPosition() == fromPosition)
@@ -27,7 +27,7 @@ public class Moves {
       .isEmpty();
   }
 
-  public boolean containsToPosition(int toPosition) {
+  public boolean containsMovesToPosition(int toPosition) {
     return !moves 
       .stream()
       .filter(m -> m.getToPosition() == toPosition)

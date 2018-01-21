@@ -32,53 +32,6 @@ public class Board {
     for (int i = 0; i < BoardPositioning.NUM_SQUARES; i++) {
       squares.add(new Square());
     }
-
-    //int row = 0;
-    //for (int col = 0; col < NUM_COLS; col++) {
-    //  squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, NON_PAWN_PIECE_ORDER[col])));
-    //}
-
-    //row = 1;
-    //for (int col = 0; col < NUM_COLS; col++) {
-    //  squares.add(findPosition(row, col), new Square(new Piece(Color.BLACK, PieceType.PAWN)));
-    //}
-
-    //for (row = 2; row < 6; row++) {
-    //  for (int col = 0; col < NUM_COLS; col++) {
-    //    squares.add(findPosition(row, col), new Square());
-    //  }
-    //}
-
-    //row = 6;
-    //for (int col = 0; col < NUM_COLS; col++) {
-    //  squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, PieceType.PAWN)));
-    //}
-
-    //row = 7;
-    //for (int col = 0; col < NUM_COLS; col++) {
-    //  squares.add(findPosition(row, col), new Square(new Piece(Color.WHITE, NON_PAWN_PIECE_ORDER[col])));
-    //}
-
-
-    // get iterator for white pawns
-    // get iterator for white non pawns
-    // get iterator for black pawns
-    // get iterator for black non pawns
-
-
-    //Piece kingWhite = new Piece(Color.WHITE, PieceType.KING);
-    //Piece rookWhite = new Piece(Color.WHITE, PieceType.ROOK);
-    //Piece bishopWhite = new Piece(Color.WHITE, PieceType.QUEEN);
-    //Piece pawnWhite = new Piece(Color.WHITE, PieceType.PAWN);
-    ////Piece kingBlack = new Piece(Color.BLACK, PieceType.KING);
-    //Piece rookBlack = new Piece(Color.BLACK, PieceType.ROOK);
-    //squares.set(45, new Square(kingWhite));
-    //squares.set(56, new Square(rookWhite));
-    ////squares.set(63, new Square(rookWhite));
-    //squares.set(39, new Square(bishopWhite));
-    //squares.set(55, new Square(pawnWhite));
-    ////squares.set(4, new Square(kingBlack));
-    //squares.set(16, new Square(rookBlack));
   }
 
   public boolean isChecked(Color currentPlayer) {
@@ -125,7 +78,7 @@ public class Board {
     return -1;
   }
 
-  public void move(Move move) {
+  public void executeMove(Move move) {
     Square from = findSquare(move.getFromPosition());
     Square to = findSquare(move.getToPosition());
 
@@ -135,14 +88,6 @@ public class Board {
 
   public Square findSquare(int position) {
     return squares.get(position);
-  }
-
-  public List<Square> findSquares(List<Integer> positions) {
-    List<Square> squares = new ArrayList<Square>();
-    for (int position : positions) {
-      squares.add(findSquare(position));
-    }
-    return squares;
   }
 
   public Board copy() {

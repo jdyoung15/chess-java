@@ -21,11 +21,11 @@ public class Game {
   }
 
   public void play() {
-    populateLegalMovesByPosition();
+    populateLegalMovesForCurrentPlayer();
     while (!legalMovesForCurrentPlayer.isEmpty()) {
       executeTurn();
       currentPlayer = Color.findOpponent(currentPlayer);
-      populateLegalMovesByPosition();
+      populateLegalMovesForCurrentPlayer();
     }
 
     // reached here because no legal moves for current player
@@ -49,16 +49,18 @@ public class Game {
       String fromCoords = scanner.next();
       int fromPosition = BoardPositioning.findPosition(fromCoords);
 
-      if (!legalMovesForCurrentPlayer.containsFromPosition(fromPosition)) {
+      if (!legalMovesForCurrentPlayer.containsMovesFromPosition(fromPosition)) {
         System.out.println("\nNO LEGAL MOVES FROM THIS POSITION, TRY AGAIN\n");
         continue;
       }
 
       System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
+
       String toCoords = scanner.next();
       int toPosition = BoardPositioning.findPosition(toCoords);
        
       Move move = new Move(fromPosition, toPosition);
+
       if (!legalMovesForCurrentPlayer.contains(move)) {
         System.out.println("\nILLEGAL MOVE, TRY AGAIN\n");
         continue;
@@ -67,7 +69,7 @@ public class Game {
       handleIfEnPassantMove(move);
       handleIfCastlingMove(move);
 
-      board.move(move);
+      board.executeMove(move);
       previousMoves.add(move);
 
       break;
@@ -75,39 +77,42 @@ public class Game {
   }
 
   private void handleIfEnPassantMove(Move move) {
-    int fromPosition = move.getFromPosition();
+    int attackPawnFromPosition = move.getFromPosition();
     for (EnPassantDirection epd : EnPassantDirection.values()) {
-      if (epd.canEnPassant(fromPosition, currentPlayer, board, previousMoves)
-        && epd.findAttackingPawnMove(fromPosition, currentPlayer) == move) 
+      if (epd.canEnPassant(attackPawnFromPosition, currentPlayer, board, previousMoves)
+        && epd.findAttackingPawnMove(attackPawnFromPosition, currentPlayer).equals(move))
       {
-        board.findSquare(epd.findVictimPawnToPosition(fromPosition, currentPlayer)).clear();
+        int victimPawnPosition = epd.findVictimPawnToPosition(attackPawnFromPosition, currentPlayer);
+        board.findSquare(victimPawnPosition).clear();
       }
     }
   }
 
   private void handleIfCastlingMove(Move move) {
-    int fromPosition = move.getFromPosition();
+    int kingFromPosition = move.getFromPosition();
     for (CastlingSide cs : CastlingSide.values()) {
-      if (cs.canCastle(fromPosition, currentPlayer, board, previousMoves)
-        && cs.findKingMove(fromPosition) == move) 
+      if (cs.canCastle(kingFromPosition, currentPlayer, board, previousMoves)
+        && cs.findKingMove(kingFromPosition).equals(move))
       {
-        board.move(move);
+        board.executeMove(cs.findRookMove(kingFromPosition));
       }
     }
   }
 
-  private void populateLegalMovesByPosition() {
+  private void populateLegalMovesForCurrentPlayer() {
     legalMovesForCurrentPlayer.clear();
+
     Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
     while (positionsIterator.hasNext()) {
       int fromPosition = positionsIterator.next();
       Square fromSquare = board.findSquare(fromPosition);
-      if (!fromSquare.isOccupied() || fromSquare.getPiece().getColor() != currentPlayer) {
+      if (!fromSquare.containsCurrentPlayer(currentPlayer)) {
         continue;
       }
 
       Piece piece = fromSquare.getPiece();
       BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
+
       Moves legalMoves = boardPiece.findMoves(board, previousMoves);
       legalMovesForCurrentPlayer.addAll(legalMoves);
     }

@@ -18,7 +18,7 @@ public class Move {
 
   public boolean isLegal(Board board, Color currentPlayer) {
     Board copy = board.copy();  
-    copy.move(this);
+    copy.executeMove(this);
     return !copy.isChecked(currentPlayer);
   }
 

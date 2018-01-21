@@ -53,7 +53,7 @@ public enum CastlingSide {
     }
 
     // check that the king has not moved
-    if (previousMoves.containsFromPosition(kingStartPosition)) {
+    if (previousMoves.containsMovesFromPosition(kingStartPosition)) {
       return false;
     }
 
@@ -63,7 +63,7 @@ public enum CastlingSide {
     }
 
     // check that castling rook has not moved (and by extension is currently at start position)
-    if (previousMoves.containsFromPosition(findRookFromPosition(kingStartPosition))) {
+    if (previousMoves.containsMovesFromPosition(findRookFromPosition(kingStartPosition))) {
       return false;
     }
 
@@ -81,11 +81,8 @@ public enum CastlingSide {
     for (int i = 1; i <= KING_TO_POSITION_OFFSET; i++) {
       MoveCoordinates coordinates = new MoveCoordinates(horizontal, i, BoardDirection.NONE, 0);
       int currentPosition = coordinates.findPosition(kingStartPosition);
-      if (currentPosition == BoardPositioning.INVALID_POSITION) {
-        return false;
-      }
       Board copy = board.copy();
-      copy.move(new Move(kingStartPosition, currentPosition));
+      copy.executeMove(new Move(kingStartPosition, currentPosition));
       if (copy.isChecked(currentPlayer)) {
         return false;
       }

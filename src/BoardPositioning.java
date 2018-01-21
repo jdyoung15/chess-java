@@ -53,7 +53,6 @@ public class BoardPositioning {
     return findPosition(row, KING_START_COL);
   }
 
-
   public static Iterator<Integer> positionsIterator() {
     List<Integer> positions = new ArrayList();
     for (int row = 0; row < NUM_ROWS; row++) {
@@ -98,11 +97,6 @@ public class BoardPositioning {
     char rowCoord = findRowCoord(findRow(position));
     char colCoord = findColCoord(findCol(position));
     return String.format("%c%c", colCoord, rowCoord);
-  }
-
-  public static boolean isAdjacent(int position, int otherPosition) {
-    return findRow(position) == findRow(otherPosition)
-      && Math.abs(findCol(position) - findCol(otherPosition)) == 1;
   }
 
   public static BoardDirection findDirection(Color color) {
