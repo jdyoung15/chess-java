@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Game {
   
@@ -12,6 +14,16 @@ public class Game {
   private Color currentPlayer;
   private Moves previousMoves;
   private Moves legalMovesForCurrentPlayer;
+
+  private static final Pattern COORDS_PATTERN = Pattern.compile("[A-H][1-8]");
+  private static final String MESSAGE_CHECKMATE = "Checkmate! %s wins.";
+  private static final String MESSAGE_STALEMATE = "Stalemate.";
+  private static final String MESSAGE_START_TURN = "Turn: %s";
+  private static final String MESSAGE_SELECT_SQUARE_FROM = "Select square to move from:";
+  private static final String MESSAGE_SELECT_SQUARE_TO = "Select square to move to (moving from square %s):";
+  private static final String MESSAGE_ERROR_INVALID_ENTRY = "\nINVALID ENTRY, TRY AGAIN. FORMAT: [A-H][1-8] eg B5\n";
+  private static final String MESSAGE_ERROR_NO_LEGAL_MOVES = "\nNO LEGAL MOVES FROM THIS POSITION, TRY AGAIN\n";
+  private static final String MESSAGE_ERROR_ILLEGAL_MOVE = "\nILLEGAL MOVE, TRY AGAIN\n";
 
   public Game() {
     board = new Board();
@@ -31,10 +43,10 @@ public class Game {
     // reached here because no legal moves for current player
     if (board.isChecked(currentPlayer)) {
       Color victor = Color.findOpponent(currentPlayer);
-      System.out.println(String.format("Checkmate! %s wins.", victor.name().toLowerCase()));
+      System.out.println(String.format(MESSAGE_CHECKMATE, victor.name().toLowerCase()));
     }
     else {
-      System.out.println("Stalemate.");
+      System.out.println(MESSAGE_STALEMATE);
     }
   }
 
@@ -43,26 +55,37 @@ public class Game {
     Scanner scanner = new Scanner(System.in);     
 
     while (true) {
-      System.out.println(String.format("Turn: %s", currentPlayer.name().toLowerCase()));
+      System.out.println(String.format(MESSAGE_START_TURN, currentPlayer.name().toLowerCase()));
 
-      System.out.println("Select square to move from: ");
-      String fromCoords = scanner.next();
-      int fromPosition = BoardPositioning.findPosition(fromCoords);
+      System.out.println(MESSAGE_SELECT_SQUARE_FROM);
 
-      if (!legalMovesForCurrentPlayer.containsMovesFromPosition(fromPosition)) {
-        System.out.println("\nNO LEGAL MOVES FROM THIS POSITION, TRY AGAIN\n");
+      String fromCoords = scanner.next().toUpperCase();
+      if (!isValidCoords(fromCoords)) {
+        System.out.println(MESSAGE_ERROR_INVALID_ENTRY);
         continue;
       }
 
-      System.out.println(String.format("Select square to move to (moving from square %s): ", fromCoords));
+      int fromPosition = BoardPositioning.findPosition(fromCoords);
 
-      String toCoords = scanner.next();
+      if (!legalMovesForCurrentPlayer.containsMovesFromPosition(fromPosition)) {
+        System.out.println(MESSAGE_ERROR_NO_LEGAL_MOVES);
+        continue;
+      }
+
+      System.out.println(String.format(MESSAGE_SELECT_SQUARE_TO, fromCoords));
+
+      String toCoords = scanner.next().toUpperCase();
+      if (!isValidCoords(toCoords)) {
+        System.out.println(MESSAGE_ERROR_INVALID_ENTRY);
+        continue;
+      }
+
       int toPosition = BoardPositioning.findPosition(toCoords);
        
       Move move = new Move(fromPosition, toPosition);
 
       if (!legalMovesForCurrentPlayer.contains(move)) {
-        System.out.println("\nILLEGAL MOVE, TRY AGAIN\n");
+        System.out.println(MESSAGE_ERROR_ILLEGAL_MOVE);
         continue;
       }
 
@@ -74,6 +97,11 @@ public class Game {
 
       break;
     }
+  }
+
+  private boolean isValidCoords(String coords) {
+    Matcher m = COORDS_PATTERN.matcher(coords);
+    return m.matches();
   }
 
   private void handleIfEnPassantMove(Move move) {
@@ -116,8 +144,6 @@ public class Game {
       Moves legalMoves = boardPiece.findMoves(board, previousMoves);
       legalMovesForCurrentPlayer.addAll(legalMoves);
     }
-
-    System.out.println(String.format("legal moves: %s", legalMovesForCurrentPlayer));
   }
 
 }
