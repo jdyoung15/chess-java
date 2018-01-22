@@ -41,7 +41,7 @@ public class BoardPiecePawn extends BoardPiece {
   }
 
   private Iterable<MoveCoordinates> findAttackCoordinates(Color attackerColor) {
-    BoardDirection direction = BoardPositioning.findDirection(piece.getColor());
+    BoardDirection direction = BoardPositioning.findPawnDirection(piece.getColor());
 
     return Arrays.asList(
       new MoveCoordinates(BoardDirection.LEFT, 1, direction, 1),
@@ -59,7 +59,7 @@ public class BoardPiecePawn extends BoardPiece {
   }
 
   private Iterable<MoveDirection> findAttackMoveDirections() {
-    BoardDirection direction = BoardPositioning.findDirection(piece.getColor());
+    BoardDirection direction = BoardPositioning.findPawnDirection(piece.getColor());
     MoveDirection moveDirection = new MoveDirection(direction, BoardDirection.NONE);
     return Arrays.asList(moveDirection);
   }

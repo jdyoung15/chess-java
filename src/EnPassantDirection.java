@@ -17,19 +17,19 @@ public enum EnPassantDirection {
   }
 
   private int findAttackingPawnToPosition(int fromPosition, Color currentPlayer) {
-    BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
+    BoardDirection vertical = BoardPositioning.findPawnDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 1);
     return coordinates.findPosition(fromPosition);
   }
 
   public int findVictimPawnFromPosition(int fromPosition, Color currentPlayer) {
-    BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
+    BoardDirection vertical = BoardPositioning.findPawnDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1, vertical, 2);
     return coordinates.findPosition(fromPosition);
   }
 
   public int findVictimPawnToPosition(int fromPosition, Color currentPlayer) {
-    BoardDirection vertical = BoardPositioning.findDirection(currentPlayer);
+    BoardDirection vertical = BoardPositioning.findPawnDirection(currentPlayer);
     MoveCoordinates coordinates = new MoveCoordinates(boardDirectionHorizontal, 1);
     return coordinates.findPosition(fromPosition);
   }
@@ -42,7 +42,7 @@ public enum EnPassantDirection {
     Square fromSquare = board.findSquare(fromPosition);
     // check if piece at this position is a pawn
     if (!fromSquare.isOccupied() 
-      || fromSquare.getPiece().getColor() != currentPlayer
+      || fromSquare.containsOpponent(currentPlayer)
       || fromSquare.getPiece().getPieceType() != PieceType.PAWN) 
     {
       return false;
@@ -55,13 +55,10 @@ public enum EnPassantDirection {
       return false;
     }
 
-    // check if adjacent square is occupied by opponent pawn
+    // check if opponent moved pawn in previous move
     Square opponentToSquare = board.findSquare(opponentToPosition);
-    if (!opponentToSquare.isOccupied()) {
-      return false;
-    }
     Piece opponentPiece = opponentToSquare.getPiece();
-    if (opponentPiece.getColor() == currentPlayer || opponentPiece.getPieceType() != PieceType.PAWN) {
+    if (opponentPiece.getPieceType() != PieceType.PAWN) {
       return false;
     }
 

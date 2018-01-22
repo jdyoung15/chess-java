@@ -99,7 +99,7 @@ public class BoardPositioning {
     return String.format("%c%c", colCoord, rowCoord);
   }
 
-  public static BoardDirection findDirection(Color color) {
+  public static BoardDirection findPawnDirection(Color color) {
     return color == Color.WHITE ? BoardDirection.UP : BoardDirection.DOWN;
   }
 
@@ -108,7 +108,7 @@ public class BoardPositioning {
   }
 
   public static int findCol(int position) {
-    return position % NUM_COLS;  
+    return position % NUM_COLS;
   }
 
   private static int findRow(char rowCoord) {
