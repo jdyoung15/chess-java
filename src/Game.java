@@ -40,6 +40,8 @@ public class Game {
       populateLegalMoves();
     }
 
+    System.out.println(board.toString());
+
     if (board.isChecked(currentPlayer)) {
       Color victor = Color.findOpponent(currentPlayer);
       System.out.println(String.format(MESSAGE_CHECKMATE, victor.name().toLowerCase()));
