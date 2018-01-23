@@ -55,6 +55,14 @@ public class BoardPositioning {
     return findPosition(row, KING_START_COL);
   }
 
+  public static int findPawnStartRow(Color currentPlayer) {
+    return currentPlayer == Color.WHITE ? PAWN_WHITE_START_ROW : PAWN_BLACK_START_ROW;
+  }
+
+  public static int findNonPawnStartRow(Color currentPlayer) {
+    return currentPlayer == Color.WHITE ? NON_PAWN_WHITE_START_ROW : NON_PAWN_BLACK_START_ROW;
+  }
+
   /** Returns the positions of all board squares. */
   public static Iterator<Integer> positionsIterator() {
     List<Integer> positions = new ArrayList();

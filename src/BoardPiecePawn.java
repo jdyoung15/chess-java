@@ -74,8 +74,7 @@ public class BoardPiecePawn extends BoardPiece {
 
   /** Pawn can advance two squares only if in start row. */
   private int findNumSquaresCanAdvance() {
-    int pawnStartRow = 
-      piece.getColor() == Color.WHITE ? BoardPositioning.PAWN_WHITE_START_ROW : BoardPositioning.PAWN_BLACK_START_ROW;
+    int pawnStartRow = BoardPositioning.findPawnStartRow(piece.getColor());
     return BoardPositioning.findRow(position) == pawnStartRow ? 2 : 1;
   }
 

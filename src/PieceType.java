@@ -17,4 +17,13 @@ public enum PieceType {
     return displayName;
   }
 
+  public static PieceType findPieceType(String displayName) {
+    for (PieceType pieceType : PieceType.values()) {
+      if (pieceType.toString().equals(displayName)) {
+        return pieceType;
+      }
+    }
+    return PieceType.QUEEN;
+  }
+
 }
