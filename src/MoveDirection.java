@@ -15,6 +15,20 @@ public class MoveDirection {
     this.horizontal = horizontal;
   }
 
+  public MoveDirection(BoardDirection direction) {
+    switch (direction) {
+      case UP:
+      case DOWN:
+        this.vertical = direction;
+        this.horizontal = BoardDirection.NONE;
+        break;
+      case LEFT:
+      case RIGHT:
+        this.vertical = BoardDirection.NONE;
+        this.horizontal = direction;
+    }
+  }
+
   public BoardDirection getVertical() {
     return vertical;
   }

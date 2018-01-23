@@ -5,10 +5,10 @@ import java.util.Arrays;
 public class BoardPieceQueen extends BoardPieceDirectionBased {
 
   private static final Iterable<MoveDirection> moveDirections = Arrays.asList( 
-    new MoveDirection(BoardDirection.UP, BoardDirection.NONE),
-    new MoveDirection(BoardDirection.NONE, BoardDirection.RIGHT),
-    new MoveDirection(BoardDirection.DOWN, BoardDirection.NONE),
-    new MoveDirection(BoardDirection.NONE, BoardDirection.LEFT),
+    new MoveDirection(BoardDirection.UP),
+    new MoveDirection(BoardDirection.RIGHT),
+    new MoveDirection(BoardDirection.DOWN),
+    new MoveDirection(BoardDirection.LEFT),
     new MoveDirection(BoardDirection.UP, BoardDirection.RIGHT),
     new MoveDirection(BoardDirection.DOWN, BoardDirection.RIGHT),
     new MoveDirection(BoardDirection.DOWN, BoardDirection.LEFT),

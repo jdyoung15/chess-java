@@ -68,7 +68,7 @@ public class BoardPiecePawn extends BoardPiece {
 
   private Iterable<MoveDirection> findAttackMoveDirections() {
     BoardDirection direction = BoardPositioning.findPawnDirection(piece.getColor());
-    MoveDirection moveDirection = new MoveDirection(direction, BoardDirection.NONE);
+    MoveDirection moveDirection = new MoveDirection(direction);
     return Arrays.asList(moveDirection);
   }
 
