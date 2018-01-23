@@ -1,6 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * A board piece that moves to specific squares 
+ * (whose relative positions are represented by MoveCoordinates).
+ */
 public class BoardPieceCoordinatesBased extends BoardPiece {
 
   private Iterable<MoveCoordinates> moveCoordinatesList;
@@ -25,15 +29,6 @@ public class BoardPieceCoordinatesBased extends BoardPiece {
   }
 
   public Moves findPossibleMoves(Board board) {
-    // find square positions at coordinates
-    // for each square position
-    //   find square at position
-    //   if can move to square
-    //     add position to list
-    //   if blocking condition satisfied
-    //     break
-    // return square positions
-
     int fromPosition = position;
 
     Moves possibleMoves = new Moves();

@@ -9,6 +9,7 @@ public abstract class BoardPiece {
   protected CheckSquare canMoveHere;
 
   public BoardPiece(Piece piece, int position) {
+    // by default, a piece can move to a square it is occupiable (empty) or attackable (occupied by opponent)
     this(piece, position, new CheckSquareIsOccupiableOrAttackable());
   }
 

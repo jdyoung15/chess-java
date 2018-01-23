@@ -7,14 +7,17 @@ public class BoardPositioning {
   public static final int NUM_ROWS = 8;
   public static final int NUM_COLS = 8;
   public static final int NUM_SQUARES = NUM_ROWS * NUM_COLS;
-  public static final int ASCII_OFFSET = 65;
-  public static final int RADIX = 10;
+  public static final int ASCII_OFFSET_FOR_COL_COORD = 65;
+  public static final int RADIX_FOR_ROW_COORD = 10;
   public static final int INVALID_POSITION = -1;
 
   private static final int NON_PAWN_BLACK_START_ROW = 0;
   public static final int PAWN_BLACK_START_ROW = 1;
   private static final int NON_PAWN_WHITE_START_ROW = 7;
   public static final int PAWN_WHITE_START_ROW = 6;
+
+  private static final int KING_START_COL = 4;
+
   private static final PieceType[] NON_PAWN_PIECE_ORDER = {
     PieceType.ROOK,
     PieceType.KNIGHT,
@@ -26,7 +29,6 @@ public class BoardPositioning {
     PieceType.ROOK
   };
 
-  private static final int KING_START_COL = 4;
 
   public static void populateSquares(List<Square> squares) {
     for (int col = 0; col < NUM_COLS; col++) {
@@ -53,6 +55,7 @@ public class BoardPositioning {
     return findPosition(row, KING_START_COL);
   }
 
+  /** Returns the positions of all board squares. */
   public static Iterator<Integer> positionsIterator() {
     List<Integer> positions = new ArrayList();
     for (int row = 0; row < NUM_ROWS; row++) {
@@ -93,6 +96,10 @@ public class BoardPositioning {
     return row * NUM_COLS + col;
   }
 
+  /** 
+   * Coords (coordinates) are the user-friendly representation of a square position.
+   * Format "[A-H][1-8]" eg "C4", where 'C' is 3rd column from the left and '4' is 4th row from the bottom
+   */
   public static String findCoords(int position) {
     char rowCoord = findRowCoord(findRow(position));
     char colCoord = findColCoord(findCol(position));
@@ -116,7 +123,15 @@ public class BoardPositioning {
   }
 
   private static int findCol(char colCoord) {
-    return (int) colCoord - ASCII_OFFSET;
+    return (int) colCoord - ASCII_OFFSET_FOR_COL_COORD;
+  }
+
+  public static char findRowCoord(int row) {
+    return Character.forDigit(NUM_ROWS - row, RADIX_FOR_ROW_COORD);
+  }
+
+  public static char findColCoord(int col) {
+    return (char) (col + ASCII_OFFSET_FOR_COL_COORD);
   }
 
   private static char findRowCoord(String coords) {
@@ -125,14 +140,6 @@ public class BoardPositioning {
 
   private static char findColCoord(String coords) {
     return coords.charAt(0);
-  }
-
-  private static char findRowCoord(int row) {
-    return Character.forDigit(NUM_ROWS - row, RADIX);
-  }
-
-  private static char findColCoord(int col) {
-    return (char) (col + ASCII_OFFSET);
   }
 
 }

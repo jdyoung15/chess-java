@@ -32,6 +32,10 @@ public class BoardPiecePawn extends BoardPiece {
     return enPassantMoves;
   }
 
+  /** 
+   * Returns the forward-left and forward-right attack moves. 
+   * Pawn can only move to these squares if occupied by opponent.
+   */
   private Moves findCoordinateMoves(Board board) {
     Iterable<MoveCoordinates> coordinates = findAttackCoordinates(piece.getColor());
     BoardPiece boardPiece = 
@@ -48,6 +52,10 @@ public class BoardPiecePawn extends BoardPiece {
       new MoveCoordinates(BoardDirection.RIGHT, 1, direction, 1));
   }
 
+  /** 
+   * Returns the forward-one and forward-two moves. 
+   * Pawn can only move to these squares if empty.
+   */
   private Moves findDirectionMoves(Board board) {
     Iterable<MoveDirection> directions = findAttackMoveDirections();
     int numAdvance = findNumSquaresCanAdvance();
@@ -64,6 +72,7 @@ public class BoardPiecePawn extends BoardPiece {
     return Arrays.asList(moveDirection);
   }
 
+  /** Pawn can advance two squares only if in start row. */
   private int findNumSquaresCanAdvance() {
     int pawnStartRow = 
       piece.getColor() == Color.WHITE ? BoardPositioning.PAWN_WHITE_START_ROW : BoardPositioning.PAWN_BLACK_START_ROW;

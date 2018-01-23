@@ -1,6 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 
+/** 
+ * Represents the direction of a piece's linear movement across the board. 
+ * Eg diagonally up and right for bishop, down for rook.
+ */
 public class MoveDirection {
   
   private BoardDirection vertical;
@@ -19,6 +23,7 @@ public class MoveDirection {
     return horizontal;
   }
 
+  /* Returns the positions of all squares in the path of this direction. */
   private List<Integer> findAllPositions(int fromPosition, int limit) {
     List<Integer> positions = new ArrayList<Integer>();
 
@@ -33,6 +38,7 @@ public class MoveDirection {
     return positions;
   }
 
+  /* Given squares in a direction, returns the positions of squares that can be moved to. */
   private List<Integer> filterUnblockedPositions(
     List<Integer> positionsInDirection, 
     Board board, 

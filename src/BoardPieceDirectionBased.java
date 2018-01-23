@@ -2,9 +2,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ * A board piece that moves in directions, eg up or left or diagonally down-right.
+ * Directions represented by MoveDirection.
+ */
 public class BoardPieceDirectionBased extends BoardPiece {
 
   private Iterable<MoveDirection> moveDirections;
+  // by default, a piece can move an unlimited number of squares in a given direction
   private int limitPerDirection = Integer.MAX_VALUE;
 
   public BoardPieceDirectionBased(

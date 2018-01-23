@@ -12,6 +12,10 @@ public enum BoardDirection {
     this.multiplier = multiplier;
   }
 
+  /** 
+   * @amount the number of squares to move in this direction
+   * @returns a positive or negative offset used in calculating new positions
+   */
   public int findOffset(int amount) {
     return multiplier * amount;
   }

@@ -13,7 +13,7 @@ public class Game {
   private Board board;
   private Color currentPlayer;
   private Moves previousMoves;
-  private Moves legalMovesForCurrentPlayer;
+  private Moves legalMoves;
 
   private static final Pattern COORDS_PATTERN = Pattern.compile("[A-H][1-8]");
   private static final String MESSAGE_CHECKMATE = "Checkmate! %s wins.";
@@ -29,18 +29,17 @@ public class Game {
     board = new Board();
     currentPlayer = Color.WHITE;
     previousMoves = new Moves();
-    legalMovesForCurrentPlayer = new Moves();
+    legalMoves = new Moves();
   }
 
   public void play() {
-    populateLegalMovesForCurrentPlayer();
-    while (!legalMovesForCurrentPlayer.isEmpty()) {
+    populateLegalMoves();
+    while (!legalMoves.isEmpty()) {
       executeTurn();
       currentPlayer = Color.findOpponent(currentPlayer);
-      populateLegalMovesForCurrentPlayer();
+      populateLegalMoves();
     }
 
-    // reached here because no legal moves for current player
     if (board.isChecked(currentPlayer)) {
       Color victor = Color.findOpponent(currentPlayer);
       System.out.println(String.format(MESSAGE_CHECKMATE, victor.name().toLowerCase()));
@@ -67,7 +66,7 @@ public class Game {
 
       int fromPosition = BoardPositioning.findPosition(fromCoords);
 
-      if (!legalMovesForCurrentPlayer.containsMovesFromPosition(fromPosition)) {
+      if (!legalMoves.containsMovesFromPosition(fromPosition)) {
         System.out.println(MESSAGE_ERROR_NO_LEGAL_MOVES);
         continue;
       }
@@ -84,7 +83,7 @@ public class Game {
        
       Move move = new Move(fromPosition, toPosition);
 
-      if (!legalMovesForCurrentPlayer.contains(move)) {
+      if (!legalMoves.contains(move)) {
         System.out.println(MESSAGE_ERROR_ILLEGAL_MOVE);
         continue;
       }
@@ -99,11 +98,13 @@ public class Game {
     }
   }
 
+  /* Coords are valid if they match the format [A-H][1-8], eg "C4" */
   private boolean isValidCoords(String coords) {
     Matcher m = COORDS_PATTERN.matcher(coords);
     return m.matches();
   }
 
+  /* If en passant move, removes the victim pawn from the board. */
   private void handleIfEnPassantMove(Move move) {
     int attackPawnFromPosition = move.getFromPosition();
     for (EnPassantDirection epd : EnPassantDirection.values()) {
@@ -116,6 +117,7 @@ public class Game {
     }
   }
 
+  /* If castling move, moves the castling rook to appropriate position. */
   private void handleIfCastlingMove(Move move) {
     int kingFromPosition = move.getFromPosition();
     for (CastlingSide cs : CastlingSide.values()) {
@@ -127,8 +129,9 @@ public class Game {
     }
   }
 
-  private void populateLegalMovesForCurrentPlayer() {
-    legalMovesForCurrentPlayer.clear();
+  /* Finds the legal moves for the current player. */
+  private void populateLegalMoves() {
+    legalMoves.clear();
 
     Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
     while (positionsIterator.hasNext()) {
@@ -141,8 +144,8 @@ public class Game {
       Piece piece = fromSquare.getPiece();
       BoardPiece boardPiece = BoardPieceFactory.getBoardPiece(piece, fromPosition);
 
-      Moves legalMoves = boardPiece.findMoves(board, previousMoves);
-      legalMovesForCurrentPlayer.addAll(legalMoves);
+      Moves moves = boardPiece.findMoves(board, previousMoves);
+      legalMoves.addAll(moves);
     }
   }
 

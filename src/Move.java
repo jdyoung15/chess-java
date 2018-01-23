@@ -16,6 +16,7 @@ public class Move {
     return toPosition;
   }
 
+  /* Move is legal if it does not expose king to check */
   public boolean isLegal(Board board, Color currentPlayer) {
     Board copy = board.copy();  
     copy.executeMove(this);

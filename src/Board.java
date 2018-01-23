@@ -104,8 +104,9 @@ public class Board {
 
     for (int row = 0; row < BoardPositioning.NUM_ROWS; row++) {
       // add row number
-      sb.append(String.format("%d  ", BoardPositioning.NUM_ROWS - row));
-      // add string representations of squares
+      sb.append(String.format("%c  ", BoardPositioning.findRowCoord(row)));
+
+      // add string representations of squares in current row
       for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
         int position = BoardPositioning.findPosition(row, col);
         sb.append(squares.get(position).toString());
@@ -117,7 +118,7 @@ public class Board {
     // add column letters
     sb.append("\n   ");
     for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
-      sb.append(String.format("%c  ", (char) col + BoardPositioning.ASCII_OFFSET));
+      sb.append(String.format("%c  ", BoardPositioning.findColCoord(col)));
     }
 
     sb.append("\n\n");
