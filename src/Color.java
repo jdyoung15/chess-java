@@ -1,3 +1,6 @@
+/**
+ * Represents a player and is used to denote the player's pieces.
+ */
 public enum Color {
 
   WHITE("W"), 
@@ -5,7 +8,7 @@ public enum Color {
 
   private String displayName;
 
-  private Color(String displayName) {
+  Color(String displayName) {
     this.displayName = displayName;
   }
 
@@ -13,7 +16,7 @@ public enum Color {
     return displayName;
   }
 
-  public static Color findOpponent(Color color) {
+  public static Color complementOf(Color color) {
     return color == WHITE ? BLACK : WHITE;
   }
 

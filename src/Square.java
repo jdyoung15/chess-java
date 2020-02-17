@@ -1,25 +1,17 @@
 public class Square {
-  
+
   private Piece piece;
 
   public Square() {
-    this.piece = null;
+    new Square(null);
   }
 
   public Square(Piece piece) {
     this.piece = piece;
   }
 
-  public boolean isOccupied() {
+  public boolean isSquareOccupied() {
     return piece != null;
-  }
-
-  public boolean containsCurrentPlayer(Color currentPlayer) {
-    return isOccupied() && piece.getColor() == currentPlayer;  
-  }
-
-  public boolean containsOpponent(Color currentPlayer) {
-    return isOccupied() && piece.getColor() != currentPlayer;  
   }
 
   public Piece getPiece() {
@@ -34,15 +26,17 @@ public class Square {
     this.piece = null;
   }
 
-  public String toString() {
-    return piece != null ? piece.toString(): "__";
+  public Square copy() {
+    return new Square(piece);
   }
 
-  public Square copy() {
-    if (isOccupied()) {
-      return new Square(piece);
-    }
+  public static Square empty() {
     return new Square();
+  }
+
+  @Override
+  public String toString() {
+    return piece != null ? piece.toString(): "__";
   }
 
 }

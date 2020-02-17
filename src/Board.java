@@ -1,114 +1,135 @@
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+/**
+ * Represents an ordered structuring of positions among which pieces are moved.
+ */
 public class Board {
 
-
-  private List<Square> squares;
+  private List<Optional<Piece>> squares;
 
   public Board() {
-    initializeSquares();
-    BoardPositioning.populateSquares(squares);
+    initialize();
   }
 
-  public Board(List<Square> squares) {
+  public Board(List<Optional<Piece>> squares) {
     this.squares = squares;
   }
 
-  private void initializeSquares() {
-    squares = new ArrayList<Square>();
+  /**
+   * Creates the initial state for this board.
+   */
+  private void initialize() {
+    squares = new ArrayList<>();
 
-    for (int i = 0; i < BoardPositioning.NUM_SQUARES; i++) {
-      squares.add(new Square());
+    List<Integer> allPositions = Positioning.getAllPositions();
+    allPositions.forEach(position -> squares.add(Optional.empty()));
+
+    Map<Integer, Piece> start = Positioning.getPieceStartPositions();
+    for (int position : allPositions) {
+      squares.set(position, Optional.ofNullable(start.get(position)));
     }
   }
 
-  public boolean isChecked(Color currentPlayer) {
-    List<Integer> opponentPositions = findOpponentPositions(currentPlayer);
-    for (int opponentPosition : opponentPositions) {
-      Square square = findSquare(opponentPosition);
-      Piece opponentPiece = square.getPiece();
-      BoardPiece opponentBoardPiece = BoardPieceFactory.getBoardPiece(opponentPiece, opponentPosition);
-      if (opponentBoardPiece.isChecking(this)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public List<Integer> findOpponentPositions(Color currentPlayer) {
-    List<Integer> positions = new ArrayList<Integer>();
-    Color opponent = Color.findOpponent(currentPlayer);
-
-    Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
-    while (positionsIterator.hasNext()) {
-      int position = positionsIterator.next();
-      Square square = findSquare(position);
-      if (square.containsOpponent(currentPlayer)) {
-        positions.add(position); 
-      }
-    }
-
-    return positions;
-  }
-
-  public int findKingPosition(Color currentPlayer) {
-    Iterator<Integer> positionsIterator = BoardPositioning.positionsIterator();
-    while (positionsIterator.hasNext()) {
-      int position = positionsIterator.next();
-      Square square = findSquare(position);
-      if (square.isOccupied()) {
-        Piece piece = square.getPiece();
-        if (piece.getPieceType() == PieceType.KING && piece.getColor() == currentPlayer) {
-          return position;
-        }
-      }
-    }
-    return -1;
-  }
-
+  /**
+   * Updates the board's state with the given move.
+   */
   public void executeMove(Move move) {
-    Square from = findSquare(move.getFromPosition());
-    Square to = findSquare(move.getToPosition());
+    int from = move.getFromPosition();
+    int to = move.getToPosition();
 
-    to.setPiece(from.getPiece());
-    from.clear();
-  }
-
-  public Square findSquare(int position) {
-    return squares.get(position);
-  }
-
-  public Board copy() {
-    List<Square> squaresCopy = new ArrayList<Square>();
-    for (Square square : squares) {
-      squaresCopy.add(square.copy());
+    if (Positioning.isValidPosition(to)) {
+      squares.set(to, squares.get(from));
     }
-    Board boardCopy = new Board(squaresCopy);
-    return boardCopy;
+
+    squares.set(from, Optional.empty());
+
+    for (Move associatedMove : move.getAssociatedMoves()) {
+      executeMove(associatedMove);
+    }
   }
 
+  /**
+   * Returns a board that is a copy of the current board. Any changes to the copy
+   * will not affect the current board.
+   */
+  public Board copy() {
+    return new Board(new ArrayList<>(squares));
+  }
+
+  /**
+   * Returns the current position of the king belonging to the given color.
+   */
+  public int findKingCurrentPosition(Color color) {
+    return Positioning.getAllPositions()
+      .stream()
+      .filter(position -> squares.get(position).isPresent())
+      .filter(position -> {
+        Piece piece = squares.get(position).orElseThrow();
+        return piece.getPieceType() == Piece.Type.KING && piece.getColor() == color;
+      })
+      .findFirst()
+      .orElseThrow();
+  }
+
+  /**
+   * Sets the given piece at the given position.
+   */
+  public void setPiece(int position, Piece piece) {
+    squares.set(position, Optional.ofNullable(piece));
+  }
+
+  /**
+   * Returns whether the given position is occupied by a piece, regardless of color.
+   */
+  public boolean occupiedAt(int position) {
+    return squares.get(position).isPresent();
+  }
+
+  /**
+   * Returns whether the given player has a piece at the given position.
+   */
+  public boolean playerAt(int position, Color player) {
+    return occupiedAt(position) && getPieceAt(position).getColor() == player;
+  }
+
+  /**
+   * Returns whether the given player's opponent has a piece at the given position.
+   */
+  public boolean opponentAt(int position, Color player) {
+    return playerAt(position, Color.complementOf(player));
+  }
+
+  /**
+   * Returns the piece at the given position. If no piece exists,
+   * throws {@code NoSuchElementException}.
+   */
+  public Piece getPieceAt(int position) {
+    return squares.get(position).orElseThrow(() ->
+      new IllegalArgumentException("Invalid position: " + position));
+  }
+
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
 
-    for (int row = 0; row < BoardPositioning.NUM_ROWS; row++) {
-      // add row number
-      sb.append(String.format("%c  ", BoardPositioning.findRowCoord(row)));
-
-      // add string representations of squares in current row
-      for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
-        int position = BoardPositioning.findPosition(row, col);
-        sb.append(squares.get(position).toString());
+    List<List<Integer>> groupings = Positioning.getPositionGroupings();
+    for (int i = 0; i < groupings.size(); i++) {
+      sb.append(String.format("%c  ", Positioning.getGroupingLabel(i)));
+      for (int position : groupings.get(i)) {
+        sb.append(squares.get(position).map(Piece::toString).orElse("__"));
         sb.append(" ");
       }
       sb.append("\n");
+
     }
 
-    // add column letters
     sb.append("\n   ");
-    for (int col = 0; col < BoardPositioning.NUM_COLS; col++) {
-      sb.append(String.format("%c  ", BoardPositioning.findColCoord(col)));
+    List<Integer> representativeGrouping = groupings.get(0);
+    for (int i = 0; i < representativeGrouping.size(); i++) {
+      sb.append(String.format("%c  ", Positioning.getGroupingItemLabel(i)));
     }
 
     sb.append("\n\n");
