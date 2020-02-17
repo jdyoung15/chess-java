@@ -52,7 +52,6 @@ public class PlayerLegalMoveFinderImpl implements PlayerLegalMoveFinder {
   private boolean isCheckedDuringKingMove(
     Board board, Color player, List<Move> previousMoves, Move move)
   {
-    System.out.println(move);
     int from = move.getFromPosition();
     if (move.getKingPositionsTraveled() == null) {
       System.out.println("null king positions traveled");

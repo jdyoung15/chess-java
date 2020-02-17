@@ -123,7 +123,7 @@ public class Board {
     for (int i = 0; i < groupings.size(); i++) {
       sb.append(String.format("%c  ", Positioning.getGroupingLabel(i)));
       for (int position : groupings.get(i)) {
-        sb.append(squares.get(position).map(Piece::toString).orElse("__"));
+        sb.append(squares.get(position).map(Piece::getDisplaySymbol).orElse("__"));
         sb.append(" ");
       }
       sb.append("\n");

@@ -37,12 +37,12 @@ public class Game {
   private static final String MESSAGE_PAWN_PROMOTION_CHOICE =
     "\nPawn promotion, choose new piece: " + PawnPromotion.CHOICES
       .stream()
-      .map(Piece.Type::toChoiceString)
+      .map(Piece.Type::toBracketedName)
       .collect(Collectors.joining(" ")) + "\n";
 
   private static final String PAWN_PROMOTION_CHOICE_REGEX = PawnPromotion.CHOICES
     .stream()
-    .map(Piece.Type::toString)
+    .map(Piece.Type::getDisplaySymbol)
     .collect(Collectors.joining(".*|"));
 
   private static final Pattern PAWN_PROMOTION_CHOICE_PATTERN =

@@ -38,7 +38,7 @@ public class PawnPromotion {
    * Updates the given board with the user's pawn promotion selection.
    */
   public void updateBoard(Board board, Color currentPlayer, Move move, String choice) {
-    Piece.Type newPieceType = Piece.Type.findPieceType(choice);
+    Piece.Type newPieceType = Piece.Type.findPieceType(choice).orElseThrow();
     Piece newPiece = new Piece(currentPlayer, newPieceType);
     board.setPiece(move.getToPosition(), newPiece);
   }

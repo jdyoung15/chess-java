@@ -1,5 +1,8 @@
 package containers;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * Represents a single piece in the game.
  */
@@ -21,8 +24,8 @@ public class Piece {
     return pieceType;
   }
 
-  public String toString() {
-    return String.format("%s%s", color.toString(), pieceType.toString());
+  public String getDisplaySymbol() {
+    return String.format("%s%s", color.getDisplaySymbol(), pieceType.getDisplaySymbol());
   }
 
   public enum Type {
@@ -34,37 +37,41 @@ public class Piece {
     QUEEN("Q"),
     KING("K");
 
-    private String displayName;
+    private String displaySymbol;
 
-    Type(String displayName) {
-      this.displayName = displayName;
+    Type(String displaySymbol) {
+      this.displaySymbol = displaySymbol;
     }
 
-    public static Type findPieceType(String displayName) {
-      for (Type pieceType : Type.values()) {
-        if (pieceType.toString().equals(displayName)) {
-          return pieceType;
-        }
-      }
-      return Type.QUEEN;
+    /**
+     * Returns an optional containing the {@link Piece.Type} corresponding to the given
+     * string representing its display symbol. If no match is found, returns an empty Optional.
+     */
+    public static Optional<Type> findPieceType(String displaySymbol) {
+      return Arrays.stream(Type.values())
+        .filter(value -> value.toString().equals(displaySymbol))
+        .findFirst();
     }
 
-    @Override
-    public String toString() {
-      return displayName;
+    public String getDisplaySymbol() {
+      return displaySymbol;
     }
 
-    /** Returns the name formatted as a choice for the user. */
-    public String toChoiceString() {
+    /**
+     * Returns the name of the current enum with the display symbol surrounded by brackets.
+     */
+    public String toBracketedName() {
       String name = this.name();
-      String first = name.substring(0, 1).replace(this.displayName, bracketedDisplayName());
-      String remaining = name.substring(1).replace(this.displayName, bracketedDisplayName());
+      String first = name.substring(0, 1).replace(this.displaySymbol, bracketedDisplayName());
+      String remaining = name.substring(1).replace(this.displaySymbol, bracketedDisplayName());
       return first.toUpperCase() + remaining.toLowerCase();
     }
 
-    /** Returns the display name of this enum value, surrounded by brackets. */
+    /**
+     * Returns the display name of this enum value, surrounded by brackets.
+     */
     private String bracketedDisplayName() {
-      return "[" + this.displayName + "]";
+      return "[" + this.displaySymbol + "]";
     }
   }
 }

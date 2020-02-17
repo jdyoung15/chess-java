@@ -8,14 +8,14 @@ public enum Color {
   WHITE("W"), 
   BLACK("B");
 
-  private String displayName;
+  private String displaySymbol;
 
-  Color(String displayName) {
-    this.displayName = displayName;
+  Color(String displaySymbol) {
+    this.displaySymbol = displaySymbol;
   }
 
-  public String toString() {
-    return displayName;
+  public String getDisplaySymbol() {
+    return displaySymbol;
   }
 
   public static Color complementOf(Color color) {
