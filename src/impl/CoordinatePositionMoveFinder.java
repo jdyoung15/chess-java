@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Responsible for finding possible containers.Coordinate-based moves.
+ * Responsible for finding coordinate-based moves.
  */
 public abstract class CoordinatePositionMoveFinder implements PositionMoveFinder {
 

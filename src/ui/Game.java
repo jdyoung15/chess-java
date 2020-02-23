@@ -18,11 +18,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 // TODO:
-// - package
 // - 2d array for squares
 
 /**
- * Responsible for the user-facing interactions for a single game of ui.Chess.
+ * The user-facing interactions for a single game of Chess.
  */
 public class Game {
 
@@ -68,7 +67,7 @@ public class Game {
   }
 
   /**
-   * Responsible for executing a complete game from start to finish.
+   * Executes a complete game from start to finish.
    */
   public void play() {
     legalMoves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);

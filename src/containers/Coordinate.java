@@ -1,7 +1,7 @@
 package containers;
 
 /**
- * Represents a way to compute a new board position relative to a source position.
+ * Represents a "coordinate" -- or offset -- relative to a source position.
  * The source position can be treated as the "origin" -- i.e. (0,0) -- of the
  * "coordinate plane" that is the board.
  */
