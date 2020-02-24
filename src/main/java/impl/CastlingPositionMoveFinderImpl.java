@@ -53,7 +53,7 @@ public class CastlingPositionMoveFinderImpl implements PositionMoveFinder {
     Color currentPlayer = piece.getColor();
 
     int kingStart = Positioning.getKingStartPosition(currentPlayer);
-    boolean kingHasMoved = containsMoveFrom(previousMoves, kingStart);
+    boolean kingHasMoved = containsMoveFrom(previousMoves, kingStart) || fromPosition != kingStart;
     if (kingHasMoved) {
       return moves;
     }
