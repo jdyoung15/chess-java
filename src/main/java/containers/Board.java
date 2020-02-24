@@ -64,6 +64,24 @@ public class Board {
   }
 
   /**
+   * Returns a board with all positions empty. Useful for testing.
+   */
+  public static Board empty() {
+    Board board = new Board();
+    board.clear();
+    return board;
+  }
+
+  /**
+   * Clear pieces from all postions.
+   */
+  private void clear() {
+    for (int position : Positioning.getAllPositions()) {
+      setEmpty(position);
+    }
+  }
+
+  /**
    * Returns the current position of the king belonging to the given color.
    */
   public int findKingCurrentPosition(Color color) {
@@ -83,6 +101,13 @@ public class Board {
    */
   public void setPiece(int position, Piece piece) {
     squares.set(position, Optional.ofNullable(piece));
+  }
+
+  /**
+   * Sets the given position to empty.
+   */
+  private void setEmpty(int position) {
+    squares.set(position, Optional.empty());
   }
 
   /**

@@ -1,5 +1,7 @@
 package main.java.containers;
 
+import main.java.util.Positioning;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +69,10 @@ public class Move {
     Move m = (Move) o;
      
     return fromPosition == m.getFromPosition() && toPosition == m.getToPosition();
+  }
+
+  public String toString() {
+    return Positioning.toDisplayString(fromPosition) + "->" + Positioning.toDisplayString(toPosition);
   }
 
 }

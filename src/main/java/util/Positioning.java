@@ -1,9 +1,6 @@
 package main.java.util;
 
-import main.java.containers.Color;
-import main.java.containers.Coordinate;
-import main.java.containers.OrientedCoordinate;
-import main.java.containers.Piece;
+import main.java.containers.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -185,6 +182,17 @@ public final class Positioning {
     char rowSymbol = toRowSymbol(rowOf(position));
     char colSymbol = toColSymbol(colOf(position));
     return String.format("%c%c", colSymbol, rowSymbol);
+  }
+
+  /**
+   * Converts the given moves to a set of user-friendly strings denoting the positions moved to.
+   */
+  public static Set<String> toDisplayStrings(List<Move> moves) {
+    return moves
+      .stream()
+      .map(Move::getToPosition)
+      .map(Positioning::toDisplayString)
+      .collect(Collectors.toSet());
   }
 
   private static char toRowSymbol(int row) {
