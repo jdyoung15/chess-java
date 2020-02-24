@@ -1,5 +1,7 @@
 package test.java.impl;
 
+import main.java.containers.Board;
+import main.java.containers.Color;
 import main.java.containers.Move;
 import main.java.containers.Piece;
 import main.java.core.PositionMoveFinder;
@@ -9,6 +11,8 @@ import main.java.util.Positioning;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,35 +21,48 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RookPositionMoveFinderTest {
 
   private static final Piece.Type PIECE_TYPE = Piece.Type.ROOK;
+  private static final Set<String> SURROUNDING_POSITIONS = Set.of(
+    "C3", "C4", "C5", "D5", "E5", "E4", "E3", "D3"
+  );
 
   private final PositionMoveFinder moveFinder = PieceTypePositionMoveFinderFactory.getMoveFinder(PIECE_TYPE);
 
   private Game game;
 
+  private Board board;
+  private int fromPosition;
+  private List<Move> previousMoves;
+
   @BeforeEach
   public void beforeEach() {
     game = new Game();
+
+    board = Board.empty();
+    fromPosition = Positioning.toPosition("D4");
+    board.setPiece(fromPosition, new Piece(Color.WHITE, PIECE_TYPE));
+    previousMoves = new ArrayList<>();
   }
 
   @Test
-  public void testStandardMoves() {
-    int from = Positioning.toPosition("H1");
-    List<Move> moves = moveFinder.findMoves(game.getBoard(), from, game.getPreviousMoves());
+  public void testUnrestricted() {
+    List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
+    assertEquals(
+      Set.of("A4", "B4", "C4", "D8", "D7", "D6", "D5", "E4", "F4", "G4", "H4", "D3", "D2", "D1"),
+      Positioning.toDisplayStrings(moves));
+  }
+
+  @Test
+  public void testAttack() {
+    board.setPiece(SURROUNDING_POSITIONS, new Piece(Color.BLACK, Piece.Type.PAWN));
+    List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
+    assertEquals(Set.of("C4", "D5", "E4", "D3"), Positioning.toDisplayStrings(moves));
+  }
+
+  @Test
+  public void testBlocked() {
+    board.setPiece(SURROUNDING_POSITIONS, new Piece(Color.WHITE, Piece.Type.PAWN));
+    List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
     assertEquals(Set.of(), Positioning.toDisplayStrings(moves));
-
-    game.executeTurn("H2", "H4");
-    game.executeTurn("A7", "A6");
-
-    from = Positioning.toPosition("H1");
-    moves = moveFinder.findMoves(game.getBoard(), from, game.getPreviousMoves());
-    assertEquals(Set.of("H2", "H3"), Positioning.toDisplayStrings(moves));
-
-    game.executeTurn("H1", "H3");
-    game.executeTurn("A6", "A5");
-
-    from = Positioning.toPosition("H3");
-    moves = moveFinder.findMoves(game.getBoard(), from, game.getPreviousMoves());
-    assertEquals(Set.of("H1", "H2", "A3", "B3", "C3", "D3", "E3", "F3", "G3"), Positioning.toDisplayStrings(moves));
   }
 
 }

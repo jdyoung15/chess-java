@@ -2,10 +2,7 @@ package main.java.containers;
 
 import main.java.util.Positioning;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Represents an ordered structuring of positions among which pieces are moved.
@@ -104,6 +101,21 @@ public class Board {
   }
 
   /**
+   * Sets the given piece at the given position, represented as a user-friendly string input.
+   */
+  public void setPiece(String position, Piece piece) {
+    setPiece(Positioning.toPosition(position), piece);
+  }
+
+  /**
+   * Sets a piece with the given color and type at each of the given positions,
+   * represented as user-friendly string inputs.
+   */
+  public void setPiece(Set<String> positions, Piece piece) {
+    positions.forEach(s -> setPiece(s, piece));
+  }
+
+  /**
    * Sets the given position to empty.
    */
   private void setEmpty(int position) {
@@ -137,7 +149,7 @@ public class Board {
    */
   public Piece getPieceAt(int position) {
     return squares.get(position).orElseThrow(() ->
-      new IllegalArgumentException("Invalid position: " + position));
+      new IllegalArgumentException("No piece at: " + position));
   }
 
   @Override
