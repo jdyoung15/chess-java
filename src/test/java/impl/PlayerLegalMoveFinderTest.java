@@ -5,21 +5,19 @@ import containers.Color;
 import containers.Move;
 import containers.Piece;
 import core.PlayerLegalMoveFinder;
-import helpers.CheckLogic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.Positioning;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerLegalMoveFinderTest {
 
-  private final PlayerLegalMoveFinder playerMoveFinder = new PlayerLegalMoveFinderImpl();
-  private final CheckLogic checkLogic = new CheckLogic();
+  private final PlayerLegalMoveFinder moveFinder = new PlayerLegalMoveFinderImpl();
 
   private Board board;
   private Color currentPlayer;
@@ -34,69 +32,71 @@ public class PlayerLegalMoveFinderTest {
 
   @Test
   public void testStalemate() {
-    board.setPiece(Positioning.toPosition("A1"), new Piece(Color.WHITE, Piece.Type.KING));
-    board.setPiece(Positioning.toPosition("B3"), new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("B3", new Piece(Color.BLACK, Piece.Type.QUEEN));
 
-    List<Move> moves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-
-    assertTrue(moves.isEmpty());
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of(), Positioning.toDisplayStrings(moves));
   }
 
   @Test
-  public void testCheckmateStraightforward() {
-    board.setPiece(Positioning.toPosition("A1"), new Piece(Color.WHITE, Piece.Type.KING));
-    board.setPiece(Positioning.toPosition("H1"), new Piece(Color.BLACK, Piece.Type.QUEEN));
-    board.setPiece(Positioning.toPosition("H2"), new Piece(Color.BLACK, Piece.Type.ROOK));
+  public void testCheckmateStandard() {
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("H1", new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("H2", new Piece(Color.BLACK, Piece.Type.ROOK));
 
-    List<Move> moves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-
-    assertTrue(moves.isEmpty());
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of(), Positioning.toDisplayStrings(moves));
   }
 
   @Test
   public void testCheckmateAttackingPieceGuarded() {
-    board.setPiece(Positioning.toPosition("A1"), new Piece(Color.WHITE, Piece.Type.KING));
-    board.setPiece(Positioning.toPosition("B2"), new Piece(Color.BLACK, Piece.Type.QUEEN));
-    board.setPiece(Positioning.toPosition("C3"), new Piece(Color.BLACK, Piece.Type.KING));
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("B2", new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("C3", new Piece(Color.BLACK, Piece.Type.KING));
 
-    List<Move> moves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-
-    assertTrue(moves.isEmpty());
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of(), Positioning.toDisplayStrings(moves));
   }
 
   @Test
   public void testCheckOnlyOnePossibleMove() {
-    board.setPiece(Positioning.toPosition("A1"), new Piece(Color.WHITE, Piece.Type.KING));
-    board.setPiece(Positioning.toPosition("A3"), new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("H1", new Piece(Color.WHITE, Piece.Type.KNIGHT));
+    board.setPiece("A3", new Piece(Color.BLACK, Piece.Type.QUEEN));
 
-    List<Move> moves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-
-    assertEquals(1, moves.size());
-    assertEquals("B1", Positioning.toDisplayString(moves.get(0).getToPosition()));
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of("B1"), Positioning.toDisplayStrings(moves));
   }
 
   @Test
   public void testCheckMustCaptureAttackingPiece() {
-    board.setPiece(Positioning.toPosition("A1"), new Piece(Color.WHITE, Piece.Type.KING));
-    board.setPiece(Positioning.toPosition("A2"), new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("A2", new Piece(Color.BLACK, Piece.Type.QUEEN));
 
-    List<Move> moves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-
-    assertEquals(1, moves.size());
-    assertEquals("A2", Positioning.toDisplayString(moves.get(0).getToPosition()));
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of("A2"), Positioning.toDisplayStrings(moves));
   }
 
   @Test
   public void testCheckMustBlockAttackingPiece() {
-    board.setPiece(Positioning.toPosition("A1"), new Piece(Color.WHITE, Piece.Type.KING));
-    board.setPiece(Positioning.toPosition("A2"), new Piece(Color.WHITE, Piece.Type.BISHOP));
-    board.setPiece(Positioning.toPosition("B1"), new Piece(Color.WHITE, Piece.Type.QUEEN));
-    board.setPiece(Positioning.toPosition("C3"), new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("A2", new Piece(Color.WHITE, Piece.Type.BISHOP));
+    board.setPiece("B1", new Piece(Color.WHITE, Piece.Type.QUEEN));
+    board.setPiece("C3", new Piece(Color.BLACK, Piece.Type.QUEEN));
 
-    List<Move> moves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-
-    assertEquals(1, moves.size());
-    assertEquals("B1", Positioning.toDisplayString(moves.get(0).getFromPosition()));
-    assertEquals("B2", Positioning.toDisplayString(moves.get(0).getToPosition()));
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of("B2"), Positioning.toDisplayStrings(moves));
   }
+
+  @Test
+  public void testPieceCannotExposeKingToCheck() {
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("B2", new Piece(Color.WHITE, Piece.Type.ROOK));
+    board.setPiece("C3", new Piece(Color.BLACK, Piece.Type.QUEEN));
+
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of("A2", "B1"), Positioning.toDisplayStrings(moves));
+  }
+
 }
