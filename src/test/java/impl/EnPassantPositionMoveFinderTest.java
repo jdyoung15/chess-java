@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class EnPassantPositionMoveFinderTest {
 
@@ -48,6 +49,18 @@ public class EnPassantPositionMoveFinderTest {
     previousMoves.add(new Move(E7, E5));
     List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
     assertEquals(Set.of("E6"), Positioning.toDisplayStrings(moves));
+  }
+
+  @Test
+  public void testEnPassantMove() {
+    board.setPiece(E5, new Piece(Color.BLACK, Piece.Type.PAWN));
+    previousMoves.add(new Move(E7, E5));
+    List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
+    Move move = moves.stream().filter(m -> m.toString().equals("D5->E6")).findFirst().orElseThrow();
+    board.executeMove(move);
+    assertEquals(board.getPieceAt(E6).getPieceType(), Piece.Type.PAWN);
+    assertEquals(board.getPieceAt(E6).getColor(), Color.WHITE);
+    assertFalse(board.occupiedAt(E5));
   }
 
   @Test
