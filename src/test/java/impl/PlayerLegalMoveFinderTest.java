@@ -70,7 +70,7 @@ public class PlayerLegalMoveFinderTest {
   }
 
   @Test
-  public void testCheckMustCaptureAttackingPiece() {
+  public void testCheckKingMustCaptureAttackingPiece() {
     board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
     board.setPiece("A2", new Piece(Color.BLACK, Piece.Type.QUEEN));
 
@@ -79,7 +79,18 @@ public class PlayerLegalMoveFinderTest {
   }
 
   @Test
-  public void testCheckMustBlockAttackingPiece() {
+  public void testCheckPieceMustCaptureCheckingPiece() {
+    board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("B2", new Piece(Color.BLACK, Piece.Type.QUEEN));
+    board.setPiece("C3", new Piece(Color.BLACK, Piece.Type.KING));
+    board.setPiece("H2", new Piece(Color.WHITE, Piece.Type.ROOK));
+
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertEquals(Set.of("B2"), Positioning.toDisplayStrings(moves));
+  }
+
+  @Test
+  public void testCheckPieceMustBlockCheckingPiece() {
     board.setPiece("A1", new Piece(Color.WHITE, Piece.Type.KING));
     board.setPiece("A2", new Piece(Color.WHITE, Piece.Type.BISHOP));
     board.setPiece("B1", new Piece(Color.WHITE, Piece.Type.QUEEN));
