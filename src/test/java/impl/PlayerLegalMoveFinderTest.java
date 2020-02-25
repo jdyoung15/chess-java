@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerLegalMoveFinderTest {
 
@@ -110,24 +111,24 @@ public class PlayerLegalMoveFinderTest {
     assertEquals(Set.of("A2", "B1"), Positioning.toDisplayStrings(moves));
   }
 
-//  @Test
-//  public void testCastlingInvalidDueToKingCurrentlyChecked() {
-//    board.setPiece("E1", new Piece(Color.WHITE, Piece.Type.KING));
-//    board.setPiece("H1", new Piece(Color.WHITE, Piece.Type.ROOK));
-//    board.setPiece("E5", new Piece(Color.BLACK, Piece.Type.QUEEN));
-//
-//    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-//    assertTrue(moves.stream().map(Move::toString).noneMatch(s -> s.equals("E1->G1")));
-//  }
-//
-//  @Test
-//  public void testCastlingInvalidDueToKingPassingThroughCheck() {
-//    board.setPiece("E1", new Piece(Color.WHITE, Piece.Type.KING));
-//    board.setPiece("H1", new Piece(Color.WHITE, Piece.Type.ROOK));
-//    board.setPiece("C4", new Piece(Color.BLACK, Piece.Type.QUEEN));
-//
-//    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-//    assertTrue(moves.stream().map(Move::toString).anyMatch(s -> s.equals("E1->G1")));
-//  }
+  @Test
+  public void testCastlingInvalidDueToKingCurrentlyChecked() {
+    board.setPiece("E1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("H1", new Piece(Color.WHITE, Piece.Type.ROOK));
+    board.setPiece("E5", new Piece(Color.BLACK, Piece.Type.QUEEN));
+
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertTrue(moves.stream().map(Move::toString).noneMatch(s -> s.equals("E1->G1")));
+  }
+
+  @Test
+  public void testCastlingInvalidDueToKingPassingThroughCheck() {
+    board.setPiece("E1", new Piece(Color.WHITE, Piece.Type.KING));
+    board.setPiece("H1", new Piece(Color.WHITE, Piece.Type.ROOK));
+    board.setPiece("C4", new Piece(Color.BLACK, Piece.Type.QUEEN));
+
+    List<Move> moves = moveFinder.findLegalMoves(board, currentPlayer, previousMoves);
+    assertTrue(moves.stream().map(Move::toString).noneMatch(s -> s.equals("E1->G1")));
+  }
 
 }

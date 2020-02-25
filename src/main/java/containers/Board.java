@@ -41,11 +41,12 @@ public class Board {
     int from = move.getFromPosition();
     int to = move.getToPosition();
 
-    if (Positioning.isValidPosition(to)) {
-      squares.set(to, squares.get(from));
-    }
-
+    Optional<Piece> fromPiece = squares.get(from);
     squares.set(from, Optional.empty());
+
+    if (Positioning.isValidPosition(to)) {
+      squares.set(to, fromPiece);
+    }
 
     for (Move associatedMove : move.getAssociatedMoves()) {
       executeMove(associatedMove);
