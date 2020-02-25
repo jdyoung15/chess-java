@@ -80,10 +80,6 @@ public class CastlingPositionMoveFinderImpl implements PositionMoveFinder {
       List<Integer> kingPositionsTraveled =
         Positioning.getRowPositionsBetween(kingStart, kingTo);
 
-      if (kingPositionsTraveled == null) {
-        System.out.println("null kingpositionstraveled");
-      }
-
       moves.add(new Move(kingStart, kingTo, associatedMoves, kingPositionsTraveled));
     }
 

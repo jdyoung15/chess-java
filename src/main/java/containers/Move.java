@@ -57,20 +57,6 @@ public class Move {
     return kingPositionsTraveled;
   }
 
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
-    }
- 
-    if (!(o instanceof Move)) {
-      return false;
-    }
-     
-    Move m = (Move) o;
-     
-    return fromPosition == m.getFromPosition() && toPosition == m.getToPosition();
-  }
-
   public String toString() {
     return Positioning.toDisplayString(fromPosition) + "->" + Positioning.toDisplayString(toPosition);
   }

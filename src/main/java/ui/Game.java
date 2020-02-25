@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 // TODO:
 // - 2d array for squares
+// - Position container?
 
 /**
  * The user-facing interactions for a single game of Chess.
@@ -165,10 +166,11 @@ public class Game {
   }
 
   /**
-   * Executes a turn where a piece is moved from the given from position to the
-   * given to position. Used for testing.
+   * Executes a turn where a piece is moved from one position to another.
+   * Allows a game to be played programmatically (instead of through standard input),
+   * with sequential calls to this method. Only used for testing.
    */
-  public void executeTurn(String from, String to) {
+  void executeTurn(String from, String to) {
     int fromPosition = Positioning.toPosition(from);
     int toPosition = Positioning.toPosition(to);
 

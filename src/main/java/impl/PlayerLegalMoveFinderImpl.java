@@ -53,9 +53,6 @@ public class PlayerLegalMoveFinderImpl implements PlayerLegalMoveFinder {
     Board board, Color player, List<Move> previousMoves, Move move)
   {
     int from = move.getFromPosition();
-    if (move.getKingPositionsTraveled() == null) {
-      System.out.println("null king positions traveled");
-    }
     return move.getKingPositionsTraveled()
       .stream()
       .anyMatch(to -> isCheckedAfterMove(board, player, previousMoves, new Move(from, to)));
