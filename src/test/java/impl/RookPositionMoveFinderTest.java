@@ -6,13 +6,11 @@ import main.java.containers.Move;
 import main.java.containers.Piece;
 import main.java.core.PositionMoveFinder;
 import main.java.impl.PieceTypePositionMoveFinderFactory;
-import main.java.ui.Game;
 import main.java.util.Positioning;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,16 +25,12 @@ public class RookPositionMoveFinderTest {
 
   private final PositionMoveFinder moveFinder = PieceTypePositionMoveFinderFactory.getMoveFinder(PIECE_TYPE);
 
-  private Game game;
-
   private Board board;
   private int fromPosition;
   private List<Move> previousMoves;
 
   @BeforeEach
   public void beforeEach() {
-    game = new Game();
-
     board = Board.empty();
     fromPosition = Positioning.toPosition("D4");
     board.setPiece(fromPosition, new Piece(Color.WHITE, PIECE_TYPE));
