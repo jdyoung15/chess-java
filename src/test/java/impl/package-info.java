@@ -1,4 +1,4 @@
 /**
- * Tests for the {@link impl} packge.
+ * Tests for the {@link impl} package.
  */
 package impl;
