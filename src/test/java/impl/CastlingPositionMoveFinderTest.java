@@ -18,6 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CastlingPositionMoveFinderTest {
 
   private static final Piece.Type PIECE_TYPE = Piece.Type.KING;
+  private static final int C1 = Positioning.toPosition("C1");
+  private static final int D1 = Positioning.toPosition("D1");
+  private static final int E1 = Positioning.toPosition("E1");
+  private static final int F1 = Positioning.toPosition("F1");
+  private static final int G1 = Positioning.toPosition("G1");
 
   private final PositionMoveFinder moveFinder = new CastlingPositionMoveFinderImpl();
 
@@ -39,6 +44,24 @@ public class CastlingPositionMoveFinderTest {
   public void testCastlingValid() {
     List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
     assertEquals(Set.of("C1", "G1"), Positioning.toDisplayStrings(moves));
+  }
+
+  @Test
+  public void testCastlingMoveRight() {
+    List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
+    Move move = moves.stream().filter(m -> m.toString().equals("E1->G1")).findFirst().orElseThrow();
+    board.executeMove(move);
+    assertEquals(board.getPieceAt(G1).getPieceType(), Piece.Type.KING);
+    assertEquals(board.getPieceAt(F1).getPieceType(), Piece.Type.ROOK);
+  }
+
+  @Test
+  public void testCastlingMoveLeft() {
+    List<Move> moves = moveFinder.findMoves(board, fromPosition, previousMoves);
+    Move move = moves.stream().filter(m -> m.toString().equals("E1->C1")).findFirst().orElseThrow();
+    board.executeMove(move);
+    assertEquals(board.getPieceAt(C1).getPieceType(), Piece.Type.KING);
+    assertEquals(board.getPieceAt(D1).getPieceType(), Piece.Type.ROOK);
   }
 
   @Test

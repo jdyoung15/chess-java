@@ -28,6 +28,10 @@ public class Piece {
     return String.format("%s%s", color.getDisplaySymbol(), pieceType.getDisplaySymbol());
   }
 
+  public String toString() {
+    return color.toString() + " " + pieceType.toString();
+  }
+
   public enum Type {
 
     PAWN("P"),
