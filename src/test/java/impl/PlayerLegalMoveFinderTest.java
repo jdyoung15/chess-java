@@ -1,4 +1,4 @@
-package test.java.impl;
+package impl;
 
 import containers.Board;
 import containers.Color;
@@ -6,10 +6,9 @@ import containers.Move;
 import containers.Piece;
 import core.PlayerLegalMoveFinder;
 import helpers.CheckLogic;
-import impl.PlayerLegalMoveFinderImpl;
-import util.Positioning;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.Positioning;
 
 import java.util.ArrayList;
 import java.util.List;
