@@ -1,4 +1,4 @@
-package main.java.containers;
+package containers;
 
 /**
  * Represents a "coordinate" -- or offset -- relative to a source position.

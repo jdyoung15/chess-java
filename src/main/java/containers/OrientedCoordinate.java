@@ -1,4 +1,4 @@
-package main.java.containers;
+package containers;
 
 /**
  * Represents a coordinate whose values are not from an objective, "bird's eye" view

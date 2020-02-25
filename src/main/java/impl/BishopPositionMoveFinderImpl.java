@@ -1,6 +1,6 @@
-package main.java.impl;
+package impl;
 
-import main.java.containers.Direction;
+import containers.Direction;
 
 import java.util.List;
 

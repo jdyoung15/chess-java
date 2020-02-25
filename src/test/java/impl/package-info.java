@@ -1,4 +1,4 @@
 /**
- * Tests for the {@link main.java.impl} packge.
+ * Tests for the {@link impl} packge.
  */
 package test.java.impl;

@@ -1,12 +1,12 @@
 package test.java.impl;
 
-import main.java.containers.Board;
-import main.java.containers.Color;
-import main.java.containers.Move;
-import main.java.containers.Piece;
-import main.java.core.PositionMoveFinder;
-import main.java.impl.EnPassantPositionMoveFinderImpl;
-import main.java.util.Positioning;
+import containers.Board;
+import containers.Color;
+import containers.Move;
+import containers.Piece;
+import core.PositionMoveFinder;
+import impl.EnPassantPositionMoveFinderImpl;
+import util.Positioning;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

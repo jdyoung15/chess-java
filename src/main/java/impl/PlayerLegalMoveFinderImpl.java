@@ -1,11 +1,11 @@
-package main.java.impl;
+package impl;
 
-import main.java.containers.Board;
-import main.java.containers.Color;
-import main.java.containers.Move;
-import main.java.core.PlayerLegalMoveFinder;
-import main.java.core.PlayerPossibleMoveFinder;
-import main.java.helpers.CheckLogic;
+import containers.Board;
+import containers.Color;
+import containers.Move;
+import core.PlayerLegalMoveFinder;
+import core.PlayerPossibleMoveFinder;
+import helpers.CheckLogic;
 
 import java.util.ArrayList;
 import java.util.List;

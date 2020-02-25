@@ -1,7 +1,7 @@
-package main.java.core;
+package core;
 
-import main.java.containers.Board;
-import main.java.containers.Move;
+import containers.Board;
+import containers.Move;
 
 import java.util.List;
 

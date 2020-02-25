@@ -1,7 +1,7 @@
-package main.java.impl;
+package impl;
 
-import main.java.containers.Piece;
-import main.java.core.PositionMoveFinder;
+import containers.Piece;
+import core.PositionMoveFinder;
 
 /**
  * Factory class for finding the appropriate {@link PositionMoveFinder} implementation

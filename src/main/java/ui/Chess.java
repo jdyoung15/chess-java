@@ -1,4 +1,4 @@
-package main.java.ui;
+package ui;
 
 /**
  * Top-level class for the ui.Chess game. Run this class to play a game of chess.

@@ -1,10 +1,10 @@
-package main.java.helpers;
+package helpers;
 
-import main.java.containers.Board;
-import main.java.containers.Color;
-import main.java.containers.Move;
-import main.java.core.PlayerPossibleMoveFinder;
-import main.java.impl.PlayerPossibleMoveFinderImpl;
+import containers.Board;
+import containers.Color;
+import containers.Move;
+import core.PlayerPossibleMoveFinder;
+import impl.PlayerPossibleMoveFinderImpl;
 
 import java.util.List;
 

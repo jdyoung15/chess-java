@@ -1,4 +1,4 @@
-package main.java.containers;
+package containers;
 
 import java.util.Arrays;
 import java.util.Optional;

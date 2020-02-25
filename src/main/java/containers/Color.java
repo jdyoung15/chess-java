@@ -1,4 +1,4 @@
-package main.java.containers;
+package containers;
 
 /**
  * Represents a player and is used to denote the player's pieces.

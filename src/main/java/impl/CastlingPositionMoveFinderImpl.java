@@ -1,9 +1,9 @@
-package main.java.impl;
+package impl;
 
-import main.java.containers.*;
-import main.java.core.PlayerLegalMoveFinder;
-import main.java.core.PositionMoveFinder;
-import main.java.util.Positioning;
+import containers.*;
+import core.PlayerLegalMoveFinder;
+import core.PositionMoveFinder;
+import util.Positioning;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package main.java.containers;
+package containers;
 
 /**
  * Represents a direction in the board. This direction is not relative to any specific

@@ -1,6 +1,6 @@
-package main.java.impl;
+package impl;
 
-import main.java.containers.Coordinate;
+import containers.Coordinate;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package main.java.util;
+package util;
 
-import main.java.containers.*;
+import containers.*;
 
 import java.util.*;
 import java.util.regex.Matcher;

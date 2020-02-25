@@ -1,14 +1,14 @@
-package main.java.ui;
+package ui;
 
-import main.java.containers.Board;
-import main.java.containers.Color;
-import main.java.containers.Move;
-import main.java.containers.Piece;
-import main.java.core.PlayerLegalMoveFinder;
-import main.java.helpers.CheckLogic;
-import main.java.helpers.PawnPromotion;
-import main.java.impl.PlayerLegalMoveFinderImpl;
-import main.java.util.Positioning;
+import containers.Board;
+import containers.Color;
+import containers.Move;
+import containers.Piece;
+import core.PlayerLegalMoveFinder;
+import helpers.CheckLogic;
+import helpers.PawnPromotion;
+import impl.PlayerLegalMoveFinderImpl;
+import util.Positioning;
 
 import java.util.ArrayList;
 import java.util.List;

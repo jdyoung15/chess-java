@@ -1,4 +1,4 @@
-<project name="main.java.ui.Chess" default="run" basedir=".">
+<project name="ui.Chess" default="run" basedir=".">
   <description>
     Build file for chess files
   </description>
@@ -23,7 +23,7 @@
   <target name="run" depends="compile"
         description="run">
     <!-- Create the distribution directory -->
-    <java classname="main.java.ui.Chess">
+    <java classname="ui.Chess">
       <classpath location="${build}"/>
     </java>
 

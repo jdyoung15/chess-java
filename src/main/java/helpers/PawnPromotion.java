@@ -1,10 +1,10 @@
-package main.java.helpers;
+package helpers;
 
-import main.java.containers.Board;
-import main.java.containers.Color;
-import main.java.containers.Move;
-import main.java.containers.Piece;
-import main.java.util.Positioning;
+import containers.Board;
+import containers.Color;
+import containers.Move;
+import containers.Piece;
+import util.Positioning;
 
 import java.util.EnumSet;
 

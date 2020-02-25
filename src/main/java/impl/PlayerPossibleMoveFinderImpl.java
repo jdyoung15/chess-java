@@ -1,12 +1,12 @@
-package main.java.impl;
+package impl;
 
-import main.java.containers.Board;
-import main.java.containers.Color;
-import main.java.containers.Move;
-import main.java.containers.Piece;
-import main.java.core.PlayerPossibleMoveFinder;
-import main.java.core.PositionMoveFinder;
-import main.java.util.Positioning;
+import containers.Board;
+import containers.Color;
+import containers.Move;
+import containers.Piece;
+import core.PlayerPossibleMoveFinder;
+import core.PositionMoveFinder;
+import util.Positioning;
 
 import java.util.ArrayList;
 import java.util.List;

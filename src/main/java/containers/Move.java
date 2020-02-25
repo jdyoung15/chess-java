@@ -1,6 +1,6 @@
-package main.java.containers;
+package containers;
 
-import main.java.util.Positioning;
+import util.Positioning;
 
 import java.util.ArrayList;
 import java.util.List;
