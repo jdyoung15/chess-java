@@ -17,10 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-// TODO:
-// - 2d array for squares
-// - Position container?
-
 /**
  * The user-facing interactions for a single game of Chess.
  */
@@ -163,41 +159,6 @@ public class Game {
   public boolean isValidChoice(String choice) {
     Matcher m = PAWN_PROMOTION_CHOICE_PATTERN.matcher(choice);
     return m.matches();
-  }
-
-  /**
-   * Executes a turn where a piece is moved from one position to another.
-   * Allows a game to be played programmatically (instead of through standard input),
-   * with sequential calls to this method. Only used for testing.
-   */
-  void executeTurn(String from, String to) {
-    int fromPosition = Positioning.toPosition(from);
-    int toPosition = Positioning.toPosition(to);
-
-    Move move = new Move(fromPosition, toPosition);
-
-    legalMoves = playerMoveFinder.findLegalMoves(board, currentPlayer, previousMoves);
-    if (!legalMoves.contains(move)) {
-      throw new IllegalStateException("No legal moves from " + from + " " + to);
-    }
-
-    board.executeMove(move);
-    previousMoves.add(move);
-
-    if (pawnPromotion.isEligible(board, currentPlayer, move)) {
-      String choice = "Q";
-      pawnPromotion.updateBoard(board, currentPlayer, move, choice);
-    }
-
-    currentPlayer = Color.complementOf(currentPlayer);
-  }
-
-  public Board getBoard() {
-    return board;
-  }
-
-  public List<Move> getPreviousMoves() {
-    return previousMoves;
   }
 
 }
